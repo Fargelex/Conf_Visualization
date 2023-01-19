@@ -5,6 +5,10 @@ VisualStudioVersion = 17.4.33205.214
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "conf_visualization", "conf_visualization\conf_visualization.csproj", "{B3D0FEA5-3EB6-4FDD-8AE5-1EB5EDCED40F}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{9E2A5DA1-8430-4E8E-A8C7-7775F3E1F066}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "conf_visualization_console", "Tests\conf_visualization_console\conf_visualization_console.csproj", "{99FA2F12-D09A-4FAD-A7B5-7D641FA3238B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,9 +19,16 @@ Global
 		{B3D0FEA5-3EB6-4FDD-8AE5-1EB5EDCED40F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B3D0FEA5-3EB6-4FDD-8AE5-1EB5EDCED40F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B3D0FEA5-3EB6-4FDD-8AE5-1EB5EDCED40F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{99FA2F12-D09A-4FAD-A7B5-7D641FA3238B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{99FA2F12-D09A-4FAD-A7B5-7D641FA3238B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{99FA2F12-D09A-4FAD-A7B5-7D641FA3238B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{99FA2F12-D09A-4FAD-A7B5-7D641FA3238B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{99FA2F12-D09A-4FAD-A7B5-7D641FA3238B} = {9E2A5DA1-8430-4E8E-A8C7-7775F3E1F066}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {483B65C5-4A01-4A15-983C-C76C72F2E529}
