@@ -22,15 +22,26 @@
 
             </MenuItem>
         </Menu>
-        
+
         <StatusBar DockPanel.Dock="Bottom">
             <StatusBarItem>
                 <TextBlock Text="StatusBarItem"></TextBlock>
             </StatusBarItem>
-            
+
         </StatusBar>
         <TabControl>
-            <TabItem Header="Владка 1"></TabItem>
+            <TabItem Header="Владка 1">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="256*"/>
+                        <ColumnDefinition Width="541*"/>
+                    </Grid.ColumnDefinitions>
+                    <DataGrid x:Name="dataGrid" d:ItemsSource="{d:SampleData ItemCount=5}"/>
+
+                </Grid>
+
+
+            </TabItem>
             <TabItem Header="Влкдака 2"></TabItem>
         </TabControl>
     </DockPanel>

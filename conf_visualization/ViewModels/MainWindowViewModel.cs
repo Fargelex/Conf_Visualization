@@ -26,4 +26,46 @@ namespace conf_visualization.ViewModels
         } 
         #endregion
     }
+
+
+    internal class testClass : ViewModel
+    {
+        private string _a;
+        private string _b;
+        private string _c;
+        private var data = new List<testClass>
+                           {
+                               new testClass("1", "2", "3"),
+                               new testClass("4", "5", "6"),
+                               new testClass("7", "8", "9")
+                           };
+
+        public testClass(string a, string b, string c)
+        {
+            A = a;
+            B = b;
+            C = c;
+        }
+
+        public string A 
+        {
+            get => _a; // { return _Title; }  
+            set => Set(ref _a, value);
+        }
+
+        public string B
+        {
+            get => _b; // { return _Title; }  
+            set => Set(ref _b, value);
+        }
+
+        public string C
+        {
+            get => _c; // { return _Title; }  
+            set => Set(ref _c, value);
+        }
+    }
+
+   
+
 }
