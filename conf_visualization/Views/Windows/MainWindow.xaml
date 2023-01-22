@@ -11,8 +11,27 @@
     <Window.DataContext>
         <vm:MainWindowViewModel/>
     </Window.DataContext>
-    <Grid>
-        <TextBox x:Name="textBox" HorizontalAlignment="Left" Margin="170,219,0,0" TextWrapping="Wrap" Text="{Binding Path=Title, UpdateSourceTrigger=PropertyChanged}"  VerticalAlignment="Top" Width="120"/>
+    <DockPanel>
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="Файл">
+                <MenuItem Header="Выход"/>
 
-    </Grid>
+            </MenuItem>
+            <MenuItem Header="Помощь">
+                <MenuItem Header="О программе"/>
+
+            </MenuItem>
+        </Menu>
+        
+        <StatusBar DockPanel.Dock="Bottom">
+            <StatusBarItem>
+                <TextBlock Text="StatusBarItem"></TextBlock>
+            </StatusBarItem>
+            
+        </StatusBar>
+        <TabControl>
+            <TabItem Header="Владка 1"></TabItem>
+            <TabItem Header="Влкдака 2"></TabItem>
+        </TabControl>
+    </DockPanel>
 </Window>
