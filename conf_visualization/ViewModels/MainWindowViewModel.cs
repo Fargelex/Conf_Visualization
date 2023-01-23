@@ -33,12 +33,12 @@ namespace conf_visualization.ViewModels
         private string _a;
         private string _b;
         private string _c;
-        private var data = new List<testClass>
-                           {
-                               new testClass("1", "2", "3"),
-                               new testClass("4", "5", "6"),
-                               new testClass("7", "8", "9")
-                           };
+        //private var data = new List<testClass>
+        //                   {
+        //                       new testClass("1", "2", "3"),
+        //                       new testClass("4", "5", "6"),
+        //                       new testClass("7", "8", "9")
+        //                   };
 
         public testClass(string a, string b, string c)
         {
