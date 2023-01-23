@@ -1,9 +1,12 @@
-﻿using conf_visualization.ViewModels.Base;
+﻿using conf_visualization.Infrastructure.Commands;
+using conf_visualization.ViewModels.Base;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Input;
 
 namespace conf_visualization.ViewModels
 {
@@ -23,10 +26,38 @@ namespace conf_visualization.ViewModels
             //   // _Title = value;
             //    Set(ref _Title, value);
             //}
+        }
+        #endregion
+
+        #region Команды
+
+        #region CloseApplicationCommand
+        public ICommand CloseApplicationCommand { get; }
+
+        private bool CanCloseApplicationCommandExecute(object parameter) => true;
+
+        private void OnCloseApplicationCommandExecuted(object parameter)
+        {
+            Application.Current.Shutdown();
         } 
         #endregion
+
+
+        #endregion
+
+
+        public MainWindowViewModel()
+        {
+            #region Команды
+            CloseApplicationCommand = new LambdaCommand(OnCloseApplicationCommandExecuted, CanCloseApplicationCommandExecute);
+            #endregion
+
+        }
+
     }
 
+
+    
 
     internal class testClass : ViewModel
     {
