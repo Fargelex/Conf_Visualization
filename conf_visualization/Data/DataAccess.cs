@@ -27,6 +27,43 @@ namespace conf_visualization.Data
             daysFromLowDate = (DateTime.Today - lowEndDate).Days;
         }
 
+        //Подключение к Базе Данных
+        //public List<ConferenceModel> GetConferences()
+        //{
+        //    List<ConferenceModel> ConferenceList = new List<ConferenceModel>();
+
+        //    //for (int i = 0; i < total; i++)
+        //    //{
+
+        //    //    ConferenceList.Add(GetConference(i + 1));
+        //    //}
+
+        //    using (SQLiteConnection Connect = new SQLiteConnection(@"Data Source=database.db; Version=3;"))
+        //    {
+        //        Connect.Open();
+
+        //        SQLiteCommand comm = new SQLiteCommand("Select * From ConferenceTable", Connect);
+        //        using (SQLiteDataReader read = comm.ExecuteReader())
+        //        {
+        //            while (read.Read())
+        //            {
+        //                ConferenceModel outputConference = new ConferenceModel();
+
+        //                outputConference.ConferenceId = Convert.ToInt32(read.GetValue(read.GetOrdinal("ConferenceId")));
+        //                outputConference.ConferenceName = read.GetValue(read.GetOrdinal("ConferenceName")).ToString();
+        //                outputConference.ConferenceDuration = Convert.ToInt32(read.GetValue(read.GetOrdinal("ConferenceDuration")));
+        //                outputConference.ParticipantsCount = Convert.ToInt32(read.GetValue(read.GetOrdinal("ParticipantsCount")));
+        //                outputConference.IsAcive = Convert.ToBoolean(read.GetValue(read.GetOrdinal("IsAcive")));
+        //                ConferenceList.Add(outputConference);
+        //            }
+        //            Connect.Close(); // закрыть соединение
+        //                             //      add_to_main_log("info\tновая БД с именем " + data_base_filename + " создана. Полей для экспорта: ");
+        //        }
+        //        return ConferenceList;
+        //    }
+        //}
+
+        //Заполняет таблицы случайными данными
         public List<ConferenceModel> GetConferences(int total = 100)
         {
             List<ConferenceModel> output = new List<ConferenceModel>();
@@ -34,39 +71,12 @@ namespace conf_visualization.Data
             for (int i = 0; i < total; i++)
             {
 
-                output.Add(GetPerson(i + 1));
+                output.Add(GetConference(i + 1));
             }
 
             return output;
         }
-
-
-
-        public void reload_selector_list_from_db()
-        {
-            using (SQLiteConnection Connect = new SQLiteConnection(@"Data Source=database.db; Version=3;")) 
-            {
-                Connect.Open();
-
-                SQLiteCommand comm = new SQLiteCommand("Select * From conferences_table", Connect);
-                using (SQLiteDataReader read = comm.ExecuteReader())
-                {
-                    while (read.Read())
-                    {
-                        selector_list_dataGridView.Rows.Add(new object[] {
-            read.GetValue(0),  // U can use column index
-            read.GetValue(read.GetOrdinal("conference_name")),
-            read.GetValue(read.GetOrdinal("users_count"))
-            });
-                    }
-                }
-                Connect.Close(); // закрыть соединение
-                                 //      add_to_main_log("info\tновая БД с именем " + data_base_filename + " создана. Полей для экспорта: ");
-            }
-        }
-
-
-        private ConferenceModel GetPerson(int id)
+        private ConferenceModel GetConference(int id)
         {
             ConferenceModel output = new ConferenceModel();
 
