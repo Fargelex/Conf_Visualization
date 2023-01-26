@@ -1,6 +1,7 @@
 ﻿using conf_visualization.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.SQLite;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -38,6 +39,32 @@ namespace conf_visualization.Data
 
             return output;
         }
+
+
+
+        public void reload_selector_list_from_db()
+        {
+            using (SQLiteConnection Connect = new SQLiteConnection(@"Data Source=database.db; Version=3;")) 
+            {
+                Connect.Open();
+
+                SQLiteCommand comm = new SQLiteCommand("Select * From conferences_table", Connect);
+                using (SQLiteDataReader read = comm.ExecuteReader())
+                {
+                    while (read.Read())
+                    {
+                        selector_list_dataGridView.Rows.Add(new object[] {
+            read.GetValue(0),  // U can use column index
+            read.GetValue(read.GetOrdinal("conference_name")),
+            read.GetValue(read.GetOrdinal("users_count"))
+            });
+                    }
+                }
+                Connect.Close(); // закрыть соединение
+                                 //      add_to_main_log("info\tновая БД с именем " + data_base_filename + " создана. Полей для экспорта: ");
+            }
+        }
+
 
         private ConferenceModel GetPerson(int id)
         {

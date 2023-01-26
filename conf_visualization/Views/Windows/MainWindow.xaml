@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm ="clr-namespace:conf_visualization.ViewModels"
+        xmlns:vu ="clr-namespace:conf_visualization.Views.UserControls"
         xmlns:l="clr-namespace:conf_visualization"
         
         Title="Конференции" Height="900" Width="1600" WindowStartupLocation="CenterScreen">
@@ -27,39 +28,35 @@
             <StatusBarItem>
                 <TextBlock Text="StatusBarItem"></TextBlock>
             </StatusBarItem>
-
         </StatusBar>
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="400*"/>
-                <ColumnDefinition Width="832*"/>
-            </Grid.ColumnDefinitions>
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition/>
-                    <RowDefinition Height="50"/>
-                </Grid.RowDefinitions>
-                <DataGrid x:Name="dataGrid" AlternatingRowBackground="LightGray" Grid.Row="0"  AutoGenerateColumns="False" ItemsSource="{Binding Path=Conferences}">
+        <TabControl>
+            <TabItem Header="Конференции">
+                <vu:ConferencesUserControlTab/>
+            </TabItem>
+            <TabItem Header="Планирование">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="50"/>
+                        <RowDefinition/>
+                        <RowDefinition Height="10"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <GridSplitter Grid.Row="2" Height="10" HorizontalAlignment="Stretch" ResizeDirection="Rows" />
 
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Width="40" Header="ID" Binding="{Binding Path=ConferenceId}"/>
-                        <DataGridTextColumn Width="150*" Header="Имя селектора" Binding="{Binding Path=ConferenceName}"/>
-                        <DataGridTextColumn Width="80" Header="Участников" Binding="{Binding Path=ParticipantsCount}"/>
-                        <DataGridTextColumn Width="70" Header="Продолжительность, мин" Binding="{Binding Path=ConferenceDuration}"/>
-                        <DataGridCheckBoxColumn Width="70" Header="Учитывать" Binding="{Binding Path=IsAcive}"/>
-                    </DataGrid.Columns>
-                </DataGrid>
-                <Button x:Name="saveButton" Content="Сохранить" HorizontalAlignment="Left" Margin="373,17,0,0" Grid.Row="1" VerticalAlignment="Top" Width="82" Height="25"/>
-            </Grid>
+                    <DataGrid x:Name="Pla" AlternatingRowBackground="LightGray" Grid.Row="3"  AutoGenerateColumns="False" ItemsSource="{Binding Path=Conferences}">
 
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Width="40" Header="ID" Binding="{Binding Path=ConferenceId}"/>
+                            <DataGridTextColumn Width="150*" Header="Имя селектора" Binding="{Binding Path=ConferenceName}"/>
+                            <DataGridTextColumn Width="80" Header="Участников" Binding="{Binding Path=ParticipantsCount}"/>
+                            <DataGridTextColumn Width="70" Header="Продолжительность, мин" Binding="{Binding Path=ConferenceDuration}"/>
+                            <DataGridCheckBoxColumn Width="70" Header="Учитывать" Binding="{Binding Path=IsAcive}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
 
-            <TabControl Grid.Column="2">
-                <TabItem Header="Владка 1">
-
-                </TabItem>
-                <TabItem Header="Влкдака 2"></TabItem>
-            </TabControl>
-        </Grid>
+                </Grid>                
+            </TabItem>
+        </TabControl>
 
     </DockPanel>
 </Window>
