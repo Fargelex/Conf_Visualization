@@ -31,13 +31,23 @@
                 <Button x:Name="SearchButton"  Content="Поиск"  VerticalAlignment="Center" Width="82" Height="20"/>
                 
             </StackPanel>
-            <DataGrid x:Name="ConferencesDataGrid" Grid.Row="1" AlternatingRowBackground="LightGray"  AutoGenerateColumns="False" ItemsSource="{Binding Path=Conferences}">
+            <DataGrid x:Name="ConferencesDataGrid" Grid.Row="1" AlternatingRowBackground="LightGray"  AutoGenerateColumns="False" ItemsSource="{Binding Path=Conferences}" CellEditEnding="ConferencesDataGrid_CellEditEnding" AddingNewItem="ConferencesDataGrid_AddingNewItem">
+                <DataGrid.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Обновить"/>
+                        <Separator />
+                        <MenuItem Header="Добавить запись"/>
+                        <MenuItem Header="Редактировать запись"/>
+                        <MenuItem Header="Удалить запись"/>
+
+                    </ContextMenu>
+                </DataGrid.ContextMenu>
                 <DataGrid.Columns>
-                    <DataGridTextColumn Width="40" Header="ID" Binding="{Binding Path=ConferenceId}"/>
-                    <DataGridTextColumn Width="150*" Header="Имя селектора" Binding="{Binding Path=ConferenceName}"/>
-                    <DataGridTextColumn Width="80" Header="Участников" Binding="{Binding Path=ParticipantsCount}"/>
-                    <DataGridTextColumn Width="70" Header="Продолжительность, мин" Binding="{Binding Path=ConferenceDuration}"/>
-                    <DataGridCheckBoxColumn Width="70" Header="Учитывать" Binding="{Binding Path=IsAcive}"/>
+                    <DataGridTextColumn Width="40" Header="ID" Binding="{Binding Path=ConferenceId, Mode=TwoWay}"/>
+                    <DataGridTextColumn Width="150*" Header="Имя селектора" Binding="{Binding Path=ConferenceName, Mode=TwoWay}"/>
+                    <DataGridTextColumn Width="80" Header="Участников" Binding="{Binding Path=ParticipantsCount, Mode=TwoWay}"/>
+                    <DataGridTextColumn Width="70" Header="Продолжительность, мин" Binding="{Binding Path=ConferenceDuration, Mode=TwoWay}"/>
+                    <DataGridCheckBoxColumn Width="70" Header="Учитывать" Binding="{Binding Path=IsAcive, Mode=TwoWay}"/>
                 </DataGrid.Columns>
             </DataGrid>
             <GridSplitter Grid.Row="2" Height="5" HorizontalAlignment="Stretch" ResizeDirection="Rows" />
@@ -53,7 +63,7 @@
                 </DataGrid.Columns>
             </DataGrid>
             <StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                <Button x:Name="saveButton"  Content="Сохранить" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="82" Height="25"/>
+                <Button x:Name="saveButton" Command="{Binding AddNewConferenceToDataBase}" IsEnabled="False" Content="Сохранить" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="82" Height="25"/>
             </StackPanel>
         </Grid>
         <GridSplitter Width="10" Grid.Column="1" HorizontalAlignment="Stretch" ResizeDirection="Columns"/>
