@@ -6,10 +6,12 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace conf_visualization.ViewModels
@@ -19,6 +21,8 @@ namespace conf_visualization.ViewModels
     //    public BindableCollection<ConferenceModel> People { get; set; }
     public ObservableCollection<ConferenceModel> Conferences { get; set; } = new ObservableCollection<ConferenceModel>();
         public Collection<ConferenceModel> Conferences_before_edit = new Collection<ConferenceModel>();
+        public Dictionary<int, ConferenceModel> Conferences_before_edit_dictionary = new Dictionary<int, ConferenceModel>();
+        public Dictionary<int, ConferenceModel> Conferences_after_edit_dictionary = new Dictionary<int, ConferenceModel>();
 
 
 
@@ -62,10 +66,57 @@ namespace conf_visualization.ViewModels
         }
         #endregion
 
+        public void RowEditEnding(object sender, DataGridRowEditEndingEventArgs e)
+        {
+            MessageBox.Show("RowEditEnding ");
+        }
+
 
 
         #endregion
 
+
+        //private DataGridColumn _getNameColumn;
+
+        //public DataGridColumn GetNameColumn
+        //{
+        //    get { return _getNameColumn; }
+        //    set
+        //    {
+        //        if (_getNameColumn != value)
+        //            _getNameColumn = value;
+        //        if (_getNameColumn != null)
+        //        {
+        //           // Debug.Print(_getNameColumn.DisplayIndex.ToString());
+        //            MessageBox.Show(_getNameColumn.DisplayIndex.ToString());
+        //        }
+        //        RaisePropertyChanged("GetNameColumn");
+        //    }
+        //}
+
+        private ConferenceModel _ConferenceModel;
+       
+        public ConferenceModel CurretConference
+        {
+            get { return _ConferenceModel; }
+            set
+            {
+                if (_ConferenceModel != value)
+                    _ConferenceModel = value;
+                if (_ConferenceModel != null)
+                {
+                    //   MessageBox.Show(_ConferenceModel.ConferenceName);
+                    RaisePropertyChanged(_ConferenceModel.ConferenceId.ToString());
+                    MessageBox.Show(_ConferenceModel.ChangedValue.ToString());
+                }
+                
+            }
+        }
+
+        private void RaisePropertyChanged(string v)
+        {
+         //  MessageBox.Show(v);
+        }
 
         public MainWindowViewModel()
         {
@@ -78,8 +129,9 @@ namespace conf_visualization.ViewModels
             var svc = new DataAccess();
             foreach (var conf in svc.GetConferences())
             {
+                conf.ChangedValue = false;
                 this.Conferences.Add(conf);
-                this.Conferences_before_edit.Add(conf);
+                this.Conferences_before_edit_dictionary.Add(conf.ConferenceId, conf);
             }
 
             Conferences.CollectionChanged += Conferences_CollectionChanged;
@@ -89,13 +141,19 @@ namespace conf_visualization.ViewModels
         {
            // throw new NotImplementedException();
 
-            switch (e.Action)
-            {
-                case NotifyCollectionChangedAction.Remove: // если удаление
-                    if (e.OldItems?[0] is ConferenceModel oldPerson)
-                        MessageBox.Show($"Удален объект: {oldPerson.ConferenceName}");
-                    break;
-            }
+            //switch (e.Action)
+            //{
+            //    case NotifyCollectionChangedAction.Remove: // если удаление
+            //        if (e.OldItems?[0] is ConferenceModel oldPerson)
+            //            MessageBox.Show($"Удален объект: {oldPerson.ConferenceName}");
+            //        break;
+            //    case NotifyCollectionChangedAction.Add:
+            //        MessageBox.Show($"Add");
+            //        break;
+            //    case NotifyCollectionChangedAction.Replace:
+            //        MessageBox.Show($"Replace");
+            //        break;
+            //}
         }
     }
 

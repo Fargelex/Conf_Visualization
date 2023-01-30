@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using conf_visualization.ViewModels;
 
 namespace conf_visualization.Views.UserControls
 {
@@ -27,23 +28,14 @@ namespace conf_visualization.Views.UserControls
 
         bool newItem = false;
 
-        private void ConferencesDataGrid_RowEditEnding(object sender, DataGridRowEditEndingEventArgs e)
-        {
-            MessageBox.Show("ConferencesDataGrid_RowEditEnding "+ newItem.ToString());
-            newItem = false;
-        }
+
 
         private void ConferencesDataGrid_AddingNewItem(object sender, AddingNewItemEventArgs e)
         {
-            newItem = true;
-            MessageBox.Show("ConferencesDataGrid_AddingNewItem");
-            
+            newItem = true;            
         }
 
-        private void ConferencesDataGrid_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
-        {
-            saveButton.IsEnabled = true;
-        }
+
 
         
     }
