@@ -32,11 +32,18 @@ namespace conf_visualization.Views.UserControls
 
         private void ConferencesDataGrid_AddingNewItem(object sender, AddingNewItemEventArgs e)
         {
-            newItem = true;            
+            conferencesSettingsSaveButton.IsEnabled = true;           
         }
 
+        private void ConferencesDataGrid_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
+        {
 
+            conferencesSettingsSaveButton.IsEnabled = true;
+        }
 
-        
+        private void conferencesSettingsSaveButton_Click(object sender, RoutedEventArgs e)
+        {
+            conferencesSettingsSaveButton.IsEnabled = false;
+        }
     }
 }

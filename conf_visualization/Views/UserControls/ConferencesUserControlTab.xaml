@@ -36,14 +36,14 @@
                 <StackPanel DockPanel.Dock="Bottom"
                         Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                     <Button x:Name="conferencesSettingsSaveButtons" Command="{Binding AddNewConferenceToDataBase}" IsEnabled="False" Content="Отмена" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="82" Height="25"/>
-                    <Button x:Name="conferencesSettingsSaveButton" Command="{Binding AddNewConferenceToDataBase}" IsEnabled="False" Content="Сохранить" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="82" Height="25"/>
+                    <Button x:Name="conferencesSettingsSaveButton" Command="{Binding AddNewConferenceToDataBase}" IsEnabled="False" Content="Сохранить" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="82" Height="25" Click="conferencesSettingsSaveButton_Click"/>
                    
                 </StackPanel>
                 <DataGrid 
                       x:Name="ConferencesDataGrid" AlternatingRowBackground="LightGray"  AutoGenerateColumns="False" 
                       ItemsSource="{Binding Path=Conferences, Mode=TwoWay,  UpdateSourceTrigger=PropertyChanged}" 
                       CurrentItem="{Binding CurretConference, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                      AddingNewItem="ConferencesDataGrid_AddingNewItem">
+                      AddingNewItem="ConferencesDataGrid_AddingNewItem" CellEditEnding="ConferencesDataGrid_CellEditEnding">
                     <DataGrid.ContextMenu>
                         <ContextMenu>
                             <MenuItem Header="Обновить"/>

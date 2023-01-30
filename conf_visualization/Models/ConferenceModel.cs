@@ -14,6 +14,8 @@ namespace conf_visualization.Models
         private int _conferenceDuration;
         private bool _isAcive;
         private bool _changedValue = false;
+        private bool _newValue = false;
+
         public int ConferenceId
         {
             get { return _conferenceId; }
@@ -26,7 +28,7 @@ namespace conf_visualization.Models
         public string ConferenceName
         {
             get { return _conferenceName; }
-            set 
+            set
             {
                 if (_conferenceName != value) { _changedValue = true; }
                 _conferenceName = value;
@@ -64,5 +66,14 @@ namespace conf_visualization.Models
             get { return _changedValue; }
             set { _changedValue = value; }
         }
+        public bool NewValue
+        {
+            get { return _newValue; }
+            set { _newValue = value; }
+        }
+
+
+
+
     }
 }

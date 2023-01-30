@@ -18,8 +18,8 @@ namespace conf_visualization.ViewModels
 {
     internal class MainWindowViewModel : ViewModel
     {
-    //    public BindableCollection<ConferenceModel> People { get; set; }
-    public ObservableCollection<ConferenceModel> Conferences { get; set; } = new ObservableCollection<ConferenceModel>();
+        //    public BindableCollection<ConferenceModel> People { get; set; }
+        public ObservableCollection<ConferenceModel> Conferences { get; set; } = new ObservableCollection<ConferenceModel>();
         public Collection<ConferenceModel> Conferences_before_edit = new Collection<ConferenceModel>();
         public Dictionary<int, ConferenceModel> Conferences_before_edit_dictionary = new Dictionary<int, ConferenceModel>();
         public Dictionary<int, ConferenceModel> Conferences_after_edit_dictionary = new Dictionary<int, ConferenceModel>();
@@ -62,14 +62,19 @@ namespace conf_visualization.ViewModels
 
         private void OnAddNewConferenceToDataBaseExecuted(object parameter)
         {
+            List<string> data = new List<string>();
+            foreach (var conference in Conferences)
+            {
+                if (conference.ChangedValue)
+                {
+                    // data.Add()
+
+                }
+            }
             MessageBox.Show("проверка команды");
         }
         #endregion
 
-        public void RowEditEnding(object sender, DataGridRowEditEndingEventArgs e)
-        {
-            MessageBox.Show("RowEditEnding ");
-        }
 
 
 
@@ -95,7 +100,7 @@ namespace conf_visualization.ViewModels
         //}
 
         private ConferenceModel _ConferenceModel;
-       
+
         public ConferenceModel CurretConference
         {
             get { return _ConferenceModel; }
@@ -109,13 +114,13 @@ namespace conf_visualization.ViewModels
                     RaisePropertyChanged(_ConferenceModel.ConferenceId.ToString());
                     MessageBox.Show(_ConferenceModel.ChangedValue.ToString());
                 }
-                
+
             }
         }
 
         private void RaisePropertyChanged(string v)
         {
-         //  MessageBox.Show(v);
+            //  MessageBox.Show(v);
         }
 
         public MainWindowViewModel()
@@ -139,21 +144,24 @@ namespace conf_visualization.ViewModels
 
         private void Conferences_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
-           // throw new NotImplementedException();
+            // throw new NotImplementedException();
 
-            //switch (e.Action)
-            //{
-            //    case NotifyCollectionChangedAction.Remove: // если удаление
-            //        if (e.OldItems?[0] is ConferenceModel oldPerson)
-            //            MessageBox.Show($"Удален объект: {oldPerson.ConferenceName}");
-            //        break;
-            //    case NotifyCollectionChangedAction.Add:
-            //        MessageBox.Show($"Add");
-            //        break;
-            //    case NotifyCollectionChangedAction.Replace:
-            //        MessageBox.Show($"Replace");
-            //        break;
-            //}
+            switch (e.Action)
+            {
+                case NotifyCollectionChangedAction.Remove: // если удаление
+                    if (e.OldItems?[0] is ConferenceModel oldPerson)
+                        MessageBox.Show($"Удален объект: {oldPerson.ConferenceName}");
+                    break;
+                case NotifyCollectionChangedAction.Add:
+                    if (e.NewItems[0] is ConferenceModel newConf)
+                    {
+                        newConf.NewValue = true;
+                    }
+                    break;
+                case NotifyCollectionChangedAction.Replace:
+                    MessageBox.Show($"Replace");
+                    break;
+            }
         }
     }
 

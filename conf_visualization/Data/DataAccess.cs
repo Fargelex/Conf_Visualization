@@ -67,13 +67,11 @@ namespace conf_visualization.Data
         public List<ConferenceModel> GetConferences(int total = 100)
         {
             List<ConferenceModel> output = new List<ConferenceModel>();
-
             for (int i = 0; i < total; i++)
             {
 
                 output.Add(GetConference(i + 1));
             }
-
             return output;
         }
         private ConferenceModel GetConference(int id)
