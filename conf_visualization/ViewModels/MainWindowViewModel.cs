@@ -2,10 +2,12 @@
 using conf_visualization.Infrastructure.Commands;
 using conf_visualization.Models;
 using conf_visualization.ViewModels.Base;
+using conf_visualization.Views.Windows;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -27,14 +29,14 @@ namespace conf_visualization.ViewModels
 
 
         #region Заголовок окна
-        private string _Title;
+        private string _TitleAddEditConferenceWindow = "asdasd";
 
         /// <summary>Заголовок окна</summary>
 
-        public string Title
+        public string TitleAddEditConferenceWindow
         {
-            get => _Title; // { return _Title; }  
-            set => Set(ref _Title, value);
+            get => _TitleAddEditConferenceWindow; // { return _Title; }  
+            set => Set(ref _TitleAddEditConferenceWindow, value);
             //set 
             //{ 
             //   // _Title = value;
@@ -62,16 +64,7 @@ namespace conf_visualization.ViewModels
 
         private void OnAddNewConferenceToDataBaseExecuted(object parameter)
         {
-            List<string> data = new List<string>();
-            foreach (var conference in Conferences)
-            {
-                if (conference.ChangedValue)
-                {
-                    // data.Add()
-
-                }
-            }
-            MessageBox.Show("проверка команды");
+            
         }
         #endregion
 
@@ -103,25 +96,10 @@ namespace conf_visualization.ViewModels
 
         public ConferenceModel CurretConference
         {
-            get { return _ConferenceModel; }
-            set
-            {
-                if (_ConferenceModel != value)
-                    _ConferenceModel = value;
-                if (_ConferenceModel != null)
-                {
-                    //   MessageBox.Show(_ConferenceModel.ConferenceName);
-                    RaisePropertyChanged(_ConferenceModel.ConferenceId.ToString());
-                    MessageBox.Show(_ConferenceModel.ChangedValue.ToString());
-                }
-
-            }
+            get => _ConferenceModel;
+            set => Set(ref _ConferenceModel, value);
         }
 
-        private void RaisePropertyChanged(string v)
-        {
-            //  MessageBox.Show(v);
-        }
 
         public MainWindowViewModel()
         {
@@ -130,6 +108,7 @@ namespace conf_visualization.ViewModels
             AddNewConferenceToDataBase = new LambdaCommand(OnAddNewConferenceToDataBaseExecuted, CanAddNewConferenceToDataBaseExecute);
             #endregion
 
+            
 
             var svc = new DataAccess();
             foreach (var conf in svc.GetConferences())
@@ -156,6 +135,7 @@ namespace conf_visualization.ViewModels
                     if (e.NewItems[0] is ConferenceModel newConf)
                     {
                         newConf.NewValue = true;
+                        newConf.ConferenceId = 1000;
                     }
                     break;
                 case NotifyCollectionChangedAction.Replace:

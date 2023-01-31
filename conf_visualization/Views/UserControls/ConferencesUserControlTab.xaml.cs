@@ -45,5 +45,13 @@ namespace conf_visualization.Views.UserControls
         {
             conferencesSettingsSaveButton.IsEnabled = false;
         }
+
+        private void hideAddEditConferenceGridButton_Click(object sender, RoutedEventArgs e)
+        {
+        }
+
+        private void editCOnferenceSettings_Click(object sender, RoutedEventArgs e)
+        {
+        }
     }
 }

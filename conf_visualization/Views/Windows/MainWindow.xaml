@@ -7,7 +7,7 @@
         xmlns:vu ="clr-namespace:conf_visualization.Views.UserControls"
         xmlns:l="clr-namespace:conf_visualization"
         
-        Title="Конференции" Height="900" Width="1600" WindowStartupLocation="CenterScreen">
+        Title="{Binding TitleAddEditConferenceWindow}" Height="900" Width="1600" WindowStartupLocation="CenterScreen">
 
     <Window.DataContext>
         <vm:MainWindowViewModel/>
@@ -26,7 +26,10 @@
 
         <StatusBar DockPanel.Dock="Bottom">
             <StatusBarItem>
-                <TextBlock Text="StatusBarItem"></TextBlock>
+                <TextBlock Text="StatusBarItem"></TextBlock>                
+            </StatusBarItem>
+            <StatusBarItem>
+                <TextBox Width="100" Text="{Binding TitleAddEditConferenceWindow, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             </StatusBarItem>
         </StatusBar>
         <TabControl>

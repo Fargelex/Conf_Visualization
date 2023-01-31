@@ -9,7 +9,7 @@ namespace conf_visualization.Models
     internal class ConferenceModel
     {
         private int _conferenceId;
-        private string _conferenceName;
+        private string _conferenceName = "новый";
         private int _participantsCount;
         private int _conferenceDuration;
         private bool _isAcive;
