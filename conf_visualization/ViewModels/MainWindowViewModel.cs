@@ -56,6 +56,29 @@ namespace conf_visualization.ViewModels
             Application.Current.Shutdown();
         }
         #endregion
+
+
+        #region reloadFromDataBaseCommand
+        public ICommand reloadFromDataBaseCommand { get; }
+
+        private bool CanReloadFromDataBaseCommandExecute(object parameter) => true;
+
+        private void OnReloadFromDataBaseCommandExecuted(object parameter)
+        {
+            Conferences.Clear();
+            Conferences.CollectionChanged -= Conferences_CollectionChanged;
+            Conferences_before_edit_dictionary.Clear();
+            var svc = new DataAccess();
+            foreach (var conf in svc.GetConferences())
+            {
+                conf.ChangedValue = false;
+                this.Conferences.Add(conf);
+                this.Conferences_before_edit_dictionary.Add(conf.ConferenceId, conf);
+            }
+            Conferences.CollectionChanged += Conferences_CollectionChanged;
+        }
+        #endregion
+
         #region AddNewConferenceToDataBase
         public ICommand AddNewConferenceToDataBase { get; }
 
@@ -81,8 +104,15 @@ namespace conf_visualization.ViewModels
                 }
             }
 
+           
+            if (conferenceItemChangedValueLlist.Count>0)
+            {
+                var svc = new DataAccess();
+                svc.sendUpdateToDataBase(conferenceItemChangedValueLlist);
+            }
+            
 
-            MessageBox.Show("");
+            //   MessageBox.Show("");
 
         }
         #endregion
@@ -125,9 +155,10 @@ namespace conf_visualization.ViewModels
             #region Команды
             CloseApplicationCommand = new LambdaCommand(OnCloseApplicationCommandExecuted, CanCloseApplicationCommandExecute);
             AddNewConferenceToDataBase = new LambdaCommand(OnAddNewConferenceToDataBaseExecuted, CanAddNewConferenceToDataBaseExecute);
+            reloadFromDataBaseCommand = new LambdaCommand(OnReloadFromDataBaseCommandExecuted, CanReloadFromDataBaseCommandExecute);
             #endregion
 
-            
+
 
             var svc = new DataAccess();
             foreach (var conf in svc.GetConferences())
@@ -136,7 +167,6 @@ namespace conf_visualization.ViewModels
                 this.Conferences.Add(conf);
                 this.Conferences_before_edit_dictionary.Add(conf.ConferenceId, conf);
             }
-
             Conferences.CollectionChanged += Conferences_CollectionChanged;
         }
 

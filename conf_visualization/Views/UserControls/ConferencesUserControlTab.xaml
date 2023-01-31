@@ -35,7 +35,8 @@
                 </DockPanel>
                 <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                         <Button x:Name="cancelEditConferencesSettingsButton" 
-                                Content="Отмена" IsEnabled="True"  HorizontalAlignment="Left"  VerticalAlignment="Top" Width="82" Height="25"/>
+                                Content="Отмена" IsEnabled="True"  HorizontalAlignment="Left"  VerticalAlignment="Top" Width="82" Height="25"
+                                Command="{Binding reloadFromDataBaseCommand}"/>
                         <Button x:Name="saveEditConferencesSettingsButton"
                                 Content="Сохранить" IsEnabled="True"  HorizontalAlignment="Left"  VerticalAlignment="Top" Width="82" Height="25"
                                 Command="{Binding AddNewConferenceToDataBase}" />
@@ -44,14 +45,13 @@
                     <DataGrid 
                       x:Name="ConferencesDataGrid" AlternatingRowBackground="LightGray"  AutoGenerateColumns="False" 
                       ItemsSource="{Binding Path=Conferences, Mode=TwoWay,  UpdateSourceTrigger=PropertyChanged}" 
-                      CurrentItem="{Binding CurretConference, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                      AddingNewItem="ConferencesDataGrid_AddingNewItem" CellEditEnding="ConferencesDataGrid_CellEditEnding" SelectedIndex="4" SelectionMode="Single" >
+                      CurrentItem="{Binding CurretConference, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="4" SelectionMode="Single" >
                     <DataGrid.ContextMenu>
                         <ContextMenu>
                             <MenuItem Header="Обновить"/>
                             <Separator />
                             <MenuItem Header="Добавить запись" Command="{Binding AddNewConferenceToDataBase}"/>
-                            <MenuItem x:Name="editCOnferenceSettings" Header="Редактировать запись" Click="editCOnferenceSettings_Click"/>
+                            <MenuItem x:Name="editCOnferenceSettings" Header="Редактировать запись"/>
                             <MenuItem Header="Удалить запись"/>
                         </ContextMenu>
                     </DataGrid.ContextMenu>
@@ -71,7 +71,7 @@
             <DockPanel Grid.Row="2">
                 <StackPanel DockPanel.Dock="Bottom"
                         Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <Button x:Name="saveButton" Command="{Binding AddNewConferenceToDataBase}" IsEnabled="False" Content="Сохранить" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="82" Height="25"/>
+                    <Button x:Name="saveButton" IsEnabled="False" Content="Сохранить" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="82" Height="25"/>
                 </StackPanel>
                 <DataGrid x:Name="PlanConferencesDataGrid" AlternatingRowBackground="LightGray"   AutoGenerateColumns="False" 
                       ItemsSource="{Binding Path=Conferences, Mode=TwoWay,  UpdateSourceTrigger=PropertyChanged}"

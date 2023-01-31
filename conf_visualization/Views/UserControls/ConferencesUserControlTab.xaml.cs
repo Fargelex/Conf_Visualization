@@ -26,29 +26,5 @@ namespace conf_visualization.Views.UserControls
             InitializeComponent();
         }
 
-        bool newItem = false;
-
-
-
-        private void ConferencesDataGrid_AddingNewItem(object sender, AddingNewItemEventArgs e)
-        {        
-        }
-
-        private void ConferencesDataGrid_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
-        {
-
-        }
-
-        private void conferencesSettingsSaveButton_Click(object sender, RoutedEventArgs e)
-        {
-        }
-
-        private void hideAddEditConferenceGridButton_Click(object sender, RoutedEventArgs e)
-        {
-        }
-
-        private void editCOnferenceSettings_Click(object sender, RoutedEventArgs e)
-        {
-        }
     }
 }

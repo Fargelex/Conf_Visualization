@@ -5,12 +5,14 @@ using System.Data.SQLite;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace conf_visualization.Data
 {
     internal class DataAccess
     {
         Random rnd = new Random();
+        string DataBaseName = "database.db";
 
         int[] conferenceId = new int[] { 540, 424, 422, 80, 57, 25, 350, 150, 20, 10 };
         string[] conferenceName = new string[] { "Селектор 1", "Селектор 2", "Селектор 3", "Селектор 4", "Селектор 5", "Селектор 6", "Селектор 7", "Селектор 8", "Селектор 9", "Селектор 10" };
@@ -28,57 +30,71 @@ namespace conf_visualization.Data
         }
 
         //Подключение к Базе Данных
-        //public List<ConferenceModel> GetConferences()
-        //{
-        //    List<ConferenceModel> ConferenceList = new List<ConferenceModel>();
+        public List<ConferenceModel> GetConferences()
+        {
+            List<ConferenceModel> ConferenceList = new List<ConferenceModel>();
 
-        //    //for (int i = 0; i < total; i++)
-        //    //{
+            //for (int i = 0; i < total; i++)
+            //{
 
-        //    //    ConferenceList.Add(GetConference(i + 1));
-        //    //}
+            //    ConferenceList.Add(GetConference(i + 1));
+            //}
 
-        //    using (SQLiteConnection Connect = new SQLiteConnection(@"Data Source=database.db; Version=3;"))
-        //    {
-        //        Connect.Open();
+            using (SQLiteConnection Connect = new SQLiteConnection(@"Data Source=database.db; Version=3;"))
+            {
+                Connect.Open();
 
-        //        SQLiteCommand comm = new SQLiteCommand("Select * From ConferenceTable", Connect);
-        //        using (SQLiteDataReader read = comm.ExecuteReader())
-        //        {
-        //            while (read.Read())
-        //            {
-        //                ConferenceModel outputConference = new ConferenceModel();
+                SQLiteCommand comm = new SQLiteCommand("Select * From ConferenceTable", Connect);
+                using (SQLiteDataReader read = comm.ExecuteReader())
+                {
+                    while (read.Read())
+                    {
+                        ConferenceModel outputConference = new ConferenceModel();
 
-        //                outputConference.ConferenceId = Convert.ToInt32(read.GetValue(read.GetOrdinal("ConferenceId")));
-        //                outputConference.ConferenceName = read.GetValue(read.GetOrdinal("ConferenceName")).ToString();
-        //                outputConference.ConferenceDuration = Convert.ToInt32(read.GetValue(read.GetOrdinal("ConferenceDuration")));
-        //                outputConference.ParticipantsCount = Convert.ToInt32(read.GetValue(read.GetOrdinal("ParticipantsCount")));
-        //                outputConference.IsAcive = Convert.ToBoolean(read.GetValue(read.GetOrdinal("IsAcive")));
-        //                ConferenceList.Add(outputConference);
-        //            }
-        //            Connect.Close(); // закрыть соединение
-        //                             //      add_to_main_log("info\tновая БД с именем " + data_base_filename + " создана. Полей для экспорта: ");
-        //        }
-        //        return ConferenceList;
-        //    }
-        //}
+                        outputConference.ConferenceId = Convert.ToInt32(read.GetValue(read.GetOrdinal("ConferenceId")));
+                        outputConference.ConferenceName = read.GetValue(read.GetOrdinal("ConferenceName")).ToString();
+                        outputConference.ConferenceDuration = Convert.ToInt32(read.GetValue(read.GetOrdinal("ConferenceDuration")));
+                        outputConference.ParticipantsCount = Convert.ToInt32(read.GetValue(read.GetOrdinal("ParticipantsCount")));
+                        outputConference.IsAcive = Convert.ToBoolean(read.GetValue(read.GetOrdinal("IsAcive")));
+                        ConferenceList.Add(outputConference);
+                    }
+                    Connect.Close(); // закрыть соединение
+                                     //      add_to_main_log("info\tновая БД с именем " + data_base_filename + " создана. Полей для экспорта: ");
+                }
+                return ConferenceList;
+            }
+        }
 
         //Заполняет таблицы случайными данными
 
 
+        public void sendUpdateToDataBase(List<string> sqlComandsList)
+        {                
 
-
-
-        public List<ConferenceModel> GetConferences(int total = 100)
-        {
-            List<ConferenceModel> output = new List<ConferenceModel>();
-            for (int i = 0; i < total; i++)
+            using (SQLiteConnection Connect = new SQLiteConnection(@"Data Source="+ DataBaseName + "; Version=3;"))
             {
+                Connect.Open();
 
-                output.Add(GetConference(i + 1));
+                foreach (string sqlcomand in sqlComandsList)
+                {
+                    SQLiteCommand Insert_Command = new SQLiteCommand(sqlcomand, Connect);
+                    Insert_Command.ExecuteNonQuery();
+                }              
+                Connect.Close();
             }
-            return output;
         }
+
+
+        //public List<ConferenceModel> GetConferences(int total = 100)
+        //{
+        //    List<ConferenceModel> output = new List<ConferenceModel>();
+        //    for (int i = 0; i < total; i++)
+        //    {
+
+        //        output.Add(GetConference(i + 1));
+        //    }
+        //    return output;
+        //}
         private ConferenceModel GetConference(int id)
         {
             ConferenceModel output = new ConferenceModel();
