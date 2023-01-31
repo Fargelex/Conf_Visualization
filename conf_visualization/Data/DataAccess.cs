@@ -64,6 +64,11 @@ namespace conf_visualization.Data
         //}
 
         //Заполняет таблицы случайными данными
+
+
+
+
+
         public List<ConferenceModel> GetConferences(int total = 100)
         {
             List<ConferenceModel> output = new List<ConferenceModel>();

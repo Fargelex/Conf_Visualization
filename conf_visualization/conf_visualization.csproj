@@ -63,10 +63,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Windows\AddEditConferenceWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Views\Windows\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -84,9 +80,6 @@
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="Views\UserControls\ConferencesUserControlTab.xaml.cs">
       <DependentUpon>ConferencesUserControlTab.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Windows\AddEditConferenceWindow.xaml.cs">
-      <DependentUpon>AddEditConferenceWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Windows\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>

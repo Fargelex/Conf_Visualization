@@ -2,7 +2,6 @@
 using conf_visualization.Infrastructure.Commands;
 using conf_visualization.Models;
 using conf_visualization.ViewModels.Base;
-using conf_visualization.Views.Windows;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -64,7 +63,27 @@ namespace conf_visualization.ViewModels
 
         private void OnAddNewConferenceToDataBaseExecuted(object parameter)
         {
-            
+            List<string> conferenceItemChangedValueLlist = new List<string>();
+            List<string> conferenceItemNewValueLlist = new List<string>();
+            //    string sqlUpdateCommand = "UPDATE ConferenceTable SET ConferenceName = '{0}', ParticipantsCount = {1}, ConferenceDuration = {2} WHERE ConferenceId = {3};";
+
+
+            for (int i = 0; i < Conferences.Count; i++)
+            {
+                if (Conferences[i].ChangedValue)
+                {
+                    conferenceItemChangedValueLlist.Add(String.Format("UPDATE ConferenceTable SET ConferenceName = '{0}', ParticipantsCount = {1}, ConferenceDuration = {2} WHERE ConferenceId = {3};", Conferences[i].ConferenceName, Conferences[i].ParticipantsCount, Conferences[i].ConferenceDuration, Conferences[i].ConferenceId));
+                }
+                if (Conferences[i].NewValue)
+                {
+                    conferenceItemNewValueLlist.Add(String.Format("INSERT INTO ConferenceTable (ConferenceId, ConferenceName, ParticipantsCount, ConferenceDuration, IsAcive) VALUES ( {0},'{1}',{2},{3},'{4}' );", Conferences[i].ConferenceId, Conferences[i].ConferenceName, Conferences[i].ParticipantsCount, Conferences[i].ConferenceDuration, Conferences[i].IsAcive.ToString()));
+                    Conferences[i].NewValue = false;
+                }
+            }
+
+
+            MessageBox.Show("");
+
         }
         #endregion
 

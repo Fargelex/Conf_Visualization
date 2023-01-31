@@ -10,11 +10,12 @@ namespace conf_visualization.Models
     {
         private int _conferenceId;
         private string _conferenceName = "новый";
-        private int _participantsCount;
-        private int _conferenceDuration;
+        private int _participantsCount = 3;
+        private int _conferenceDuration = 15;
         private bool _isAcive;
         private bool _changedValue = false;
         private bool _newValue = false;
+        private bool _hasError = false;
 
         public int ConferenceId
         {
@@ -39,8 +40,13 @@ namespace conf_visualization.Models
             get { return _participantsCount; }
             set
             {
-                if (_participantsCount != value) { _changedValue = true; }
-                _participantsCount = value;
+                _hasError = false;
+                if (_participantsCount != value)
+                {
+                    _changedValue = true;
+                    _participantsCount = value;
+                }
+
             }
         }
         public int ConferenceDuration
@@ -48,9 +54,14 @@ namespace conf_visualization.Models
             get { return _conferenceDuration; }
             set
             {
-                if (_conferenceDuration != value) { _changedValue = true; }
-                _conferenceDuration = value;
+                _hasError = false;
+                if (_conferenceDuration != value)
+                {
+                    _changedValue = true;
+                    _conferenceDuration = value;
+                }
             }
+
         }
         public bool IsAcive
         {
@@ -70,6 +81,10 @@ namespace conf_visualization.Models
         {
             get { return _newValue; }
             set { _newValue = value; }
+        }
+        public bool hasError
+        {
+            get { return _hasError; }
         }
 
 

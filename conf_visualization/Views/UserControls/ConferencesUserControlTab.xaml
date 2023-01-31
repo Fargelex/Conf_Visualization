@@ -34,8 +34,11 @@
                     <TextBox   MinWidth="300" Height="20"/>
                 </DockPanel>
                 <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <Button x:Name="conferencesSettingsSaveButtons" Command="{Binding AddNewConferenceToDataBase}" IsEnabled="False" Content="Отмена" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="82" Height="25"/>
-                        <Button x:Name="conferencesSettingsSaveButton" Command="{Binding AddNewConferenceToDataBase}" IsEnabled="True" Content="Сохранить" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="82" Height="25" Click="conferencesSettingsSaveButton_Click"/>
+                        <Button x:Name="cancelEditConferencesSettingsButton" 
+                                Content="Отмена" IsEnabled="True"  HorizontalAlignment="Left"  VerticalAlignment="Top" Width="82" Height="25"/>
+                        <Button x:Name="saveEditConferencesSettingsButton"
+                                Content="Сохранить" IsEnabled="True"  HorizontalAlignment="Left"  VerticalAlignment="Top" Width="82" Height="25"
+                                Command="{Binding AddNewConferenceToDataBase}" />
 
                     </StackPanel>
                     <DataGrid 
