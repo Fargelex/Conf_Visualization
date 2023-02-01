@@ -21,6 +21,8 @@ namespace conf_visualization.ViewModels
     {
         //    public BindableCollection<ConferenceModel> People { get; set; }
         public ObservableCollection<ConferenceModel> Conferences { get; set; } = new ObservableCollection<ConferenceModel>();
+        public ObservableCollection<ConferencePlanModel> ConferencesPlanSeries { get; set; } = new ObservableCollection<ConferencePlanModel>();
+
         public Collection<ConferenceModel> Conferences_before_edit = new Collection<ConferenceModel>();
         public Dictionary<int, ConferenceModel> Conferences_before_edit_dictionary = new Dictionary<int, ConferenceModel>();
         public Dictionary<int, ConferenceModel> Conferences_after_edit_dictionary = new Dictionary<int, ConferenceModel>();
@@ -145,9 +147,30 @@ namespace conf_visualization.ViewModels
 
         public ConferenceModel CurretConference
         {
-            get => _ConferenceModel;
-            set => Set(ref _ConferenceModel, value);
+            get { return _ConferenceModel; }
+
+            set
+            {                
+                if (value != null)
+                {
+                    Set(ref _ConferenceModel, value);
+                    dosmth(value.ConferenceId);
+                }                
+            }
         }
+
+        private void dosmth(int confID)
+        {
+            var svc = new DataAccess();
+            foreach (var conf in svc.GetConferencePlanSeries(confID))
+            {
+                //   conf.ChangedValue = false;
+                
+                this.ConferencesPlanSeries.Add(conf);
+              // this.Conferences_before_edit_dictionary.Add(conf.ConferenceId, conf);
+            }
+        }
+
 
 
         public MainWindowViewModel()
@@ -158,8 +181,6 @@ namespace conf_visualization.ViewModels
             reloadFromDataBaseCommand = new LambdaCommand(OnReloadFromDataBaseCommandExecuted, CanReloadFromDataBaseCommandExecute);
             #endregion
 
-
-
             var svc = new DataAccess();
             foreach (var conf in svc.GetConferences())
             {
@@ -168,6 +189,11 @@ namespace conf_visualization.ViewModels
                 this.Conferences_before_edit_dictionary.Add(conf.ConferenceId, conf);
             }
             Conferences.CollectionChanged += Conferences_CollectionChanged;
+
+
+
+
+
         }
 
         private void Conferences_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)

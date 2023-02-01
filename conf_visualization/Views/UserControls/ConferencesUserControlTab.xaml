@@ -42,10 +42,11 @@
                                 Command="{Binding AddNewConferenceToDataBase}" />
 
                     </StackPanel>
-                    <DataGrid 
+                <DataGrid 
                       x:Name="ConferencesDataGrid" AlternatingRowBackground="LightGray"  AutoGenerateColumns="False" 
                       ItemsSource="{Binding Path=Conferences, Mode=TwoWay,  UpdateSourceTrigger=PropertyChanged}" 
-                      CurrentItem="{Binding CurretConference, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="4" SelectionMode="Single" >
+                      CurrentItem="{Binding CurretConference, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectionMode="Single">
+
                     <DataGrid.ContextMenu>
                         <ContextMenu>
                             <MenuItem Header="Обновить"/>
@@ -57,7 +58,7 @@
                     </DataGrid.ContextMenu>
                     <DataGrid.Columns>
                         <DataGridTextColumn Width="40" Header="ID" Binding="{Binding Path=ConferenceId, UpdateSourceTrigger=PropertyChanged}" />
-                        <DataGridTextColumn Width="150*" Header="Имя селектора" Binding="{Binding Path=ConferenceName, UpdateSourceTrigger=PropertyChanged}"/>
+                        <DataGridTextColumn Width="250*" Header="Имя селектора" Binding="{Binding Path=ConferenceName, UpdateSourceTrigger=PropertyChanged}"/>
                         <DataGridTextColumn Width="80" Header="Участников" Binding="{Binding Path=ParticipantsCount, UpdateSourceTrigger=PropertyChanged}"/>
                         <DataGridTextColumn Width="70" Header="Продолжительность, мин" Binding="{Binding Path=ConferenceDuration, UpdateSourceTrigger=PropertyChanged}"/>
                         <DataGridCheckBoxColumn Width="70" Header="Учитывать" Binding="{Binding Path=IsAcive, UpdateSourceTrigger=PropertyChanged}"/>
@@ -69,20 +70,21 @@
             <GridSplitter Grid.Row="1"   Height="5" HorizontalAlignment="Stretch" ResizeDirection="Rows" />
 
             <DockPanel Grid.Row="2">
+                <Label Content="{Binding CurretConference.ConferenceName}" DockPanel.Dock="Top"/>
                 <StackPanel DockPanel.Dock="Bottom"
                         Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                     <Button x:Name="saveButton" IsEnabled="False" Content="Сохранить" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="82" Height="25"/>
                 </StackPanel>
                 <DataGrid x:Name="PlanConferencesDataGrid" AlternatingRowBackground="LightGray"   AutoGenerateColumns="False" 
-                      ItemsSource="{Binding Path=Conferences, Mode=TwoWay,  UpdateSourceTrigger=PropertyChanged}"
+                      ItemsSource="{Binding Path=ConferencesPlanSeries, Mode=TwoWay,  UpdateSourceTrigger=PropertyChanged}"
                           SelectedIndex="2">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Width="40" Header="ID" Binding="{Binding Path=ConferenceId}"/>
-                        <DataGridTextColumn Width="150*" Header="Имя селектора" Binding="{Binding Path=ConferenceName}"/>
-                        <DataGridTextColumn Width="80" Header="Участников" Binding="{Binding Path=ParticipantsCount}"/>
-                        <DataGridTextColumn Width="70" Header="Продолжительность, мин" Binding="{Binding Path=ConferenceDuration}"/>
-                        <DataGridCheckBoxColumn Width="70" Header="Учитывать" Binding="{Binding Path=IsAcive}"/>
-                        <DataGridCheckBoxColumn Width="50" Header="Изменен" Binding="{Binding Path=ChangedValue}"/>
+                        <DataGridTextColumn Width="100" Header="Повторять с" Binding="{Binding Path=ConferenceBeginPeriod}"/>
+                        <DataGridTextColumn Width="100" Header="до" Binding="{Binding Path=ConferenceEndPeriod}"/>
+                        <DataGridTextColumn Width="100" Header="Тип" Binding="{Binding Path=PeriodicType}"/>
+                        <DataGridTextColumn Width="80*" Header="Значение" Binding="{Binding Path=PeriodicValue}"/>
+                        <DataGridTextColumn Width="100" Header="Начало" Binding="{Binding Path=ConferenceStartTime}"/>
+                        <DataGridTextColumn Width="100" Header="Конец" Binding="{Binding Path=ConferenceStopTime}"/>
                     </DataGrid.Columns>
                 </DataGrid>
 
