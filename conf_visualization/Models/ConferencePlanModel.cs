@@ -8,14 +8,83 @@ namespace conf_visualization.Models
 {
     internal class ConferencePlanModel
     {
-        public int ConferenceId { get; set; }
-        public int ConferencePlanId { get; set; }
-        public DateTime ConferenceBeginPeriod { get; set; }
-        public DateTime ConferenceEndPeriod { get; set; }
-        public string PeriodicType { get; set; }
-        public string PeriodicValue { get; set; }
-        public DateTime ConferenceStartTime { get; set; }
-        public DateTime ConferenceStopTime { get; set; }
-        public bool IsAcive { get; set; }
+        private int _conferenceId;
+        private int _conferencePlanId;
+        private DateTime _conferenceBeginPeriod;
+        private DateTime _conferenceEndPeriod;
+        private string _periodicType = "Еженедельно";
+        private string _periodicValue;
+        private DateTime _conferenceStartTime;
+        private DateTime _conferenceStopTime;
+
+
+        public int ConferenceId 
+        {
+            get { return _conferenceId; }
+            set { _conferenceId = value; }
+        }
+        public int ConferencePlanId 
+        {
+            get { return _conferencePlanId; }
+            set { _conferencePlanId = value;}
+        }
+        public DateTime ConferenceBeginPeriod 
+        {
+            get { return _conferenceBeginPeriod; }
+            set
+            {
+                _conferenceBeginPeriod = value;
+            }
+        }
+        public DateTime ConferenceEndPeriod 
+        {
+            get { return _conferenceEndPeriod; }
+            set
+            {
+                _conferenceEndPeriod = value;
+            }
+        }
+        public string PeriodicType 
+        {
+            get { return _periodicType; }
+            set
+            {
+                _periodicType = value;
+            }
+        }
+        public string PeriodicValue 
+        { 
+            get { return _periodicValue; }
+            set
+            {
+                _periodicValue = value;
+            }
+        }
+        public DateTime ConferenceStartTime 
+        { 
+            get { return _conferenceStartTime; }
+            set
+            {
+                _conferenceStartTime = value;
+            }
+        }
+        public DateTime ConferenceStopTime
+        {
+            get { return _conferenceStopTime; }
+            set
+            {
+                _conferenceStopTime = value;
+            }
+        }
+        public bool IsAcive
+        {
+            get; set;
+        }
+
+
+
+
+
+
     }
 }
