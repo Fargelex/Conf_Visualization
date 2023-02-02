@@ -9,6 +9,9 @@ using System.Windows;
 
 namespace conf_visualization.Models
 {
+    public enum PeriodicTypeEnum{ weekly, monthly };
+
+
     internal class ConferencePlanModel
     {
         private int _conferenceId;
@@ -20,6 +23,39 @@ namespace conf_visualization.Models
         private DateTime _conferenceStartTime = new DateTime(2022, 12, 30, 00, 00, 00);
         private DateTime _conferenceStopTime = new DateTime(2022, 12, 31, 00, 00, 00);
 
+        private PeriodicTypeEnum _periodicTypeEnum = PeriodicTypeEnum.weekly;
+
+
+        public string PeriodicType2
+        {
+            get 
+            {
+                switch (_periodicTypeEnum)
+                {
+                    case PeriodicTypeEnum.weekly:
+                        return "Еженедельно";
+                    case PeriodicTypeEnum.monthly:
+                        return "Ежемесячно";
+                    default:
+                        return "Еженедельно";
+                }
+          //      return _periodicType; 
+            }
+            set {
+                switch (value)
+                {
+                    case "Еженедельно":
+                        _periodicTypeEnum = PeriodicTypeEnum.weekly; 
+                        break;
+                    case "Ежемесячно":
+                        _periodicTypeEnum = PeriodicTypeEnum.monthly;
+                        break;
+                    default:
+                        break;
+                }
+            //    _periodicType = value; 
+            }
+        }
 
         public int ConferenceId 
         {
@@ -84,6 +120,7 @@ namespace conf_visualization.Models
             }
             set
             {
+                // проверка формата времени при вводе, время вида ХХ:ХХ
                 Regex regex = new Regex("(\\d:[0-5]\\d)|([1]\\d:[0-5]\\d)|([2][0-3]:[0-5]\\d)");
                 Match match= regex.Match(value);
                 if (match.Success)
