@@ -77,10 +77,10 @@ namespace conf_visualization.Data
                         outputConferencePlan.ConferenceId = Convert.ToInt32(read.GetValue(read.GetOrdinal("ConferenceId")));
                         outputConferencePlan.PeriodicType = read.GetValue(read.GetOrdinal("PeriodicType")).ToString();
                         outputConferencePlan.PeriodicValue= read.GetValue(read.GetOrdinal("PeriodicValue")).ToString();
-                        outputConferencePlan.ConferenceBeginPeriod = Convert.ToDateTime(read.GetValue(read.GetOrdinal("ConferenceBeginPeriod")));
-                        outputConferencePlan.ConferenceEndPeriod = Convert.ToDateTime(read.GetValue(read.GetOrdinal("ConferenceEndPeriod")));
-                        outputConferencePlan.ConferenceStartTime = Convert.ToDateTime(read.GetValue(read.GetOrdinal("ConferenceStartTime")));
-                        outputConferencePlan.ConferenceStopTime = Convert.ToDateTime(read.GetValue(read.GetOrdinal("ConferenceStopTime")));
+                        outputConferencePlan.ConferenceBeginPeriod = read.GetValue(read.GetOrdinal("ConferenceBeginPeriod")).ToString();
+                        outputConferencePlan.ConferenceEndPeriod = read.GetValue(read.GetOrdinal("ConferenceEndPeriod")).ToString();
+                        outputConferencePlan.ConferenceStartTime = read.GetValue(read.GetOrdinal("ConferenceStartTime")).ToString();
+                        outputConferencePlan.ConferenceStopTime = read.GetValue(read.GetOrdinal("ConferenceStopTime")).ToString();
 
 
 

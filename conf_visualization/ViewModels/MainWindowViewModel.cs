@@ -162,12 +162,16 @@ namespace conf_visualization.ViewModels
         private void dosmth(int confID)
         {
             var svc = new DataAccess();
+            if (svc.GetConferencePlanSeries(confID).Count == 0)
+            {
+                this.ConferencesPlanSeries.Clear();
+            }
             foreach (var conf in svc.GetConferencePlanSeries(confID))
             {
                 //   conf.ChangedValue = false;
-                
+                this.ConferencesPlanSeries.Clear();
                 this.ConferencesPlanSeries.Add(conf);
-              // this.Conferences_before_edit_dictionary.Add(conf.ConferenceId, conf);
+                // this.Conferences_before_edit_dictionary.Add(conf.ConferenceId, conf);
             }
         }
 

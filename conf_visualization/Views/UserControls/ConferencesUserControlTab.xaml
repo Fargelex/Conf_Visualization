@@ -12,11 +12,11 @@
     </UserControl.DataContext>
     <Grid x:Name="tabGrid">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="4*"/>
             <!--столбец с настройками селекторов-->
             <ColumnDefinition Width="10"/>
             <!--вертикальный разделитель-->
-            <ColumnDefinition Width="5*"/>
+            <ColumnDefinition Width="6*"/>
             <!--столбец с общими графиками и диаграммами-->
         </Grid.ColumnDefinitions>
 
@@ -62,6 +62,7 @@
                         <DataGridTextColumn Width="80" Header="Участников" Binding="{Binding Path=ParticipantsCount, UpdateSourceTrigger=PropertyChanged}"/>
                         <DataGridTextColumn Width="70" Header="Продолжительность, мин" Binding="{Binding Path=ConferenceDuration, UpdateSourceTrigger=PropertyChanged}"/>
                         <DataGridCheckBoxColumn Width="70" Header="Учитывать" Binding="{Binding Path=IsAcive, UpdateSourceTrigger=PropertyChanged}"/>
+                        
                     </DataGrid.Columns>
                 </DataGrid>
             </DockPanel>
@@ -79,12 +80,37 @@
                       ItemsSource="{Binding Path=ConferencesPlanSeries, Mode=TwoWay,  UpdateSourceTrigger=PropertyChanged}"
                           SelectedIndex="2">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Width="100" Header="Повторять с" Binding="{Binding Path=ConferenceBeginPeriod}"/>
-                        <DataGridTextColumn Width="100" Header="до" Binding="{Binding Path=ConferenceEndPeriod}"/>
+                        <DataGridTemplateColumn Width="100" Header="Повторять с">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding ConferenceBeginPeriod, StringFormat='dd.MM.yyyy' , Mode=TwoWay,  UpdateSourceTrigger=PropertyChanged}" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                            <DataGridTemplateColumn.CellEditingTemplate>
+                                <DataTemplate>
+                                    <DatePicker  SelectedDate="{Binding ConferenceBeginPeriod, StringFormat='dd.MM.yyyy', Mode=TwoWay,  UpdateSourceTrigger=PropertyChanged}" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellEditingTemplate>
+                        </DataGridTemplateColumn>                        
+                        
+                        <DataGridTemplateColumn Width="100" Header="до">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding ConferenceEndPeriod, StringFormat='dd.MM.yyyy' , Mode=TwoWay,  UpdateSourceTrigger=PropertyChanged}" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                            <DataGridTemplateColumn.CellEditingTemplate>
+                                <DataTemplate>
+                                    <DatePicker  SelectedDate="{Binding ConferenceEndPeriod, StringFormat='dd.MM.yyyy', Mode=TwoWay,  UpdateSourceTrigger=PropertyChanged}" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellEditingTemplate>
+                        </DataGridTemplateColumn>
+                        
                         <DataGridTextColumn Width="100" Header="Тип" Binding="{Binding Path=PeriodicType}"/>
-                        <DataGridTextColumn Width="80*" Header="Значение" Binding="{Binding Path=PeriodicValue}"/>
-                        <DataGridTextColumn Width="100" Header="Начало" Binding="{Binding Path=ConferenceStartTime}"/>
-                        <DataGridTextColumn Width="100" Header="Конец" Binding="{Binding Path=ConferenceStopTime}"/>
+                        <DataGridTextColumn Width="*" Header="Значение" Binding="{Binding Path=PeriodicValue}"/>
+                        <DataGridTextColumn Width="70" Header="Начало" Binding="{Binding Path=ConferenceStartTime, Mode=TwoWay,  UpdateSourceTrigger=LostFocus}"/>
+                        <DataGridTextColumn Width="100" Header="Конец" Binding="{Binding Path=ConferenceStopTime, Mode=TwoWay,  UpdateSourceTrigger=PropertyChanged}"/>
+
                     </DataGrid.Columns>
                 </DataGrid>
 

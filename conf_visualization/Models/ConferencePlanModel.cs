@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace conf_visualization.Models
 {
@@ -10,12 +13,12 @@ namespace conf_visualization.Models
     {
         private int _conferenceId;
         private int _conferencePlanId;
-        private DateTime _conferenceBeginPeriod;
-        private DateTime _conferenceEndPeriod;
+        private DateTime _conferenceBeginPeriod = DateTime.Now;
+        private DateTime _conferenceEndPeriod = DateTime.Now;
         private string _periodicType = "Еженедельно";
         private string _periodicValue;
-        private DateTime _conferenceStartTime;
-        private DateTime _conferenceStopTime;
+        private DateTime _conferenceStartTime = new DateTime(2022, 12, 30, 00, 00, 00);
+        private DateTime _conferenceStopTime = new DateTime(2022, 12, 31, 00, 00, 00);
 
 
         public int ConferenceId 
@@ -23,33 +26,45 @@ namespace conf_visualization.Models
             get { return _conferenceId; }
             set { _conferenceId = value; }
         }
-        public int ConferencePlanId 
+        public int ConferencePlanId
         {
             get { return _conferencePlanId; }
-            set { _conferencePlanId = value;}
+            set { _conferencePlanId = value; }
         }
-        public DateTime ConferenceBeginPeriod 
+        public string ConferenceBeginPeriod 
         {
-            get { return _conferenceBeginPeriod; }
+            get { return _conferenceBeginPeriod.ToShortDateString(); }
             set
             {
-                _conferenceBeginPeriod = value;
+
+                if (value.Contains("/"))
+                {
+                    CultureInfo culture = new CultureInfo("en-US");
+                    _conferenceBeginPeriod = Convert.ToDateTime(value, culture);
+                }
+                else
+                    _conferenceBeginPeriod = Convert.ToDateTime(value);
             }
         }
-        public DateTime ConferenceEndPeriod 
+        public string ConferenceEndPeriod 
         {
-            get { return _conferenceEndPeriod; }
+            get { return _conferenceEndPeriod.ToShortDateString(); }
             set
             {
-                _conferenceEndPeriod = value;
+                _conferenceEndPeriod = Convert.ToDateTime(value);
             }
         }
-        public string PeriodicType 
+        public string PeriodicType
         {
             get { return _periodicType; }
             set
             {
-                _periodicType = value;
+                if (value == "" || value == null)
+                {
+                    _periodicType = "Еженедельно";
+                }
+                else
+                    _periodicType = value.Trim();
             }
         }
         public string PeriodicValue 
@@ -57,23 +72,50 @@ namespace conf_visualization.Models
             get { return _periodicValue; }
             set
             {
-                _periodicValue = value;
+                _periodicValue = value.Trim();
             }
         }
-        public DateTime ConferenceStartTime 
+        public string ConferenceStartTime 
         { 
-            get { return _conferenceStartTime; }
+            get {
+
+                CultureInfo culture = new CultureInfo("ru-RU");
+                return _conferenceStartTime.ToString("HH:mm",culture);
+            }
             set
             {
-                _conferenceStartTime = value;
+                Regex regex = new Regex("(\\d:[0-5]\\d)|([1]\\d:[0-5]\\d)|([2][0-3]:[0-5]\\d)");
+                Match match= regex.Match(value);
+                if (match.Success)
+                {
+                    _conferenceStartTime = Convert.ToDateTime(value);
+                }
+                else
+                {
+                    MessageBox.Show("Время введено неверно. Формат для ввода ХХ:ХХ", "Ошибка");
+                }
+
             }
         }
-        public DateTime ConferenceStopTime
+        public string ConferenceStopTime
         {
-            get { return _conferenceStopTime; }
+            get
+            {
+                CultureInfo culture = new CultureInfo("ru-RU");
+                return _conferenceStopTime.ToString("HH:mm", culture);
+            }
             set
             {
-                _conferenceStopTime = value;
+                Regex regex = new Regex("(\\d:[0-5]\\d)|([1]\\d:[0-5]\\d)|([2][0-3]:[0-5]\\d)");
+                Match match = regex.Match(value);
+                if (match.Success)
+                {
+                    _conferenceStopTime = Convert.ToDateTime(value);
+                }
+                else
+                {
+                    MessageBox.Show("Время введено неверно. Формат для ввода ХХ:ХХ", "Ошибка");
+                }
             }
         }
         public bool IsAcive
