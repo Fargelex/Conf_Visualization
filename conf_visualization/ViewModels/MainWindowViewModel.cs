@@ -27,9 +27,7 @@ namespace conf_visualization.ViewModels
         public Dictionary<int, ConferenceModel> Conferences_before_edit_dictionary = new Dictionary<int, ConferenceModel>();
         public Dictionary<int, ConferenceModel> Conferences_after_edit_dictionary = new Dictionary<int, ConferenceModel>();
 
-
-
-        #region Заголовок окна
+                #region Заголовок окна
         private string _TitleAddEditConferenceWindow = "asdasd";
 
         /// <summary>Заголовок окна</summary>
@@ -142,6 +140,17 @@ namespace conf_visualization.ViewModels
         //        RaisePropertyChanged("GetNameColumn");
         //    }
         //}
+
+
+
+        public IList<string> PeriodicTypesList
+        {
+            get { return arrElementsCombo; }
+        }
+        private readonly string[] arrElementsCombo =
+        {
+            "Еженедельно", "Ежемесячно", "Ежедневно"
+        };
 
         private ConferenceModel _ConferenceModel;
 

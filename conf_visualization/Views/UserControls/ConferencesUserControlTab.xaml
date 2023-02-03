@@ -6,7 +6,11 @@
              xmlns:local="clr-namespace:conf_visualization.Views.UserControls"
              xmlns:vm ="clr-namespace:conf_visualization.ViewModels"
              mc:Ignorable="d">
-    
+
+
+    <UserControl.Resources>
+        <CollectionViewSource x:Key="PeriodicTypeSource" Source="{Binding PeriodicTypesList}" />
+    </UserControl.Resources>
     <UserControl.DataContext>
         <vm:MainWindowViewModel/>
     </UserControl.DataContext>
@@ -106,10 +110,22 @@
                             </DataGridTemplateColumn.CellEditingTemplate>
                         </DataGridTemplateColumn>
 
-                        <DataGridTextColumn Width="100" Header="Тип" Binding="{Binding Path=PeriodicType}"/>
-                        <DataGridTextColumn Width="*" Header="Значение" Binding="{Binding Path=PeriodicValue}"/>
+                        <DataGridTemplateColumn Header="Тип" Width="Auto">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <ComboBox ItemsSource="{Binding Source={StaticResource PeriodicTypeSource}}" 
+                                      SelectedItem="{Binding Path=PeriodicType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                      IsSynchronizedWithCurrentItem="False"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>                
+                        
+                        
+                        <DataGridTextColumn Width="*" Header="Значение" Binding="{Binding Path=PeriodicValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                         <DataGridTextColumn Width="70" Header="Начало" Binding="{Binding Path=ConferenceStartTime, Mode=TwoWay,  UpdateSourceTrigger=LostFocus}"/>
                         <DataGridTextColumn Width="70" Header="Конец" Binding="{Binding Path=ConferenceStopTime, Mode=TwoWay,  UpdateSourceTrigger=LostFocus}"/>
+
+                        
                     </DataGrid.Columns>
                 </DataGrid>
 

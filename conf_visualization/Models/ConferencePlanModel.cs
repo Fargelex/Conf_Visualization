@@ -9,8 +9,6 @@ using System.Windows;
 
 namespace conf_visualization.Models
 {
-    public enum PeriodicTypeEnum{ weekly, monthly };
-
 
     internal class ConferencePlanModel
     {
@@ -23,39 +21,6 @@ namespace conf_visualization.Models
         private DateTime _conferenceStartTime = new DateTime(2022, 12, 30, 00, 00, 00);
         private DateTime _conferenceStopTime = new DateTime(2022, 12, 31, 00, 00, 00);
 
-        private PeriodicTypeEnum _periodicTypeEnum = PeriodicTypeEnum.weekly;
-
-
-        public string PeriodicType2
-        {
-            get 
-            {
-                switch (_periodicTypeEnum)
-                {
-                    case PeriodicTypeEnum.weekly:
-                        return "Еженедельно";
-                    case PeriodicTypeEnum.monthly:
-                        return "Ежемесячно";
-                    default:
-                        return "Еженедельно";
-                }
-          //      return _periodicType; 
-            }
-            set {
-                switch (value)
-                {
-                    case "Еженедельно":
-                        _periodicTypeEnum = PeriodicTypeEnum.weekly; 
-                        break;
-                    case "Ежемесячно":
-                        _periodicTypeEnum = PeriodicTypeEnum.monthly;
-                        break;
-                    default:
-                        break;
-                }
-            //    _periodicType = value; 
-            }
-        }
 
         public int ConferenceId 
         {
@@ -93,16 +58,9 @@ namespace conf_visualization.Models
         public string PeriodicType
         {
             get { return _periodicType; }
-            set
-            {
-                if (value == "" || value == null)
-                {
-                    _periodicType = "Еженедельно";
-                }
-                else
-                    _periodicType = value.Trim();
-            }
+            set { _periodicType = value; }
         }
+        
         public string PeriodicValue 
         { 
             get { return _periodicValue; }
