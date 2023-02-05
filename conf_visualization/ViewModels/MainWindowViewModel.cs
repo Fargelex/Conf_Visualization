@@ -8,6 +8,7 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -151,6 +152,23 @@ namespace conf_visualization.ViewModels
         {
             "Еженедельно", "Ежемесячно", "Ежедневно"
         };
+
+       
+        private readonly PeriodicWeeklyValuesClass[] arrCheckedDayOfWeek =
+        {
+            new PeriodicWeeklyValuesClass("Понедельник", "Пн"),
+            new PeriodicWeeklyValuesClass("Вторник", "Вт"),
+            new PeriodicWeeklyValuesClass("Среда", "Ср"),
+            new PeriodicWeeklyValuesClass("Четверг", "Чт"),
+            new PeriodicWeeklyValuesClass("Пятница", "Пт"),
+            new PeriodicWeeklyValuesClass("Суббота", "Сб"),
+            new PeriodicWeeklyValuesClass("Воскресение", "Вс"),
+        };
+
+        public IList<CheckBox> PeriodicTypesWeeklyList
+        {
+            get { return arrCheckedDayOfWeek; }
+        }
 
         private ConferenceModel _ConferenceModel;
 

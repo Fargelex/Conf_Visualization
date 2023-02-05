@@ -76,6 +76,7 @@
     <Compile Include="Infrastructure\Commands\LambdaCommand.cs" />
     <Compile Include="Models\ConferenceModel.cs" />
     <Compile Include="Models\ConferencePlanModel.cs" />
+    <Compile Include="Models\PeriodicWeeklyValuesClass.cs" />
     <Compile Include="ViewModels\Base\ViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="Views\UserControls\ConferencesUserControlTab.xaml.cs">

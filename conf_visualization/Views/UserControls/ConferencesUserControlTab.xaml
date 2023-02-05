@@ -10,6 +10,8 @@
 
     <UserControl.Resources>
         <CollectionViewSource x:Key="PeriodicTypeSource" Source="{Binding PeriodicTypesList}" />
+        <CollectionViewSource x:Key="PeriodicTypesWeeklySource" Source="{Binding PeriodicTypesWeeklyList}" />
+        
     </UserControl.Resources>
     <UserControl.DataContext>
         <vm:MainWindowViewModel/>
@@ -113,15 +115,33 @@
                         <DataGridTemplateColumn Header="Тип" Width="Auto">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
+                                    <TextBlock Text="{Binding Path=PeriodicType, Mode=TwoWay,  UpdateSourceTrigger=PropertyChanged}" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                            <DataGridTemplateColumn.CellEditingTemplate>
+                                <DataTemplate>
                                     <ComboBox ItemsSource="{Binding Source={StaticResource PeriodicTypeSource}}" 
                                       SelectedItem="{Binding Path=PeriodicType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                                       IsSynchronizedWithCurrentItem="False"/>
                                 </DataTemplate>
+                            </DataGridTemplateColumn.CellEditingTemplate>
+                        </DataGridTemplateColumn>
+
+
+                        <DataGridTemplateColumn Header="Значение" Width="*">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Path=PeriodicValue, UpdateSourceTrigger=PropertyChanged}" />
+                                </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>                
-                        
-                        
-                        <DataGridTextColumn Width="*" Header="Значение" Binding="{Binding Path=PeriodicValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            <DataGridTemplateColumn.CellEditingTemplate>
+                                <DataTemplate>
+                                    <ComboBox ItemsSource="{Binding Path=PeriodicTypesWeeklyListInModel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellEditingTemplate>
+                        </DataGridTemplateColumn>
+
+
                         <DataGridTextColumn Width="70" Header="Начало" Binding="{Binding Path=ConferenceStartTime, Mode=TwoWay,  UpdateSourceTrigger=LostFocus}"/>
                         <DataGridTextColumn Width="70" Header="Конец" Binding="{Binding Path=ConferenceStopTime, Mode=TwoWay,  UpdateSourceTrigger=LostFocus}"/>
 

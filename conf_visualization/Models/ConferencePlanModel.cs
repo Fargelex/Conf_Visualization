@@ -6,6 +6,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace conf_visualization.Models
 {
@@ -22,6 +23,40 @@ namespace conf_visualization.Models
         private DateTime _conferenceStopTime = new DateTime(2022, 12, 31, 00, 00, 00);
 
 
+        private PeriodicWeeklyValuesClass[] _arrCheckedDayOfWeek =
+       {
+            new PeriodicWeeklyValuesClass("Ежедневно", "Ежедневно"),
+          new PeriodicWeeklyValuesClass("Понедельник", "Пн"),
+            new PeriodicWeeklyValuesClass("Вторник", "Вт"),
+            new PeriodicWeeklyValuesClass("Среда", "Ср"),
+            new PeriodicWeeklyValuesClass("Четверг", "Чт"),
+            new PeriodicWeeklyValuesClass("Пятница", "Пт"),
+            new PeriodicWeeklyValuesClass("Суббота", "Сб"),
+            new PeriodicWeeklyValuesClass("Воскресение", "Вс"),
+        };
+
+
+        public IList<CheckBox> PeriodicTypesWeeklyListInModel
+        {
+            get { return _arrCheckedDayOfWeek; }
+            set { }
+        }
+        //public IList<CheckBox> PeriodicWeeklyValues
+        //{
+        //    get
+        //    {
+        //        _periodicValue = "";
+        //        for (int i = 0; i < _arrCheckedDayOfWeek.Length; i++)
+        //        {
+        //            if (_arrCheckedDayOfWeek[i].IsChecked == true)
+        //            {
+        //                _periodicValue += _arrCheckedDayOfWeek[i].Content + ", ";
+        //            }
+        //        }
+        //        return _arrCheckedDayOfWeek;
+        //    }
+        //    set { _arrCheckedDayOfWeek = value; }
+        //}
         public int ConferenceId 
         {
             get { return _conferenceId; }
@@ -63,10 +98,60 @@ namespace conf_visualization.Models
         
         public string PeriodicValue 
         { 
-            get { return _periodicValue; }
+            get {
+                _periodicValue = "";
+                for (int i = 0; i < _arrCheckedDayOfWeek.Length; i++)
+                {
+                    if (_arrCheckedDayOfWeek[i].IsChecked == true)
+                    { 
+                        _periodicValue += _arrCheckedDayOfWeek[i].ShortdayOfWeek + ", ";
+                    }
+                }
+                if (_periodicValue.Length > 2)
+                    _periodicValue = _periodicValue.Remove(_periodicValue.Length - 2, 2);
+                return _periodicValue;
+            }
             set
             {
-                _periodicValue = value.Trim();
+                string out_value = "";
+                if (value.Contains("Пн"))
+                {
+                    _arrCheckedDayOfWeek[1].IsChecked = true;
+                    out_value += "Пн, ";
+                }
+                if (value.Contains("Вт"))
+                {
+                    _arrCheckedDayOfWeek[2].IsChecked = true;
+                    out_value += "Вт, ";
+                }
+                if (value.Contains("Ср"))
+                {
+                    _arrCheckedDayOfWeek[3].IsChecked = true;
+                    out_value += "Ср, ";
+                }
+                if (value.Contains("Чт"))
+                {
+                    _arrCheckedDayOfWeek[4].IsChecked = true;
+                    out_value += "Чт, ";
+                }
+                if (value.Contains("Пт"))
+                {
+                    _arrCheckedDayOfWeek[5].IsChecked = true;
+                    out_value += "Пт, ";
+                }
+                if (value.Contains("Сб"))
+                {
+                    _arrCheckedDayOfWeek[6].IsChecked = true;
+                    out_value += "Сб, ";
+                }
+                if (value.Contains("Вс"))
+                {
+                    _arrCheckedDayOfWeek[7].IsChecked = true;
+                    out_value += "Вс, ";
+                }
+                if (out_value.Length > 2)
+                    out_value = out_value.Remove(out_value.Length - 2, 2);
+                _periodicValue = out_value;
             }
         }
         public string ConferenceStartTime 
