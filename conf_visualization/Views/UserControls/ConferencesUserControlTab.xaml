@@ -38,19 +38,19 @@
                     <Button DockPanel.Dock="Right"  x:Name="SearchButton"  Content="Поиск"  VerticalAlignment="Center" Width="82" Height="20"/>
                     <TextBox   MinWidth="300" Height="20"/>
                 </DockPanel>
-                <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <StackPanel x:Name="ConferencesSettingsButtonsStackPanel" Visibility="Collapsed" DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                         <Button x:Name="cancelEditConferencesSettingsButton" 
                                 Content="Отмена" IsEnabled="True"  HorizontalAlignment="Left"  VerticalAlignment="Top" Width="82" Height="25"
-                                Command="{Binding reloadFromDataBaseCommand}"/>
+                                Command="{Binding reloadFromDataBaseCommand}" Click="cancelEditConferencesSettingsButton_Click"/>
                         <Button x:Name="saveEditConferencesSettingsButton"
                                 Content="Сохранить" IsEnabled="True"  HorizontalAlignment="Left"  VerticalAlignment="Top" Width="82" Height="25"
-                                Command="{Binding AddNewConferenceToDataBase}" />
+                                Command="{Binding AddNewConferenceToDataBase}" Click="saveEditConferencesSettingsButton_Click" />
 
                     </StackPanel>
                 <DataGrid 
                       x:Name="ConferencesDataGrid" AlternatingRowBackground="LightGray"  AutoGenerateColumns="False" 
                       ItemsSource="{Binding Path=Conferences, Mode=TwoWay,  UpdateSourceTrigger=PropertyChanged}" 
-                      CurrentItem="{Binding CurretConference, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectionMode="Single">
+                      CurrentItem="{Binding CurretConference, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectionMode="Single" AddingNewItem="ConferencesDataGrid_AddingNewItem" BeginningEdit="ConferencesDataGrid_BeginningEdit" ManipulationCompleted="ConferencesDataGrid_ManipulationCompleted" LostKeyboardFocus="ConferencesDataGrid_LostKeyboardFocus" MouseLeave="ConferencesDataGrid_MouseLeave">
 
                     <DataGrid.ContextMenu>
                         <ContextMenu>
