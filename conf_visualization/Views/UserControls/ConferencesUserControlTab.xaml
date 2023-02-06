@@ -10,7 +10,6 @@
 
     <UserControl.Resources>
         <CollectionViewSource x:Key="PeriodicTypeSource" Source="{Binding PeriodicTypesList}" />
-        <CollectionViewSource x:Key="PeriodicTypesWeeklySource" Source="{Binding PeriodicTypesWeeklyList}" />
         
     </UserControl.Resources>
     <UserControl.DataContext>

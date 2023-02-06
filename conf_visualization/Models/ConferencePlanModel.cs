@@ -23,20 +23,32 @@ namespace conf_visualization.Models
         private DateTime _conferenceStopTime = new DateTime(2022, 12, 31, 00, 00, 00);
 
 
-        private PeriodicWeeklyValuesClass[] _arrCheckedDayOfWeek =
-       {
+        // private PeriodicWeeklyValuesClass[] _arrCheckedDayOfWeek =
+        //{
+        //     new PeriodicWeeklyValuesClass("Ежедневно", "Ежедневно"),
+        //   new PeriodicWeeklyValuesClass("Понедельник", "Пн"),
+        //     new PeriodicWeeklyValuesClass("Вторник", "Вт"),
+        //     new PeriodicWeeklyValuesClass("Среда", "Ср"),
+        //     new PeriodicWeeklyValuesClass("Четверг", "Чт"),
+        //     new PeriodicWeeklyValuesClass("Пятница", "Пт"),
+        //     new PeriodicWeeklyValuesClass("Суббота", "Сб"),
+        //     new PeriodicWeeklyValuesClass("Воскресение", "Вс"),
+        // };
+
+
+        private List<PeriodicWeeklyValuesClass> _arrCheckedDayOfWeek = new List<PeriodicWeeklyValuesClass>()
+        {
             new PeriodicWeeklyValuesClass("Ежедневно", "Ежедневно"),
-          new PeriodicWeeklyValuesClass("Понедельник", "Пн"),
+            new PeriodicWeeklyValuesClass("Понедельник", "Пн"),
             new PeriodicWeeklyValuesClass("Вторник", "Вт"),
             new PeriodicWeeklyValuesClass("Среда", "Ср"),
             new PeriodicWeeklyValuesClass("Четверг", "Чт"),
             new PeriodicWeeklyValuesClass("Пятница", "Пт"),
             new PeriodicWeeklyValuesClass("Суббота", "Сб"),
-            new PeriodicWeeklyValuesClass("Воскресение", "Вс"),
+            new PeriodicWeeklyValuesClass("Воскресение", "Вс")
         };
 
-
-        public IList<CheckBox> PeriodicTypesWeeklyListInModel
+        public IList<PeriodicWeeklyValuesClass> PeriodicTypesWeeklyListInModel
         {
             get { return _arrCheckedDayOfWeek; }
             set { }
@@ -100,7 +112,7 @@ namespace conf_visualization.Models
         { 
             get {
                 _periodicValue = "";
-                for (int i = 0; i < _arrCheckedDayOfWeek.Length; i++)
+                for (int i = 0; i < _arrCheckedDayOfWeek.Count; i++)
                 {
                     if (_arrCheckedDayOfWeek[i].IsChecked == true)
                     { 

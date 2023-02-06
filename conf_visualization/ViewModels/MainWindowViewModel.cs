@@ -154,22 +154,6 @@ namespace conf_visualization.ViewModels
         };
 
        
-        private readonly PeriodicWeeklyValuesClass[] arrCheckedDayOfWeek =
-        {
-            new PeriodicWeeklyValuesClass("Понедельник", "Пн"),
-            new PeriodicWeeklyValuesClass("Вторник", "Вт"),
-            new PeriodicWeeklyValuesClass("Среда", "Ср"),
-            new PeriodicWeeklyValuesClass("Четверг", "Чт"),
-            new PeriodicWeeklyValuesClass("Пятница", "Пт"),
-            new PeriodicWeeklyValuesClass("Суббота", "Сб"),
-            new PeriodicWeeklyValuesClass("Воскресение", "Вс"),
-        };
-
-        public IList<CheckBox> PeriodicTypesWeeklyList
-        {
-            get { return arrCheckedDayOfWeek; }
-        }
-
         private ConferenceModel _ConferenceModel;
 
         public ConferenceModel CurretConference

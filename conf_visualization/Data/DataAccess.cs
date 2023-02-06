@@ -81,9 +81,6 @@ namespace conf_visualization.Data
                         outputConferencePlan.ConferenceEndPeriod = read.GetValue(read.GetOrdinal("ConferenceEndPeriod")).ToString();
                         outputConferencePlan.ConferenceStartTime = read.GetValue(read.GetOrdinal("ConferenceStartTime")).ToString();
                         outputConferencePlan.ConferenceStopTime = read.GetValue(read.GetOrdinal("ConferenceStopTime")).ToString();
-
-
-
                         ConferencePlanSeriesList.Add(outputConferencePlan);
                     }
                     Connect.Close(); // закрыть соединение
