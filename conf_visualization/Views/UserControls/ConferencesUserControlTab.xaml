@@ -41,16 +41,16 @@
                 <StackPanel x:Name="ConferencesSettingsButtonsStackPanel" Visibility="Collapsed" DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                         <Button x:Name="cancelEditConferencesSettingsButton" 
                                 Content="Отмена" IsEnabled="True"  HorizontalAlignment="Left"  VerticalAlignment="Top" Width="82" Height="25"
-                                Command="{Binding reloadFromDataBaseCommand}" Click="cancelEditConferencesSettingsButton_Click"/>
+                                Command="{Binding reloadFromDataBaseCommand}"/>
                         <Button x:Name="saveEditConferencesSettingsButton"
                                 Content="Сохранить" IsEnabled="True"  HorizontalAlignment="Left"  VerticalAlignment="Top" Width="82" Height="25"
-                                Command="{Binding AddNewConferenceToDataBase}" Click="saveEditConferencesSettingsButton_Click" />
+                                Command="{Binding SendEditConferenceToDataBaseCommand}"/>
 
                     </StackPanel>
                 <DataGrid 
                       x:Name="ConferencesDataGrid" AlternatingRowBackground="LightGray"  AutoGenerateColumns="False" 
                       ItemsSource="{Binding Path=Conferences, Mode=TwoWay,  UpdateSourceTrigger=PropertyChanged}" 
-                      CurrentItem="{Binding CurretConference, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectionMode="Single" ManipulationCompleted="ConferencesDataGrid_ManipulationCompleted" LostKeyboardFocus="ConferencesDataGrid_LostKeyboardFocus" MouseLeave="ConferencesDataGrid_MouseLeave" RowEditEnding="ConferencesDataGrid_RowEditEnding">
+                      CurrentItem="{Binding CurretConference, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectionMode="Single" RowEditEnding="ConferencesDataGrid_RowEditEnding">
 
                     <DataGrid.ContextMenu>
                         <ContextMenu>

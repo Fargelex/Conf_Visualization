@@ -26,44 +26,11 @@ namespace conf_visualization.Views.UserControls
             InitializeComponent();
         }
 
-        private void ConferencesDataGrid_AddingNewItem(object sender, AddingNewItemEventArgs e)
-        {
-        }
-        private void ConferencesDataGrid_BeginningEdit(object sender, DataGridBeginningEditEventArgs e)
-        {
-        }
-
-        private void saveEditConferencesSettingsButton_Click(object sender, RoutedEventArgs e)
-        {
-        }
-
-        private void cancelEditConferencesSettingsButton_Click(object sender, RoutedEventArgs e)
-        {
-        }
-        
-
-        private void ConferencesDataGrid_LostFocus(object sender, RoutedEventArgs e)
-        {
-                      
-        }
-
-        private void ConferencesDataGrid_ManipulationCompleted(object sender, ManipulationCompletedEventArgs e)
-        {
-        }
-
-        private void ConferencesDataGrid_LostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
-        {
-           
-        }
-
-        private void ConferencesDataGrid_MouseLeave(object sender, MouseEventArgs e)
-        {
-           
-        }
-
         private void ConferencesDataGrid_RowEditEnding(object sender, DataGridRowEditEndingEventArgs e)
         {
-            MessageBox.Show("ConferencesDataGrid_RowEditEnding");
+            saveEditConferencesSettingsButton.Command.Execute(e.Row.Item);
+          //  MessageBox.Show("ConferencesDataGrid_RowEditEnding");
         }
+
     }
 }

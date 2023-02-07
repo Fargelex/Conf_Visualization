@@ -80,6 +80,36 @@ namespace conf_visualization.ViewModels
         }
         #endregion
 
+
+        #region SendEditConferenceToDataBaseCommand
+        public ICommand SendEditConferenceToDataBaseCommand { get; }
+
+        private bool CanSendEditConferenceToDataBaseCommandExecute(object parameter) => true;
+
+        private void OnSendEditConferenceToDataBaseCommandExecuted(object parameter)
+        {
+
+            var svc = new DataAccess();
+
+            string sqlCommand = "";
+            if (((ConferenceModel)parameter).NewValue)
+            {
+                ((ConferenceModel)parameter).NewValue = false;
+                sqlCommand = String.Format("INSERT INTO ConferenceTable (ConferenceId, ConferenceName, ParticipantsCount, ConferenceDuration, IsAcive) VALUES ( {0},'{1}',{2},{3},'{4}' );", ((ConferenceModel)parameter).ConferenceId, ((ConferenceModel)parameter).ConferenceName, ((ConferenceModel)parameter).ParticipantsCount, ((ConferenceModel)parameter).ConferenceDuration, ((ConferenceModel)parameter).IsAcive.ToString());
+            }
+            else
+                sqlCommand = String.Format("UPDATE ConferenceTable SET ConferenceName = '{0}', ParticipantsCount = {1}, ConferenceDuration = {2} WHERE ConferenceId = {3};", ((ConferenceModel)parameter).ConferenceName, ((ConferenceModel)parameter).ParticipantsCount, ((ConferenceModel)parameter).ConferenceDuration, ((ConferenceModel)parameter).ConferenceId);
+
+            //если отправка в БД завершилась с ошибкой то обновлеям DataGrid данными из БД
+            // т.к. изменения в DataGrid останутся
+            if (svc.sendUpdateToDataBase(sqlCommand))
+            {
+                GetConferencesToDataGrid();
+            }   //     Application.Current.Shutdown();
+        }
+        #endregion
+
+
         #region AddNewConferenceToDataBase
         public ICommand AddNewConferenceToDataBase { get; }
 
@@ -109,7 +139,7 @@ namespace conf_visualization.ViewModels
             if (conferenceItemChangedValueLlist.Count>0)
             {
                 var svc = new DataAccess();
-                svc.sendUpdateToDataBase(conferenceItemChangedValueLlist);
+             //   svc.sendUpdateToDataBase(conferenceItemChangedValueLlist);
             }
             
 
@@ -187,6 +217,20 @@ namespace conf_visualization.ViewModels
         }
 
 
+        public void GetConferencesToDataGrid()
+        {
+            Conferences.CollectionChanged -= Conferences_CollectionChanged;
+            Conferences.Clear();
+            this.Conferences_before_edit_dictionary.Clear();
+            var svc = new DataAccess();
+            foreach (var conf in svc.GetConferences())
+            {
+                conf.ChangedValue = false;
+                this.Conferences.Add(conf);
+        //        this.Conferences_before_edit_dictionary.Add(conf.ConferenceId, conf);
+            }
+            Conferences.CollectionChanged += Conferences_CollectionChanged;
+        }
 
         public MainWindowViewModel()
         {
@@ -194,16 +238,10 @@ namespace conf_visualization.ViewModels
             CloseApplicationCommand = new LambdaCommand(OnCloseApplicationCommandExecuted, CanCloseApplicationCommandExecute);
             AddNewConferenceToDataBase = new LambdaCommand(OnAddNewConferenceToDataBaseExecuted, CanAddNewConferenceToDataBaseExecute);
             reloadFromDataBaseCommand = new LambdaCommand(OnReloadFromDataBaseCommandExecuted, CanReloadFromDataBaseCommandExecute);
+            SendEditConferenceToDataBaseCommand = new LambdaCommand(OnSendEditConferenceToDataBaseCommandExecuted, CanSendEditConferenceToDataBaseCommandExecute);
             #endregion
+            GetConferencesToDataGrid();
 
-            var svc = new DataAccess();
-            foreach (var conf in svc.GetConferences())
-            {
-                conf.ChangedValue = false;
-                this.Conferences.Add(conf);
-                this.Conferences_before_edit_dictionary.Add(conf.ConferenceId, conf);
-            }
-            Conferences.CollectionChanged += Conferences_CollectionChanged;
 
 
 

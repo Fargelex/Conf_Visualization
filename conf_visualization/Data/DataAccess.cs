@@ -91,21 +91,33 @@ namespace conf_visualization.Data
 
 
 
-            public void sendUpdateToDataBase(List<string> sqlComandsList)
-        {                
-
-            using (SQLiteConnection Connect = new SQLiteConnection(@"Data Source="+ DataBaseName + "; Version=3;"))
+        public bool sendUpdateToDataBase(string sqlComand)
+        {
+            bool error = false;
+            using (SQLiteConnection Connect = new SQLiteConnection(@"Data Source=" + DataBaseName + "; Version=3;"))
             {
                 Connect.Open();
-
-                foreach (string sqlcomand in sqlComandsList)
+                SQLiteCommand Insert_Command = new SQLiteCommand(sqlComand, Connect);
+                try
                 {
-                    SQLiteCommand Insert_Command = new SQLiteCommand(sqlcomand, Connect);
                     Insert_Command.ExecuteNonQuery();
-                }              
+                }
+                catch (Exception e)
+                {
+                    if (e.Message.ToString().Contains("UNIQUE constraint failed: ConferenceTable.ConferenceId"))
+                    {
+                        MessageBox.Show("Селектор с таким ID уже существует", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                    error = true;
+
+                    throw;
+                }
+                
                 Connect.Close();
+                return error;
             }
         }
+
 
         // Заполнение DataGrid случайными данными
 
@@ -119,7 +131,7 @@ namespace conf_visualization.Data
         //    }
         //    return output;
         //}
-         //private ConferenceModel GetConference(int id)
+        //private ConferenceModel GetConference(int id)
         //{
         //    ConferenceModel output = new ConferenceModel();
 
@@ -133,6 +145,6 @@ namespace conf_visualization.Data
         //}
 
 
-        
+
     }
 }
