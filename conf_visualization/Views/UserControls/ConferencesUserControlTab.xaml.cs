@@ -21,7 +21,6 @@ namespace conf_visualization.Views.UserControls
     /// </summary>
     public partial class ConferencesUserControlTab : UserControl
     {
-        bool GridEdited = false;
         public ConferencesUserControlTab()
         {
             InitializeComponent();
@@ -29,23 +28,17 @@ namespace conf_visualization.Views.UserControls
 
         private void ConferencesDataGrid_AddingNewItem(object sender, AddingNewItemEventArgs e)
         {
-            GridEdited = true;
-            ConferencesSettingsButtonsStackPanel.Visibility = Visibility.Visible;
         }
         private void ConferencesDataGrid_BeginningEdit(object sender, DataGridBeginningEditEventArgs e)
         {
-            GridEdited = true;
-            ConferencesSettingsButtonsStackPanel.Visibility = Visibility.Visible;
         }
 
         private void saveEditConferencesSettingsButton_Click(object sender, RoutedEventArgs e)
         {
-            ConferencesSettingsButtonsStackPanel.Visibility = Visibility.Collapsed;
         }
 
         private void cancelEditConferencesSettingsButton_Click(object sender, RoutedEventArgs e)
         {
-            ConferencesSettingsButtonsStackPanel.Visibility = Visibility.Collapsed;
         }
         
 
@@ -56,7 +49,6 @@ namespace conf_visualization.Views.UserControls
 
         private void ConferencesDataGrid_ManipulationCompleted(object sender, ManipulationCompletedEventArgs e)
         {
-            MessageBox.Show("В таблице селекторов были изменения", "ConferencesDataGrid_ManipulationCompleted");
         }
 
         private void ConferencesDataGrid_LostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
@@ -66,10 +58,12 @@ namespace conf_visualization.Views.UserControls
 
         private void ConferencesDataGrid_MouseLeave(object sender, MouseEventArgs e)
         {
-            if (GridEdited)
-            {
-                MessageBox.Show("В таблице селекторов были изменения", "Сохранить изменения?");
-            }
+           
+        }
+
+        private void ConferencesDataGrid_RowEditEnding(object sender, DataGridRowEditEndingEventArgs e)
+        {
+            MessageBox.Show("ConferencesDataGrid_RowEditEnding");
         }
     }
 }

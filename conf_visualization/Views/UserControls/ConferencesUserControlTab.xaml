@@ -50,7 +50,7 @@
                 <DataGrid 
                       x:Name="ConferencesDataGrid" AlternatingRowBackground="LightGray"  AutoGenerateColumns="False" 
                       ItemsSource="{Binding Path=Conferences, Mode=TwoWay,  UpdateSourceTrigger=PropertyChanged}" 
-                      CurrentItem="{Binding CurretConference, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectionMode="Single" AddingNewItem="ConferencesDataGrid_AddingNewItem" BeginningEdit="ConferencesDataGrid_BeginningEdit" ManipulationCompleted="ConferencesDataGrid_ManipulationCompleted" LostKeyboardFocus="ConferencesDataGrid_LostKeyboardFocus" MouseLeave="ConferencesDataGrid_MouseLeave">
+                      CurrentItem="{Binding CurretConference, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectionMode="Single" ManipulationCompleted="ConferencesDataGrid_ManipulationCompleted" LostKeyboardFocus="ConferencesDataGrid_LostKeyboardFocus" MouseLeave="ConferencesDataGrid_MouseLeave" RowEditEnding="ConferencesDataGrid_RowEditEnding">
 
                     <DataGrid.ContextMenu>
                         <ContextMenu>
