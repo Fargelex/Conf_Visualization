@@ -48,13 +48,13 @@
 
                     </StackPanel>
                 <DataGrid 
-                      x:Name="ConferencesDataGrid" AlternatingRowBackground="LightGray"  AutoGenerateColumns="False" 
+                      x:Name="ConferencesDataGrid" CanUserAddRows="True" AlternatingRowBackground="LightGray"  AutoGenerateColumns="False" 
                       ItemsSource="{Binding Path=Conferences, Mode=TwoWay,  UpdateSourceTrigger=PropertyChanged}" 
-                      CurrentItem="{Binding CurretConference, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectionMode="Single" RowEditEnding="ConferencesDataGrid_RowEditEnding">
+                      CurrentItem="{Binding CurretConference, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectionMode="Single" RowEditEnding="ConferencesDataGrid_RowEditEnding" CellEditEnding="ConferencesDataGrid_CellEditEnding">
 
                     <DataGrid.ContextMenu>
                         <ContextMenu>
-                            <MenuItem Header="Обновить"/>
+                            <MenuItem x:Name="refreshContextMenuItem" Header="Обновить" Click="refreshContextMenuItem_Click" Command="{Binding reloadFromDataBaseCommand}"/>
                             <Separator />
                             <MenuItem Header="Добавить запись" Command="{Binding AddNewConferenceToDataBase}"/>
                             <MenuItem x:Name="editCOnferenceSettings" Header="Редактировать запись"/>

@@ -28,9 +28,19 @@ namespace conf_visualization.Views.UserControls
 
         private void ConferencesDataGrid_RowEditEnding(object sender, DataGridRowEditEndingEventArgs e)
         {
-            saveEditConferencesSettingsButton.Command.Execute(e.Row.Item);
+         //   saveEditConferencesSettingsButton.Command.Execute(e.Row.Item);
           //  MessageBox.Show("ConferencesDataGrid_RowEditEnding");
         }
 
+        private void ConferencesDataGrid_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
+        {
+            saveEditConferencesSettingsButton.Command.Execute(e.Row.Item);
+        }
+
+        private void refreshContextMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            refreshContextMenuItem.Command.Execute(sender);
+            ConferencesDataGrid.SelectedIndex = ConferencesDataGrid.Items.Count - 1;
+        }
     }
 }

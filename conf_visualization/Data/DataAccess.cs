@@ -45,6 +45,7 @@ namespace conf_visualization.Data
                     {
                         ConferenceModel outputConference = new ConferenceModel();
 
+                        outputConference.ID = Convert.ToInt32(read.GetValue(read.GetOrdinal("id")));
                         outputConference.ConferenceId = Convert.ToInt32(read.GetValue(read.GetOrdinal("ConferenceId")));
                         outputConference.ConferenceName = read.GetValue(read.GetOrdinal("ConferenceName")).ToString();
                         outputConference.ConferenceDuration = Convert.ToInt32(read.GetValue(read.GetOrdinal("ConferenceDuration")));
@@ -93,7 +94,7 @@ namespace conf_visualization.Data
 
         public bool sendUpdateToDataBase(string sqlComand)
         {
-            bool error = false;
+            bool success = true;
             using (SQLiteConnection Connect = new SQLiteConnection(@"Data Source=" + DataBaseName + "; Version=3;"))
             {
                 Connect.Open();
@@ -108,13 +109,13 @@ namespace conf_visualization.Data
                     {
                         MessageBox.Show("Селектор с таким ID уже существует", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
-                    error = true;
+                    success = false;
 
-                    throw;
+            //        throw;
                 }
                 
                 Connect.Close();
-                return error;
+                return success;
             }
         }
 

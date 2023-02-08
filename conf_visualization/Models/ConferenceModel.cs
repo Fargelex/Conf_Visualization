@@ -8,6 +8,7 @@ namespace conf_visualization.Models
 {
     internal class ConferenceModel
     {
+        private int _id;
         private int _conferenceId;
         private string _conferenceName = "новый";
         private int _participantsCount = 3;
@@ -25,6 +26,12 @@ namespace conf_visualization.Models
                 if (_conferenceId != value) { _changedValue = true; }
                 _conferenceId = value;
             }
+        }
+
+        public int ID
+        {
+            get { return _id; }
+            set { _id = value; }
         }
         public string ConferenceName
         {
