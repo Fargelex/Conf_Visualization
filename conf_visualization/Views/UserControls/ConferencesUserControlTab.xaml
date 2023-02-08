@@ -48,9 +48,21 @@
 
                     </StackPanel>
                 <DataGrid 
-                      x:Name="ConferencesDataGrid" CanUserAddRows="True" AlternatingRowBackground="LightGray"  AutoGenerateColumns="False" 
+                      x:Name="ConferencesDataGrid" CanUserAddRows="True"   AutoGenerateColumns="False" 
                       ItemsSource="{Binding Path=Conferences, Mode=TwoWay,  UpdateSourceTrigger=PropertyChanged}" 
                       CurrentItem="{Binding CurretConference, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectionMode="Single" RowEditEnding="ConferencesDataGrid_RowEditEnding" CellEditEnding="ConferencesDataGrid_CellEditEnding">
+
+                    <DataGrid.RowStyle>
+                        <Style TargetType="DataGridRow">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding hasError,  UpdateSourceTrigger=PropertyChanged}" Value="true">
+                                    <Setter Property="Background" Value="Red"></Setter>
+                                </DataTrigger>
+                                
+                            </Style.Triggers>
+                        </Style>
+                    </DataGrid.RowStyle>
+
 
                     <DataGrid.ContextMenu>
                         <ContextMenu>

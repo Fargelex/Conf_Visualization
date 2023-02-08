@@ -94,27 +94,36 @@ namespace conf_visualization.ViewModels
             {
                 string sqlCommand = "";
                 if (((ConferenceModel)parameter).NewValue)
-                {
-                    
+                {                    
                     sqlCommand = String.Format("INSERT INTO ConferenceTable (ConferenceId, ConferenceName, ParticipantsCount, ConferenceDuration, IsAcive) VALUES ( {0},'{1}',{2},{3},'{4}' );", ((ConferenceModel)parameter).ConferenceId, ((ConferenceModel)parameter).ConferenceName, ((ConferenceModel)parameter).ParticipantsCount, ((ConferenceModel)parameter).ConferenceDuration, ((ConferenceModel)parameter).IsAcive.ToString());
                     if (!svc.sendUpdateToDataBase(sqlCommand)) // если не удалось выполнить запрос к БД
                     {
-
-                   //     MessageBox.Show(Conferences.Last().ConferenceId+" "+ Conferences.Last().ConferenceName);
-                   //     Conferences.Remove(Conferences[10]);
-                     //   GetConferencesToDataGrid();
+                        ((ConferenceModel)parameter).hasError = true;
+                        //     MessageBox.Show(Conferences.Last().ConferenceId+" "+ Conferences.Last().ConferenceName);
+                        //     Conferences.Remove(Conferences[10]);
+                        //   GetConferencesToDataGrid();
                     }
-                    else ((ConferenceModel)parameter).NewValue = false;
+                    else
+                    {
+                        ((ConferenceModel)parameter).NewValue = false;
+                        ((ConferenceModel)parameter).hasError = false;
+                        //при добавлении новой записи в DataGrid по умолчанию уникальный ID = 0, 
+                        //он присваивается в базе данных при добавлении новой записи, делаем запрос в БД для получения этого нового значения из БД
+                        ((ConferenceModel)parameter).ID = svc.getConferencetableID(((ConferenceModel)parameter).ConferenceId);
+                    }
                 }
                 else
                 {
-                    sqlCommand = String.Format("UPDATE ConferenceTable SET ConferenceId = {0}, ConferenceName = '{1}', ParticipantsCount = {2}, ConferenceDuration = {3} WHERE id = {4};", ((ConferenceModel)parameter).ConferenceId, ((ConferenceModel)parameter).ConferenceName, ((ConferenceModel)parameter).ParticipantsCount, ((ConferenceModel)parameter).ConferenceDuration, ((ConferenceModel)parameter).ID);
+                    sqlCommand = String.Format("UPDATE ConferenceTable SET ConferenceId = {0}, ConferenceName = '{1}', ParticipantsCount = {2}, ConferenceDuration = {3}, IsAcive = '{4}' WHERE id = {5};", ((ConferenceModel)parameter).ConferenceId, ((ConferenceModel)parameter).ConferenceName, ((ConferenceModel)parameter).ParticipantsCount, ((ConferenceModel)parameter).ConferenceDuration, ((ConferenceModel)parameter).IsAcive.ToString(), ((ConferenceModel)parameter).ID);
                     if (!svc.sendUpdateToDataBase(sqlCommand))
                     {
                         GetConferencesToDataGrid();
                     }
                     else
+                    {
+                        ((ConferenceModel)parameter).hasError = false;
                         ((ConferenceModel)parameter).ChangedValue = false;
+                    }
                 }
                 //если отправка в БД завершилась с ошибкой то обновлеям DataGrid данными из БД
                 // т.к. изменения в DataGrid останутся

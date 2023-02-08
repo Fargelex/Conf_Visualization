@@ -92,6 +92,7 @@ namespace conf_visualization.Models
         public bool hasError
         {
             get { return _hasError; }
+            set { _hasError = value; }
         }
 
 

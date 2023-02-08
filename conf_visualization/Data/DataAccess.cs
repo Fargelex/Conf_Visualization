@@ -70,11 +70,10 @@ namespace conf_visualization.Data
 
                 SQLiteCommand comm = new SQLiteCommand("Select * From ConferencePlanTable WHERE ConferenceId="+ ConferenceId.ToString(), Connect);
                 using (SQLiteDataReader read = comm.ExecuteReader())
-                {
+                {                    
                     while (read.Read())
                     {
                         ConferencePlanModel outputConferencePlan = new ConferencePlanModel();
-
                         outputConferencePlan.ConferenceId = Convert.ToInt32(read.GetValue(read.GetOrdinal("ConferenceId")));
                         outputConferencePlan.PeriodicType = read.GetValue(read.GetOrdinal("PeriodicType")).ToString();
                         outputConferencePlan.PeriodicValue= read.GetValue(read.GetOrdinal("PeriodicValue")).ToString();
@@ -83,9 +82,9 @@ namespace conf_visualization.Data
                         outputConferencePlan.ConferenceStartTime = read.GetValue(read.GetOrdinal("ConferenceStartTime")).ToString();
                         outputConferencePlan.ConferenceStopTime = read.GetValue(read.GetOrdinal("ConferenceStopTime")).ToString();
                         ConferencePlanSeriesList.Add(outputConferencePlan);
-                    }
-                    Connect.Close(); // закрыть соединение
+                    }                    
                 }
+                Connect.Close(); // закрыть соединение
                 return ConferencePlanSeriesList;
             }
         }
@@ -116,6 +115,27 @@ namespace conf_visualization.Data
                 
                 Connect.Close();
                 return success;
+            }
+        }
+
+        public int getConferencetableID(int ConferenceId)
+        {
+            int confRowID = 0;
+            using (SQLiteConnection Connect = new SQLiteConnection(@"Data Source=database.db; Version=3;"))
+            {
+                Connect.Open();
+
+                SQLiteCommand comm = new SQLiteCommand("Select id From ConferenceTable WHERE ConferenceId=" + ConferenceId.ToString(), Connect);
+                using (SQLiteDataReader read = comm.ExecuteReader())
+                {
+                    while (read.Read())
+                    {
+                        confRowID = Convert.ToInt32(read.GetValue(read.GetOrdinal("id")));
+                    }                    
+                }
+
+                Connect.Close(); // закрыть соединение
+                return confRowID;
             }
         }
 

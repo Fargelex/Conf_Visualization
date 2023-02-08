@@ -26,10 +26,10 @@
 
         <StatusBar DockPanel.Dock="Bottom">
             <StatusBarItem>
-                <TextBlock Text="StatusBarItem"></TextBlock>                
+                <TextBlock Text="{Binding Path=CurretConference.ConferenceName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBlock>                
             </StatusBarItem>
             <StatusBarItem>
-                <TextBox Width="100" Text="{Binding TitleAddEditConferenceWindow, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                <TextBox Width="100" Text="{Binding CurretConference.ConferenceName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             </StatusBarItem>
         </StatusBar>
         <TabControl>
