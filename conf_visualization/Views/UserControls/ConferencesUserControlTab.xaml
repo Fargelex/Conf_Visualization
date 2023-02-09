@@ -79,8 +79,8 @@
                         <DataGridTemplateColumn Width="50" Header="ID">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <Border Name="ConferenceIdBorder" BorderThickness="1" BorderBrush="{Binding Path=}">
-                                        <TextBox Text="{Binding ConferenceId}" />
+                                    <Border Name="ConferenceIdBorder" BorderThickness="2" BorderBrush="{Binding Path=ConferenceIdColorBrush}">
+                                        <TextBox ToolTip="Проверка подсказки" Text="{Binding ConferenceId}"/>
                                     </Border>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
