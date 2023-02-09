@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace conf_visualization.ViewModels
 {
@@ -98,7 +99,8 @@ namespace conf_visualization.ViewModels
                     sqlCommand = String.Format("INSERT INTO ConferenceTable (ConferenceId, ConferenceName, ParticipantsCount, ConferenceDuration, IsAcive) VALUES ( {0},'{1}',{2},{3},'{4}' );", ((ConferenceModel)parameter).ConferenceId, ((ConferenceModel)parameter).ConferenceName, ((ConferenceModel)parameter).ParticipantsCount, ((ConferenceModel)parameter).ConferenceDuration, ((ConferenceModel)parameter).IsAcive.ToString());
                     if (!svc.sendUpdateToDataBase(sqlCommand)) // если не удалось выполнить запрос к БД
                     {
-                        ((ConferenceModel)parameter).hasError = true;
+                        borderColorBrush = Brushes.Red;
+                        ((ConferenceModel)parameter).ConferenceName = "не удалось выполнить запрос к БД";
                         //     MessageBox.Show(Conferences.Last().ConferenceId+" "+ Conferences.Last().ConferenceName);
                         //     Conferences.Remove(Conferences[10]);
                         //   GetConferencesToDataGrid();
@@ -208,7 +210,6 @@ namespace conf_visualization.ViewModels
 
        
         private ConferenceModel _ConferenceModel;
-
         public ConferenceModel CurretConference
         {
             get { return _ConferenceModel; }
@@ -222,6 +223,30 @@ namespace conf_visualization.ViewModels
                 }                
             }
         }
+
+        private ConferenceModel _editedConferenceModel;
+        public ConferenceModel EditedConferenceModel
+        {
+            get { return _editedConferenceModel; }
+            set
+            {
+                if (value != null)
+                {
+                    Set(ref _editedConferenceModel, value);
+                }
+            }
+        }
+
+
+        public SolidColorBrush borderColorBrush
+        {
+            get { return _ConferenceModel._colorBrush; }
+            set
+            {
+                Set(ref _ConferenceModel._colorBrush, value);
+            }
+        }
+            
 
         private void dosmth(int confID)
         {

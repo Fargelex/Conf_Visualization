@@ -21,8 +21,10 @@ namespace conf_visualization.Data
 
         bool[] isAcive = new bool[] { true, false };
 
+        SQLiteConnection connectToDataBase = new SQLiteConnection(@"Data Source=database.db; Version=3;");
+
    //     DateTime lowEndDate = new DateTime(1943, 1, 1);
-     //   int daysFromLowDate;
+   //   int daysFromLowDate;
 
         public DataAccess()
         {
@@ -34,17 +36,14 @@ namespace conf_visualization.Data
         {
             List<ConferenceModel> ConferenceList = new List<ConferenceModel>();
 
-            using (SQLiteConnection Connect = new SQLiteConnection(@"Data Source=database.db; Version=3;"))
-            {
-                Connect.Open();
+            connectToDataBase.Open();
 
-                SQLiteCommand comm = new SQLiteCommand("Select * From ConferenceTable", Connect);
+                SQLiteCommand comm = new SQLiteCommand("Select * From ConferenceTable", connectToDataBase);
                 using (SQLiteDataReader read = comm.ExecuteReader())
                 {
                     while (read.Read())
                     {
                         ConferenceModel outputConference = new ConferenceModel();
-
                         outputConference.ID = Convert.ToInt32(read.GetValue(read.GetOrdinal("id")));
                         outputConference.ConferenceId = Convert.ToInt32(read.GetValue(read.GetOrdinal("ConferenceId")));
                         outputConference.ConferenceName = read.GetValue(read.GetOrdinal("ConferenceName")).ToString();
@@ -53,10 +52,10 @@ namespace conf_visualization.Data
                         outputConference.IsAcive = Convert.ToBoolean(read.GetValue(read.GetOrdinal("IsAcive")));
                         ConferenceList.Add(outputConference);
                     }
-                    Connect.Close(); // закрыть соединение
+                connectToDataBase.Close(); // закрыть соединение
                 }
                 return ConferenceList;
-            }
+            
         }
 
 

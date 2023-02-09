@@ -36,7 +36,7 @@
             <DockPanel Grid.Row="0">
                 <DockPanel  DockPanel.Dock="Top">
                     <Button DockPanel.Dock="Right"  x:Name="SearchButton"  Content="Поиск"  VerticalAlignment="Center" Width="82" Height="20"/>
-                    <TextBox   MinWidth="300" Height="20"/>
+                    <TextBox Text="{Binding Path=ed}"   MinWidth="300" Height="20"/>
                 </DockPanel>
                 <StackPanel x:Name="ConferencesSettingsButtonsStackPanel" Visibility="Collapsed" DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                         <Button x:Name="cancelEditConferencesSettingsButton" 
@@ -50,18 +50,20 @@
                 <DataGrid 
                       x:Name="ConferencesDataGrid" CanUserAddRows="True"   AutoGenerateColumns="False" 
                       ItemsSource="{Binding Path=Conferences, Mode=TwoWay,  UpdateSourceTrigger=PropertyChanged}" 
-                      CurrentItem="{Binding CurretConference, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectionMode="Single" RowEditEnding="ConferencesDataGrid_RowEditEnding" CellEditEnding="ConferencesDataGrid_CellEditEnding">
+                      CurrentItem="{Binding CurretConference, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                    CanUserDeleteRows="False" GridLinesVisibility="None"
+                    SelectionMode="Single" RowEditEnding="ConferencesDataGrid_RowEditEnding" CellEditEnding="ConferencesDataGrid_CellEditEnding">
 
-                    <DataGrid.RowStyle>
+                    <!--<DataGrid.RowStyle>
                         <Style TargetType="DataGridRow">
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding hasError,  UpdateSourceTrigger=PropertyChanged}" Value="true">
+                                <DataTrigger Binding="{Binding Path=hasError,  UpdateSourceTrigger=PropertyChanged}" Value="True">
                                     <Setter Property="Background" Value="Red"></Setter>
                                 </DataTrigger>
                                 
                             </Style.Triggers>
                         </Style>
-                    </DataGrid.RowStyle>
+                    </DataGrid.RowStyle>-->
 
 
                     <DataGrid.ContextMenu>
@@ -74,12 +76,21 @@
                         </ContextMenu>
                     </DataGrid.ContextMenu>
                     <DataGrid.Columns>
+                        <DataGridTemplateColumn Width="50" Header="ID">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Border Name="ConferenceIdBorder" BorderThickness="1" BorderBrush="{Binding Path=}">
+                                        <TextBox Text="{Binding ConferenceId}" />
+                                    </Border>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+
                         <DataGridTextColumn Width="40" Header="ID" Binding="{Binding Path=ConferenceId, UpdateSourceTrigger=PropertyChanged}" />
                         <DataGridTextColumn Width="250*" Header="Имя селектора" Binding="{Binding Path=ConferenceName, UpdateSourceTrigger=PropertyChanged}"/>
                         <DataGridTextColumn Width="80" Header="Участников" Binding="{Binding Path=ParticipantsCount, UpdateSourceTrigger=PropertyChanged}"/>
                         <DataGridTextColumn Width="70" Header="Продолжительность, мин" Binding="{Binding Path=ConferenceDuration, UpdateSourceTrigger=PropertyChanged}"/>
                         <DataGridCheckBoxColumn Width="70" Header="Учитывать" Binding="{Binding Path=IsAcive, UpdateSourceTrigger=PropertyChanged}"/>
-                        
                     </DataGrid.Columns>
                 </DataGrid>
             </DockPanel>

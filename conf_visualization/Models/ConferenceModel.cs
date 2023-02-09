@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
 
 namespace conf_visualization.Models
 {
@@ -17,6 +18,7 @@ namespace conf_visualization.Models
         private bool _changedValue = false;
         private bool _newValue = false;
         private bool _hasError = false;
+        public SolidColorBrush _colorBrush = Brushes.Transparent;
 
         public int ConferenceId
         {
@@ -27,6 +29,7 @@ namespace conf_visualization.Models
                 _conferenceId = value;
             }
         }
+
 
         public int ID
         {
@@ -47,7 +50,7 @@ namespace conf_visualization.Models
             get { return _participantsCount; }
             set
             {
-                _hasError = false;
+            //    _hasError = false;
                 if (_participantsCount != value)
                 {
                     _changedValue = true;
@@ -61,7 +64,7 @@ namespace conf_visualization.Models
             get { return _conferenceDuration; }
             set
             {
-                _hasError = false;
+            //    _hasError = false;
                 if (_conferenceDuration != value)
                 {
                     _changedValue = true;
