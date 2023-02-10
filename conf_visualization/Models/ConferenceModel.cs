@@ -20,7 +20,7 @@ namespace conf_visualization.Models
         private bool _changedValue = false;
         private bool _newValue = false;
         private bool _hasError = false;
-        private SolidColorBrush _conferenceIdColorBrush = Brushes.Transparent;
+        private SolidColorBrush _conferenceIdColorBrush = Brushes.LightGray;
 
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)

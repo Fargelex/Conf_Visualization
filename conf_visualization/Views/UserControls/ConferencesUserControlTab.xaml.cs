@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using conf_visualization.Models;
 using conf_visualization.ViewModels;
 
 namespace conf_visualization.Views.UserControls
@@ -41,6 +42,21 @@ namespace conf_visualization.Views.UserControls
         {
             refreshContextMenuItem.Command.Execute(sender);
             ConferencesDataGrid.SelectedIndex = ConferencesDataGrid.Items.Count - 1;
+        }
+
+        private void ConferencesDataGrid_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            
+            //CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContextMenu}}, Path=PlacementTarget.SelectedItem}"
+            if (e.Key == Key.Delete)
+            {
+                deleteEditConferencesSettingsButton.Command.Execute((ConferenceModel)ConferencesDataGrid.SelectedItem);
+            }
+        }
+
+        private void deleteConferenceContextMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            deleteEditConferencesSettingsButton.Command.Execute((ConferenceModel)ConferencesDataGrid.SelectedItem);
         }
     }
 }

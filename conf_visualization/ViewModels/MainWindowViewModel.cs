@@ -29,7 +29,11 @@ namespace conf_visualization.ViewModels
         public Dictionary<int, ConferenceModel> Conferences_before_edit_dictionary = new Dictionary<int, ConferenceModel>();
         public Dictionary<int, ConferenceModel> Conferences_after_edit_dictionary = new Dictionary<int, ConferenceModel>();
 
-                #region Заголовок окна
+
+
+        #region Команды
+
+        #region Заголовок окна
         private string _TitleAddEditConferenceWindow = "asdasd";
 
         /// <summary>Заголовок окна</summary>
@@ -46,7 +50,6 @@ namespace conf_visualization.ViewModels
         }
         #endregion
 
-        #region Команды
 
         #region CloseApplicationCommand
         public ICommand CloseApplicationCommand { get; }
@@ -95,7 +98,7 @@ namespace conf_visualization.ViewModels
             {
                 string sqlCommand = "";
                 if (((ConferenceModel)parameter).NewValue)
-                {                    
+                {
                     sqlCommand = String.Format("INSERT INTO ConferenceTable (ConferenceId, ConferenceName, ParticipantsCount, ConferenceDuration, IsAcive) VALUES ( {0},'{1}',{2},{3},'{4}' );", ((ConferenceModel)parameter).ConferenceId, ((ConferenceModel)parameter).ConferenceName, ((ConferenceModel)parameter).ParticipantsCount, ((ConferenceModel)parameter).ConferenceDuration, ((ConferenceModel)parameter).IsAcive.ToString());
                     if (!svc.sendUpdateToDataBase(sqlCommand)) // если не удалось выполнить запрос к БД
                     {
@@ -129,7 +132,7 @@ namespace conf_visualization.ViewModels
                 }
                 //если отправка в БД завершилась с ошибкой то обновлеям DataGrid данными из БД
                 // т.к. изменения в DataGrid останутся
-                
+
             }
         }
         #endregion
@@ -160,42 +163,39 @@ namespace conf_visualization.ViewModels
                 }
             }
 
-           
-            if (conferenceItemChangedValueLlist.Count>0)
+
+            if (conferenceItemChangedValueLlist.Count > 0)
             {
                 var svc = new DataAccess();
-             //   svc.sendUpdateToDataBase(conferenceItemChangedValueLlist);
+                //   svc.sendUpdateToDataBase(conferenceItemChangedValueLlist);
             }
-            
+
 
             //   MessageBox.Show("");
 
         }
         #endregion
 
+        #region DeleteConferenceFromDataBase
+        public ICommand DeleteConferenceFromDataBase { get; }
 
+        private bool CanDeleteConferenceFromDataBaseExecute(object parameter) => true;
 
+        private void OnDeleteConferenceFromDataBaseExecuted(object parameter)
+        {
+            string msgBody = String.Format("[{0}] {1}\nУчастников: {2}\nПродолжительность: {3}", ((ConferenceModel)parameter).ConferenceId, ((ConferenceModel)parameter).ConferenceName, ((ConferenceModel)parameter).ParticipantsCount, ((ConferenceModel)parameter).ConferenceDuration);
+            MessageBoxResult result = MessageBox.Show(msgBody, "Удалить селектор?", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (result == MessageBoxResult.Yes)
+            {
+                // Do this
+            }
+        }
+        #endregion
 
         #endregion
 
 
-        //private DataGridColumn _getNameColumn;
 
-        //public DataGridColumn GetNameColumn
-        //{
-        //    get { return _getNameColumn; }
-        //    set
-        //    {
-        //        if (_getNameColumn != value)
-        //            _getNameColumn = value;
-        //        if (_getNameColumn != null)
-        //        {
-        //           // Debug.Print(_getNameColumn.DisplayIndex.ToString());
-        //            MessageBox.Show(_getNameColumn.DisplayIndex.ToString());
-        //        }
-        //        RaisePropertyChanged("GetNameColumn");
-        //    }
-        //}
 
 
 
@@ -208,19 +208,19 @@ namespace conf_visualization.ViewModels
             "Еженедельно", "Ежемесячно", "Ежедневно"
         };
 
-       
+
         private ConferenceModel _ConferenceModel;
         public ConferenceModel CurretConference
         {
             get { return _ConferenceModel; }
 
             set
-            {                
+            {
                 if (value != null)
                 {
                     Set(ref _ConferenceModel, value);
                     dosmth(value.ConferenceId);
-                }                
+                }
             }
         }
 
@@ -237,7 +237,7 @@ namespace conf_visualization.ViewModels
             }
         }
 
-                   
+
 
         private void dosmth(int confID)
         {
@@ -266,7 +266,7 @@ namespace conf_visualization.ViewModels
             {
                 conf.ChangedValue = false;
                 this.Conferences.Add(conf);
-        //        this.Conferences_before_edit_dictionary.Add(conf.ConferenceId, conf);
+                //        this.Conferences_before_edit_dictionary.Add(conf.ConferenceId, conf);
             }
             Conferences.CollectionChanged += Conferences_CollectionChanged;
         }
@@ -278,6 +278,7 @@ namespace conf_visualization.ViewModels
             AddNewConferenceToDataBase = new LambdaCommand(OnAddNewConferenceToDataBaseExecuted, CanAddNewConferenceToDataBaseExecute);
             reloadFromDataBaseCommand = new LambdaCommand(OnReloadFromDataBaseCommandExecuted, CanReloadFromDataBaseCommandExecute);
             SendEditConferenceToDataBaseCommand = new LambdaCommand(OnSendEditConferenceToDataBaseCommandExecuted, CanSendEditConferenceToDataBaseCommandExecute);
+            DeleteConferenceFromDataBase = new LambdaCommand(OnDeleteConferenceFromDataBaseExecuted, CanDeleteConferenceFromDataBaseExecute);
             #endregion
             GetConferencesToDataGrid();
 
@@ -312,5 +313,5 @@ namespace conf_visualization.ViewModels
         }
     }
 
-    
+
 }

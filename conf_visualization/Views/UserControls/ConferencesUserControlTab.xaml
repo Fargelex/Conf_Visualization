@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:conf_visualization.Views.UserControls"
+             xmlns:local="clr-namespace:conf_visualization.Models"
              xmlns:vm ="clr-namespace:conf_visualization.ViewModels"
              mc:Ignorable="d">
 
@@ -17,14 +17,14 @@
     </UserControl.DataContext>
     <Grid x:Name="tabGrid">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="4*"/>
+            <ColumnDefinition Width="5*"/>
             <!--столбец с настройками селекторов-->
             <ColumnDefinition Width="10"/>
             <!--вертикальный разделитель-->
-            <ColumnDefinition Width="6*"/>
+            <ColumnDefinition Width="7*"/>
             <!--столбец с общими графиками и диаграммами-->
         </Grid.ColumnDefinitions>
-
+        
         <Grid x:Name="ConferencesSettingsGrid" Grid.Column="0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="300*"/>
@@ -34,9 +34,9 @@
             </Grid.RowDefinitions>
 
             <DockPanel Grid.Row="0">
-                <DockPanel  DockPanel.Dock="Top">
-                    <Button DockPanel.Dock="Right"  x:Name="SearchButton"  Content="Поиск"  VerticalAlignment="Center" Width="82" Height="20"/>
-                    <TextBox Text="{Binding Path=ed}"   MinWidth="300" Height="20"/>
+                <DockPanel  DockPanel.Dock="Top" Margin="2,0,2,2">
+                    <Button DockPanel.Dock="Right"  x:Name="SearchButton"  Content="Поиск"  VerticalAlignment="Center" Width="82" Height="20" Margin="2,0,0,0"/>
+                    <TextBox Text=""   MinWidth="300" Height="20"/>
                 </DockPanel>
                 <StackPanel x:Name="ConferencesSettingsButtonsStackPanel" Visibility="Collapsed" DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                         <Button x:Name="cancelEditConferencesSettingsButton" 
@@ -45,25 +45,18 @@
                         <Button x:Name="saveEditConferencesSettingsButton"
                                 Content="Сохранить" IsEnabled="True"  HorizontalAlignment="Left"  VerticalAlignment="Top" Width="82" Height="25"
                                 Command="{Binding SendEditConferenceToDataBaseCommand}"/>
+                    <Button x:Name="deleteEditConferencesSettingsButton"
+                                Content="Удалить" IsEnabled="True"  HorizontalAlignment="Left"  VerticalAlignment="Top" Width="82" Height="25"
+                                Command="{Binding DeleteConferenceFromDataBase}"/>
 
                     </StackPanel>
                 <DataGrid 
                       x:Name="ConferencesDataGrid" CanUserAddRows="True"   AutoGenerateColumns="False" 
                       ItemsSource="{Binding Path=Conferences, Mode=TwoWay,  UpdateSourceTrigger=PropertyChanged}" 
                       CurrentItem="{Binding CurretConference, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                    CanUserDeleteRows="False" GridLinesVisibility="None"
-                    SelectionMode="Single" RowEditEnding="ConferencesDataGrid_RowEditEnding" CellEditEnding="ConferencesDataGrid_CellEditEnding">
+                    CanUserDeleteRows="False" FontSize="17"
+                    SelectionMode="Single" RowEditEnding="ConferencesDataGrid_RowEditEnding" CellEditEnding="ConferencesDataGrid_CellEditEnding" PreviewKeyDown="ConferencesDataGrid_PreviewKeyDown">
 
-                    <!--<DataGrid.RowStyle>
-                        <Style TargetType="DataGridRow">
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding Path=hasError,  UpdateSourceTrigger=PropertyChanged}" Value="True">
-                                    <Setter Property="Background" Value="Red"></Setter>
-                                </DataTrigger>
-                                
-                            </Style.Triggers>
-                        </Style>
-                    </DataGrid.RowStyle>-->
 
 
                     <DataGrid.ContextMenu>
@@ -72,25 +65,82 @@
                             <Separator />
                             <MenuItem Header="Добавить запись" Command="{Binding AddNewConferenceToDataBase}"/>
                             <MenuItem x:Name="editCOnferenceSettings" Header="Редактировать запись"/>
-                            <MenuItem Header="Удалить запись"/>
+                            <MenuItem x:Name="deleteConferenceContextMenuItem" Header="Удалить запись" Click="deleteConferenceContextMenuItem_Click"  />
                         </ContextMenu>
                     </DataGrid.ContextMenu>
                     <DataGrid.Columns>
-                        <DataGridTemplateColumn Width="50" Header="ID">
+                        <!--Колонка ID-->
+                        <DataGridTemplateColumn Width="50" Header="ID">  
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <Border Name="ConferenceIdBorder" BorderThickness="2" BorderBrush="{Binding Path=ConferenceIdColorBrush}">
-                                        <TextBox ToolTip="Проверка подсказки" Text="{Binding ConferenceId}"/>
+                                    <Border BorderThickness="2" BorderBrush="{Binding Path=ConferenceIdColorBrush}">
+                                        <TextBlock ToolTip="Проверка подсказки ячейка ID" Text="{Binding ConferenceId}"/>
                                     </Border>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
+                            <DataGridTemplateColumn.CellEditingTemplate>
+                                <DataTemplate>
+                                    <Border BorderThickness="2" BorderBrush="{Binding Path=ConferenceIdColorBrush}">
+                                        <TextBox Text="{Binding ConferenceId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                    </Border>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellEditingTemplate>
                         </DataGridTemplateColumn>
 
-                        <DataGridTextColumn Width="40" Header="ID" Binding="{Binding Path=ConferenceId, UpdateSourceTrigger=PropertyChanged}" />
-                        <DataGridTextColumn Width="250*" Header="Имя селектора" Binding="{Binding Path=ConferenceName, UpdateSourceTrigger=PropertyChanged}"/>
-                        <DataGridTextColumn Width="80" Header="Участников" Binding="{Binding Path=ParticipantsCount, UpdateSourceTrigger=PropertyChanged}"/>
-                        <DataGridTextColumn Width="70" Header="Продолжительность, мин" Binding="{Binding Path=ConferenceDuration, UpdateSourceTrigger=PropertyChanged}"/>
-                        <DataGridCheckBoxColumn Width="70" Header="Учитывать" Binding="{Binding Path=IsAcive, UpdateSourceTrigger=PropertyChanged}"/>
+                        <!--Имя селектора-->
+                        <DataGridTemplateColumn Width="250*" Header="Имя селектора">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Border BorderThickness="2" BorderBrush="{Binding Path=ConferenceIdColorBrush}">
+                                        <TextBlock ToolTip="Проверка подсказки ячейка Имя селектора" Text="{Binding ConferenceName}"/>
+                                    </Border>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                            <DataGridTemplateColumn.CellEditingTemplate>
+                                <DataTemplate>
+                                    <Border BorderThickness="2" BorderBrush="{Binding Path=ConferenceIdColorBrush}">
+                                        <TextBox  Text="{Binding ConferenceName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                    </Border>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellEditingTemplate>
+                        </DataGridTemplateColumn>
+
+                        <!--Участников-->
+                        <DataGridTemplateColumn Width="70" Header="Участников">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Border BorderThickness="2" BorderBrush="{Binding Path=ConferenceIdColorBrush}">
+                                        <TextBlock ToolTip="Проверка подсказки ячейка Участников" Text="{Binding ParticipantsCount}"/>
+                                    </Border>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                            <DataGridTemplateColumn.CellEditingTemplate>
+                                <DataTemplate>
+                                    <Border BorderThickness="2" BorderBrush="{Binding Path=ConferenceIdColorBrush}">
+                                        <TextBox  Text="{Binding ParticipantsCount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                    </Border>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellEditingTemplate>
+                        </DataGridTemplateColumn>
+
+                        <!--Продолжительность, мин-->
+                        <DataGridTemplateColumn Width="70" Header="Продолжительность, мин">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Border BorderThickness="2" BorderBrush="{Binding Path=ConferenceIdColorBrush}">
+                                        <TextBlock ToolTip="Проверка подсказки ячейка Продолжительность, мин" Text="{Binding ConferenceDuration}"/>
+                                    </Border>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                            <DataGridTemplateColumn.CellEditingTemplate>
+                                <DataTemplate>
+                                    <Border BorderThickness="2" BorderBrush="{Binding Path=ConferenceIdColorBrush}">
+                                        <TextBox  Text="{Binding ConferenceDuration , Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                    </Border>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellEditingTemplate>
+                        </DataGridTemplateColumn>
+                        
                     </DataGrid.Columns>
                 </DataGrid>
             </DockPanel>
