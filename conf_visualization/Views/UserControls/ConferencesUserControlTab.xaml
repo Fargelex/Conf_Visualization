@@ -10,7 +10,35 @@
 
     <UserControl.Resources>
         <CollectionViewSource x:Key="PeriodicTypeSource" Source="{Binding PeriodicTypesList}" />
-        
+
+        <Style TargetType="DataGrid">
+            <Setter Property="FontSize" Value="17"/>
+        </Style>
+        <Style TargetType="DataGridCell">
+            <Style.Triggers>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="FontSize" Value="17" />
+                    <Setter Property="Foreground" Value="Black" />
+                    <Setter Property="Background" Value="LightBlue"/>                    
+                    
+                </Trigger>
+                <Trigger Property="IsFocused"  Value="True">
+                    <Setter Property="Background" Value="LightSteelBlue"/>
+
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style TargetType="DataGridRow">
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="PowderBlue"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+       
+
     </UserControl.Resources>
     <UserControl.DataContext>
         <vm:MainWindowViewModel/>
@@ -54,7 +82,7 @@
                       x:Name="ConferencesDataGrid" CanUserAddRows="True"   AutoGenerateColumns="False" 
                       ItemsSource="{Binding Path=Conferences, Mode=TwoWay,  UpdateSourceTrigger=PropertyChanged}" 
                       CurrentItem="{Binding CurretConference, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                    CanUserDeleteRows="False" FontSize="17"
+                    CanUserDeleteRows="False"
                     SelectionMode="Single" RowEditEnding="ConferencesDataGrid_RowEditEnding" CellEditEnding="ConferencesDataGrid_CellEditEnding" PreviewKeyDown="ConferencesDataGrid_PreviewKeyDown">
 
 
@@ -80,9 +108,8 @@
                             </DataGridTemplateColumn.CellTemplate>
                             <DataGridTemplateColumn.CellEditingTemplate>
                                 <DataTemplate>
-                                    <Border BorderThickness="2" BorderBrush="{Binding Path=ConferenceIdColorBrush}">
-                                        <TextBox Text="{Binding ConferenceId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                                    </Border>
+                                    <TextBox Text="{Binding ConferenceId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                             Margin="2,2,2,2" FocusManager.FocusedElement="{Binding RelativeSource={RelativeSource Self}}"/>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellEditingTemplate>
                         </DataGridTemplateColumn>
@@ -98,9 +125,8 @@
                             </DataGridTemplateColumn.CellTemplate>
                             <DataGridTemplateColumn.CellEditingTemplate>
                                 <DataTemplate>
-                                    <Border BorderThickness="2" BorderBrush="{Binding Path=ConferenceIdColorBrush}">
-                                        <TextBox  Text="{Binding ConferenceName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                                    </Border>
+                                    <TextBox  Text="{Binding ConferenceName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                              Margin="2,2,2,2" FocusManager.FocusedElement="{Binding RelativeSource={RelativeSource Self}}"/>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellEditingTemplate>
                         </DataGridTemplateColumn>
@@ -116,9 +142,8 @@
                             </DataGridTemplateColumn.CellTemplate>
                             <DataGridTemplateColumn.CellEditingTemplate>
                                 <DataTemplate>
-                                    <Border BorderThickness="2" BorderBrush="{Binding Path=ConferenceIdColorBrush}">
-                                        <TextBox  Text="{Binding ParticipantsCount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                                    </Border>
+                                    <TextBox  Text="{Binding ParticipantsCount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                              Margin="2,2,2,2" FocusManager.FocusedElement="{Binding RelativeSource={RelativeSource Self}}"/>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellEditingTemplate>
                         </DataGridTemplateColumn>
@@ -134,9 +159,8 @@
                             </DataGridTemplateColumn.CellTemplate>
                             <DataGridTemplateColumn.CellEditingTemplate>
                                 <DataTemplate>
-                                    <Border BorderThickness="2" BorderBrush="{Binding Path=ConferenceIdColorBrush}">
-                                        <TextBox  Text="{Binding ConferenceDuration , Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                                    </Border>
+                                    <TextBox  Text="{Binding ConferenceDuration , Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                              Margin="2,2,2,2" FocusManager.FocusedElement="{Binding RelativeSource={RelativeSource Self}}"/>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellEditingTemplate>
                         </DataGridTemplateColumn>

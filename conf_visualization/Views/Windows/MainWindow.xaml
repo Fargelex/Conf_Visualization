@@ -7,7 +7,7 @@
         xmlns:vu ="clr-namespace:conf_visualization.Views.UserControls"
         xmlns:l="clr-namespace:conf_visualization"
         
-        Title="{Binding TitleAddEditConferenceWindow}" Height="900" Width="1600" WindowStartupLocation="CenterScreen">
+        Title="{Binding TitleAddEditConferenceWindow}" Height="1000" Width="1800" WindowStartupLocation="CenterScreen">
 
     <Window.DataContext>
         <vm:MainWindowViewModel/>
