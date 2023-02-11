@@ -25,6 +25,7 @@ namespace conf_visualization.Views.UserControls
         public ConferencesUserControlTab()
         {
             InitializeComponent();
+            ConferencesDataGrid.SelectedIndex= 0;
         }
 
         private void ConferencesDataGrid_RowEditEnding(object sender, DataGridRowEditEndingEventArgs e)
@@ -41,7 +42,6 @@ namespace conf_visualization.Views.UserControls
         private void refreshContextMenuItem_Click(object sender, RoutedEventArgs e)
         {
             refreshContextMenuItem.Command.Execute(sender);
-            ConferencesDataGrid.SelectedIndex = ConferencesDataGrid.Items.Count - 1;
         }
 
         private void ConferencesDataGrid_PreviewKeyDown(object sender, KeyEventArgs e)
@@ -57,6 +57,16 @@ namespace conf_visualization.Views.UserControls
         private void deleteConferenceContextMenuItem_Click(object sender, RoutedEventArgs e)
         {
             deleteEditConferencesSettingsButton.Command.Execute((ConferenceModel)ConferencesDataGrid.SelectedItem);
+        }
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+        }
+
+        private void ConferencesDataGrid_Sorting(object sender, DataGridSortingEventArgs e)
+        {
+            MessageBox.Show("");
+            
         }
     }
 }

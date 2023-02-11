@@ -37,6 +37,11 @@
             </Style.Triggers>
         </Style>
 
+        <Style x:Name="TextBlockStyle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="17"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+        </Style>
+
        
 
     </UserControl.Resources>
@@ -82,8 +87,8 @@
                       x:Name="ConferencesDataGrid" CanUserAddRows="True"   AutoGenerateColumns="False" 
                       ItemsSource="{Binding Path=Conferences, Mode=TwoWay,  UpdateSourceTrigger=PropertyChanged}" 
                       CurrentItem="{Binding CurretConference, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                    CanUserDeleteRows="False"
-                    SelectionMode="Single" RowEditEnding="ConferencesDataGrid_RowEditEnding" CellEditEnding="ConferencesDataGrid_CellEditEnding" PreviewKeyDown="ConferencesDataGrid_PreviewKeyDown">
+                    CanUserDeleteRows="False" CanUserSortColumns="True"
+                    SelectionMode="Single" RowEditEnding="ConferencesDataGrid_RowEditEnding" CellEditEnding="ConferencesDataGrid_CellEditEnding" PreviewKeyDown="ConferencesDataGrid_PreviewKeyDown" Sorting="ConferencesDataGrid_Sorting">
 
 
 
@@ -91,7 +96,7 @@
                         <ContextMenu>
                             <MenuItem x:Name="refreshContextMenuItem" Header="Обновить" Click="refreshContextMenuItem_Click" Command="{Binding reloadFromDataBaseCommand}"/>
                             <Separator />
-                            <MenuItem Header="Добавить запись" Command="{Binding AddNewConferenceToDataBase}"/>
+                            <MenuItem Header="Добавить запись" Click="MenuItem_Click"/>
                             <MenuItem x:Name="editCOnferenceSettings" Header="Редактировать запись"/>
                             <MenuItem x:Name="deleteConferenceContextMenuItem" Header="Удалить запись" Click="deleteConferenceContextMenuItem_Click"  />
                         </ContextMenu>
@@ -172,17 +177,26 @@
             <!--горизонтальный разделитель-->
             <GridSplitter Grid.Row="1"   Height="5" HorizontalAlignment="Stretch" ResizeDirection="Rows" />
 
-            <DockPanel Grid.Row="2">
-                <Label Content="{Binding CurretConference.ConferenceName}" DockPanel.Dock="Top"/>
-                <StackPanel DockPanel.Dock="Bottom"
+            <Border Grid.Row="2" BorderBrush="Black" BorderThickness="1">
+            <DockPanel>
+                    <StackPanel Orientation="Vertical" DockPanel.Dock="Top" HorizontalAlignment="Center">
+                        <TextBlock  Text="Планирование конференции:" Margin="0,0,2,0" TextAlignment="Center"/>
+                        <WrapPanel   Orientation="Horizontal" Margin="2,2,2,2" HorizontalAlignment="Center">                    
+                            <TextBlock  Text="{Binding StringFormat=[0],Path=CurretConference.ConferenceId}" Margin="0,0,2,0"/>
+                            <TextBlock  Text="{Binding CurretConference.ConferenceName, StringFormat='{}{0}\,'}" Margin="0,0,2,0"/>
+                            <TextBlock  Text="{Binding CurretConference.ParticipantsCount, StringFormat='{}{0} чел\,'}" Margin="0,0,2,0"/>
+                            <TextBlock  Text="{Binding CurretConference.ConferenceDuration, StringFormat='{}{0} мин.'}" Margin="0,0,2,0"/>                    
+                        </WrapPanel>
+                    </StackPanel>
+                    <StackPanel DockPanel.Dock="Bottom" Visibility="Collapsed"
                         Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <Button x:Name="saveButton" IsEnabled="False" Content="Сохранить" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="82" Height="25"/>
+                    <Button x:Name="saveConfPlanButton" Content="Сохранить"/>
                 </StackPanel>
                 <DataGrid x:Name="PlanConferencesDataGrid" AlternatingRowBackground="LightGray"   AutoGenerateColumns="False" 
                       ItemsSource="{Binding Path=ConferencesPlanSeries, Mode=TwoWay,  UpdateSourceTrigger=PropertyChanged}"
                           SelectedIndex="2">
                     <DataGrid.Columns>
-                        <DataGridTemplateColumn Width="100" Header="Повторять с">
+                        <DataGridTemplateColumn Width="110" Header="Повторять с">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding ConferenceBeginPeriod, StringFormat='dd.MM.yyyy' , Mode=TwoWay,  UpdateSourceTrigger=PropertyChanged}" />
@@ -190,12 +204,13 @@
                             </DataGridTemplateColumn.CellTemplate>
                             <DataGridTemplateColumn.CellEditingTemplate>
                                 <DataTemplate>
-                                    <DatePicker  SelectedDate="{Binding ConferenceBeginPeriod, StringFormat='dd.MM.yyyy', Mode=TwoWay,  UpdateSourceTrigger=PropertyChanged}" />
+                                    <DatePicker  SelectedDate="{Binding ConferenceBeginPeriod, StringFormat='dd.MM.yyyy', Mode=TwoWay,  UpdateSourceTrigger=PropertyChanged}" 
+                                                 FocusManager.FocusedElement="{Binding RelativeSource={RelativeSource Self}}"/>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellEditingTemplate>
                         </DataGridTemplateColumn>                        
                         
-                        <DataGridTemplateColumn Width="100" Header="до">
+                        <DataGridTemplateColumn Width="110" Header="до">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding ConferenceEndPeriod, StringFormat='dd.MM.yyyy' , Mode=TwoWay,  UpdateSourceTrigger=PropertyChanged}" />
@@ -208,7 +223,7 @@
                             </DataGridTemplateColumn.CellEditingTemplate>
                         </DataGridTemplateColumn>
 
-                        <DataGridTemplateColumn Header="Тип" Width="Auto">
+                        <DataGridTemplateColumn Header="Тип" Width="120">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding Path=PeriodicType, Mode=TwoWay,  UpdateSourceTrigger=PropertyChanged}" />
@@ -218,7 +233,8 @@
                                 <DataTemplate>
                                     <ComboBox ItemsSource="{Binding Source={StaticResource PeriodicTypeSource}}" 
                                       SelectedItem="{Binding Path=PeriodicType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                      IsSynchronizedWithCurrentItem="False"/>
+                                      IsSynchronizedWithCurrentItem="False"
+                                              FocusManager.FocusedElement="{Binding RelativeSource={RelativeSource Self}}"/>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellEditingTemplate>
                         </DataGridTemplateColumn>
@@ -232,20 +248,24 @@
                             </DataGridTemplateColumn.CellTemplate>
                             <DataGridTemplateColumn.CellEditingTemplate>
                                 <DataTemplate>
-                                    <ComboBox ItemsSource="{Binding Path=PeriodicTypesWeeklyListInModel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                    <ComboBox ItemsSource="{Binding Path=PeriodicTypesWeeklyListInModel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                              FocusManager.FocusedElement="{Binding RelativeSource={RelativeSource Self}}"/>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellEditingTemplate>
                         </DataGridTemplateColumn>
 
 
-                        <DataGridTextColumn Width="70" Header="Начало" Binding="{Binding Path=ConferenceStartTime, Mode=TwoWay,  UpdateSourceTrigger=LostFocus}"/>
-                        <DataGridTextColumn Width="70" Header="Конец" Binding="{Binding Path=ConferenceStopTime, Mode=TwoWay,  UpdateSourceTrigger=LostFocus}"/>
+                        <DataGridTextColumn Width="80" Header="Начало" Binding="{Binding Path=ConferenceStartTime, Mode=TwoWay,  UpdateSourceTrigger=LostFocus}"
+                                            FocusManager.FocusedElement="{Binding RelativeSource={RelativeSource Self}}"/>
+                        <DataGridTextColumn Width="80" Header="Конец" Binding="{Binding Path=ConferenceStopTime, Mode=TwoWay,  UpdateSourceTrigger=LostFocus}"
+                                            FocusManager.FocusedElement="{Binding RelativeSource={RelativeSource Self}}"/>
 
                         
                     </DataGrid.Columns>
                 </DataGrid>
 
             </DockPanel>
+            </Border>
         </Grid>
         <GridSplitter Width="10" Grid.Column="1" HorizontalAlignment="Stretch" ResizeDirection="Columns"/>
     </Grid>

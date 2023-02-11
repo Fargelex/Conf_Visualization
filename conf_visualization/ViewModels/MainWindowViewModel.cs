@@ -281,7 +281,7 @@ namespace conf_visualization.ViewModels
             DeleteConferenceFromDataBase = new LambdaCommand(OnDeleteConferenceFromDataBaseExecuted, CanDeleteConferenceFromDataBaseExecute);
             #endregion
             GetConferencesToDataGrid();
-
+            CurretConference = Conferences.FirstOrDefault();
 
 
 

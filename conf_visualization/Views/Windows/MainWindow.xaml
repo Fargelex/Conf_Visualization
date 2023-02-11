@@ -29,7 +29,7 @@
                 <TextBlock Text="TextBlock"></TextBlock>                
             </StatusBarItem>
             <StatusBarItem>
-                <TextBox Width="100" Text="{Binding CurretConference.ConferenceName, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
+                <TextBox Width="100" Text="{Binding CurretConference.ConferenceName, UpdateSourceTrigger=PropertyChanged}"/>
             </StatusBarItem>
         </StatusBar>
         <TabControl>
