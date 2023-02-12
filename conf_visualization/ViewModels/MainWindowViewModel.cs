@@ -100,10 +100,18 @@ namespace conf_visualization.ViewModels
                 if (((ConferenceModel)parameter).NewValue)
                 {
                     sqlCommand = String.Format("INSERT INTO ConferenceTable (ConferenceId, ConferenceName, ParticipantsCount, ConferenceDuration, IsAcive) VALUES ( {0},'{1}',{2},{3},'{4}' );", ((ConferenceModel)parameter).ConferenceId, ((ConferenceModel)parameter).ConferenceName, ((ConferenceModel)parameter).ParticipantsCount, ((ConferenceModel)parameter).ConferenceDuration, ((ConferenceModel)parameter).IsAcive.ToString());
-                    if (!svc.sendUpdateToDataBase(sqlCommand)) // если не удалось выполнить запрос к БД
+                    string answer = svc.sendUpdateToDataBase(sqlCommand);
+                    if (answer != "ok") // если не удалось выполнить запрос к БД
                     {
-                        ((ConferenceModel)parameter).ConferenceIdColorBrush = Brushes.Red;
-                        ((ConferenceModel)parameter).ConferenceName = "не удалось выполнить запрос к БД";
+                        string rus_answer = "";
+                        if (answer.Contains("ConferenceId"))
+                        {
+                            rus_answer = "Такой ID уже существует";
+                            ((ConferenceModel)parameter).ConferenceIdColorBrush = Brushes.Red;
+                            ((ConferenceModel)parameter).hasError = true;
+                            ((ConferenceModel)parameter).ConferenceIdToolTip = rus_answer;
+                            MessageBox.Show(rus_answer, "Ошибка");
+                        }                        
                         //     MessageBox.Show(Conferences.Last().ConferenceId+" "+ Conferences.Last().ConferenceName);
                         //     Conferences.Remove(Conferences[10]);
                         //   GetConferencesToDataGrid();
@@ -120,8 +128,10 @@ namespace conf_visualization.ViewModels
                 else
                 {
                     sqlCommand = String.Format("UPDATE ConferenceTable SET ConferenceId = {0}, ConferenceName = '{1}', ParticipantsCount = {2}, ConferenceDuration = {3}, IsAcive = '{4}' WHERE id = {5};", ((ConferenceModel)parameter).ConferenceId, ((ConferenceModel)parameter).ConferenceName, ((ConferenceModel)parameter).ParticipantsCount, ((ConferenceModel)parameter).ConferenceDuration, ((ConferenceModel)parameter).IsAcive.ToString(), ((ConferenceModel)parameter).ID);
-                    if (!svc.sendUpdateToDataBase(sqlCommand))
+                    string answer = svc.sendUpdateToDataBase(sqlCommand);
+                    if (answer != "ok")
                     {
+                        MessageBox.Show(answer, "Ошибка");
                         GetConferencesToDataGrid();
                     }
                     else
@@ -155,6 +165,7 @@ namespace conf_visualization.ViewModels
                 if (Conferences[i].ChangedValue)
                 {
                     conferenceItemChangedValueLlist.Add(String.Format("UPDATE ConferenceTable SET ConferenceName = '{0}', ParticipantsCount = {1}, ConferenceDuration = {2} WHERE ConferenceId = {3};", Conferences[i].ConferenceName, Conferences[i].ParticipantsCount, Conferences[i].ConferenceDuration, Conferences[i].ConferenceId));
+                    Conferences[i].ChangedValue = false;
                 }
                 if (Conferences[i].NewValue)
                 {
@@ -164,14 +175,6 @@ namespace conf_visualization.ViewModels
             }
 
 
-            if (conferenceItemChangedValueLlist.Count > 0)
-            {
-                var svc = new DataAccess();
-                //   svc.sendUpdateToDataBase(conferenceItemChangedValueLlist);
-            }
-
-
-            //   MessageBox.Show("");
 
         }
         #endregion

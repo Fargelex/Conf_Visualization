@@ -110,9 +110,9 @@ namespace conf_visualization.Data
         }
 
 
-        public bool sendUpdateToDataBase(string sqlComand)
+        public string sendUpdateToDataBase(string sqlComand)
         {
-            bool success = true;
+            string success = "ok";
             using (SQLiteConnection Connect = new SQLiteConnection(@"Data Source=" + DataBaseName + "; Version=3;"))
             {
                 Connect.Open();
@@ -123,11 +123,11 @@ namespace conf_visualization.Data
                 }
                 catch (Exception e)
                 {
-                    if (e.Message.ToString().Contains("UNIQUE constraint failed: ConferenceTable.ConferenceId"))
-                    {
-                        MessageBox.Show("Селектор с таким ID уже существует", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-                    }
-                    success = false;
+                    //if (e.Message.ToString().Contains("UNIQUE constraint failed: ConferenceTable.ConferenceId"))
+                    //{
+                    //    MessageBox.Show("Селектор с таким ID уже существует", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    //}
+                    success = e.Message.ToString();
 
             //        throw;
                 }

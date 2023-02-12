@@ -90,7 +90,18 @@
                     CanUserDeleteRows="False" CanUserSortColumns="True"
                     SelectionMode="Single" RowEditEnding="ConferencesDataGrid_RowEditEnding" CellEditEnding="ConferencesDataGrid_CellEditEnding" PreviewKeyDown="ConferencesDataGrid_PreviewKeyDown" Sorting="ConferencesDataGrid_Sorting">
 
-
+                    <DataGrid.RowStyle>
+                        <Style TargetType="DataGridRow">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Path=hasError,  UpdateSourceTrigger=PropertyChanged}" Value="True">
+                                    <Setter Property="Background" Value="LightPink"></Setter>
+                                </DataTrigger>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="PowderBlue"/>
+                                </Trigger>
+                            </Style.Triggers>                           
+                        </Style>
+                    </DataGrid.RowStyle>
 
                     <DataGrid.ContextMenu>
                         <ContextMenu>
@@ -106,8 +117,8 @@
                         <DataGridTemplateColumn Width="50" Header="ID">  
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <Border BorderThickness="2" BorderBrush="{Binding Path=ConferenceIdColorBrush}">
-                                        <TextBlock ToolTip="Проверка подсказки ячейка ID" Text="{Binding ConferenceId}"/>
+                                    <Border BorderThickness="2" BorderBrush="{Binding ConferenceIdColorBrush}">
+                                        <TextBlock ToolTip="{Binding ConferenceIdToolTip}" Text="{Binding ConferenceId}"/>
                                     </Border>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
@@ -123,8 +134,8 @@
                         <DataGridTemplateColumn Width="250*" Header="Имя селектора">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <Border BorderThickness="2" BorderBrush="{Binding Path=ConferenceIdColorBrush}">
-                                        <TextBlock ToolTip="Проверка подсказки ячейка Имя селектора" Text="{Binding ConferenceName}"/>
+                                    <Border BorderThickness="2" BorderBrush="{Binding ConferenceNameColorBrush}">
+                                        <TextBlock ToolTip="{Binding ConferenceNameToolTip}" Text="{Binding ConferenceName}"/>
                                     </Border>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
@@ -140,8 +151,8 @@
                         <DataGridTemplateColumn Width="70" Header="Участников">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <Border BorderThickness="2" BorderBrush="{Binding Path=ConferenceIdColorBrush}">
-                                        <TextBlock ToolTip="Проверка подсказки ячейка Участников" Text="{Binding ParticipantsCount}"/>
+                                    <Border BorderThickness="2" BorderBrush="{Binding ParticipantsCountColorBrush}">
+                                        <TextBlock ToolTip="{Binding ParticipantsCountToolTip}" Text="{Binding ParticipantsCount}"/>
                                     </Border>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
@@ -157,8 +168,8 @@
                         <DataGridTemplateColumn Width="70" Header="Продолжительность, мин">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <Border BorderThickness="2" BorderBrush="{Binding Path=ConferenceIdColorBrush}">
-                                        <TextBlock ToolTip="Проверка подсказки ячейка Продолжительность, мин" Text="{Binding ConferenceDuration}"/>
+                                    <Border BorderThickness="2" BorderBrush="{Binding ConferenceDurationColorBrush}">
+                                        <TextBlock ToolTip="{Binding ConferenceDurationToolTip}" Text="{Binding ConferenceDuration}"/>
                                     </Border>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
