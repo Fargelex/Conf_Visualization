@@ -21,6 +21,13 @@ namespace conf_visualization.Models
         private bool _newValue = false;
         private bool _hasError = false;
         private SolidColorBrush _conferenceIdColorBrush = Brushes.LightGray;
+        private SolidColorBrush _conferenceNameColorBrush = Brushes.LightGray;
+        private SolidColorBrush _participantsCountColorBrush = Brushes.LightGray;
+        private SolidColorBrush _conferenceDurationColorBrush = Brushes.LightGray;
+        private string _conferenceIdToolTip;
+        private string _conferenceNameToolTip;
+        private string _participantsCountToolTip;
+        private string _conferenceDurationToolTip;
 
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
@@ -28,14 +35,85 @@ namespace conf_visualization.Models
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
+        #region SolidColorBrush
         public SolidColorBrush ConferenceIdColorBrush
         {
             get { return _conferenceIdColorBrush; }
-            set { 
+            set
+            {
                 _conferenceIdColorBrush = value;
                 OnPropertyChanged();
             }
         }
+        public SolidColorBrush ConferenceNameColorBrush
+        {
+            get { return _conferenceNameColorBrush; }
+            set
+            {
+                _conferenceNameColorBrush = value;
+                OnPropertyChanged();
+            }
+        }
+        public SolidColorBrush ParticipantsCountColorBrush
+        {
+            get { return _participantsCountColorBrush; }
+            set
+            {
+                _participantsCountColorBrush = value;
+                OnPropertyChanged();
+            }
+        }
+        public SolidColorBrush ConferenceDurationColorBrush
+        {
+            get { return _conferenceDurationColorBrush; }
+            set
+            {
+                _conferenceDurationColorBrush = value;
+                OnPropertyChanged();
+            }
+        }
+        #endregion
+        #region ConferenceToolTips
+        public string ConferenceIdToolTip
+        {
+            get { return _conferenceIdToolTip; }
+            set
+            {
+                _conferenceIdToolTip = value;
+                OnPropertyChanged();
+            }
+        }
+
+        
+        public string ConferenceNameToolTip
+        {
+            get { return _conferenceNameToolTip; }
+            set
+            {
+                _conferenceNameToolTip = value;
+                OnPropertyChanged();
+            }
+        }
+        public string ParticipantsCountToolTip
+        {
+            get { return _participantsCountToolTip; }
+            set
+            {
+                _participantsCountToolTip = value;
+                OnPropertyChanged();
+            }
+        }
+        public string ConferenceDurationToolTip
+        {
+            get { return _conferenceDurationToolTip; }
+            set
+            {
+                _conferenceDurationToolTip = value;
+                OnPropertyChanged();
+            }
+        } 
+        #endregion
+
         public int ConferenceId
         {
             get { return _conferenceId; }

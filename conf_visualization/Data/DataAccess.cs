@@ -1,8 +1,10 @@
 ﻿using conf_visualization.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Data.SQLite;
 using System.Linq;
+using System.Runtime.Remoting.Contexts;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -88,6 +90,24 @@ namespace conf_visualization.Data
             }
         }
 
+
+        public string deleteFromDataBase(string sqlComand)
+        {
+            string success = "ok";
+            connectToDataBase.Open();
+            SQLiteCommand Insert_Command = new SQLiteCommand(sqlComand, connectToDataBase);
+            try
+            {
+                Insert_Command.ExecuteNonQuery();
+            }
+            catch (Exception e)
+            {
+                success = e.Message.ToString();
+                //        throw;
+            }
+            connectToDataBase.Close();
+            return success;
+        }
 
 
         public bool sendUpdateToDataBase(string sqlComand)

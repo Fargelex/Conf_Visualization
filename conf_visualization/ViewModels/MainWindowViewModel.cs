@@ -187,7 +187,18 @@ namespace conf_visualization.ViewModels
             MessageBoxResult result = MessageBox.Show(msgBody, "Удалить селектор?", MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (result == MessageBoxResult.Yes)
             {
-                // Do this
+                var svc = new DataAccess();
+               string answer = svc.deleteFromDataBase("DELETE FROM ConferenceTable WHERE id = "+ ((ConferenceModel)parameter).ID);
+                if (answer != "ok")
+                {
+                    ((ConferenceModel)parameter).ConferenceNameColorBrush = Brushes.Red;
+                    ((ConferenceModel)parameter).ConferenceNameToolTip = answer;
+                }
+                else
+                {
+                    Conferences.Remove(((ConferenceModel)parameter));
+                }
+                //  DELETE FROM table_name WHERE condition;
             }
         }
         #endregion
