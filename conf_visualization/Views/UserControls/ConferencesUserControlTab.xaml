@@ -114,7 +114,7 @@
                     </DataGrid.ContextMenu>
                     <DataGrid.Columns>
                         <!--Колонка ID-->
-                        <DataGridTemplateColumn Width="50" Header="ID">  
+                        <DataGridTemplateColumn Width="50" Header="ID" SortMemberPath="ConferenceId">  
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <Border BorderThickness="2" BorderBrush="{Binding ConferenceIdColorBrush}">
@@ -131,7 +131,7 @@
                         </DataGridTemplateColumn>
 
                         <!--Имя селектора-->
-                        <DataGridTemplateColumn Width="250*" Header="Имя селектора">
+                        <DataGridTemplateColumn Width="250*" Header="Имя селектора" SortMemberPath="ConferenceName">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <Border BorderThickness="2" BorderBrush="{Binding ConferenceNameColorBrush}">
@@ -148,7 +148,7 @@
                         </DataGridTemplateColumn>
 
                         <!--Участников-->
-                        <DataGridTemplateColumn Width="70" Header="Участников">
+                        <DataGridTemplateColumn Width="70" Header="Участников" SortMemberPath="ParticipantsCount">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <Border BorderThickness="2" BorderBrush="{Binding ParticipantsCountColorBrush}">
@@ -165,7 +165,7 @@
                         </DataGridTemplateColumn>
 
                         <!--Продолжительность, мин-->
-                        <DataGridTemplateColumn Width="70" Header="Продолжительность, мин">
+                        <DataGridTemplateColumn Width="70" Header="Продолжительность, мин" SortMemberPath="ConferenceDuration">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <Border BorderThickness="2" BorderBrush="{Binding ConferenceDurationColorBrush}">

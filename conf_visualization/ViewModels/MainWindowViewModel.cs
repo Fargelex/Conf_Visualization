@@ -148,35 +148,46 @@ namespace conf_visualization.ViewModels
         #endregion
 
 
+        #region SendEditConferencePlanToDataBaseCommand
+        public ICommand SendEditConferencePlanToDataBaseCommand { get; }
+
+        private bool CanSendEditConferencePlanToDataBaseCommandExecute(object parameter) => true;
+
+        private void OnSendEditConferencePlanToDataBaseCommandExecuted(object parameter)
+        {
+            Application.Current.Shutdown();
+        }
+        #endregion
+
         #region AddNewConferenceToDataBase
         public ICommand AddNewConferenceToDataBase { get; }
 
         private bool CanAddNewConferenceToDataBaseExecute(object parameter) => true;
 
-        private void OnAddNewConferenceToDataBaseExecuted(object parameter)
-        {
-            List<string> conferenceItemChangedValueLlist = new List<string>();
-            List<string> conferenceItemNewValueLlist = new List<string>();
-            //    string sqlUpdateCommand = "UPDATE ConferenceTable SET ConferenceName = '{0}', ParticipantsCount = {1}, ConferenceDuration = {2} WHERE ConferenceId = {3};";
+        //private void OnAddNewConferenceToDataBaseExecuted(object parameter)
+        //{
+        //    List<string> conferenceItemChangedValueLlist = new List<string>();
+        //    List<string> conferenceItemNewValueLlist = new List<string>();
+        //    //    string sqlUpdateCommand = "UPDATE ConferenceTable SET ConferenceName = '{0}', ParticipantsCount = {1}, ConferenceDuration = {2} WHERE ConferenceId = {3};";
 
 
-            for (int i = 0; i < Conferences.Count; i++)
-            {
-                if (Conferences[i].ChangedValue)
-                {
-                    conferenceItemChangedValueLlist.Add(String.Format("UPDATE ConferenceTable SET ConferenceName = '{0}', ParticipantsCount = {1}, ConferenceDuration = {2} WHERE ConferenceId = {3};", Conferences[i].ConferenceName, Conferences[i].ParticipantsCount, Conferences[i].ConferenceDuration, Conferences[i].ConferenceId));
-                    Conferences[i].ChangedValue = false;
-                }
-                if (Conferences[i].NewValue)
-                {
-                    conferenceItemNewValueLlist.Add(String.Format("INSERT INTO ConferenceTable (ConferenceId, ConferenceName, ParticipantsCount, ConferenceDuration, IsAcive) VALUES ( {0},'{1}',{2},{3},'{4}' );", Conferences[i].ConferenceId, Conferences[i].ConferenceName, Conferences[i].ParticipantsCount, Conferences[i].ConferenceDuration, Conferences[i].IsAcive.ToString()));
-                    Conferences[i].NewValue = false;
-                }
-            }
+        //    for (int i = 0; i < Conferences.Count; i++)
+        //    {
+        //        if (Conferences[i].ChangedValue)
+        //        {
+        //            conferenceItemChangedValueLlist.Add(String.Format("UPDATE ConferenceTable SET ConferenceName = '{0}', ParticipantsCount = {1}, ConferenceDuration = {2} WHERE ConferenceId = {3};", Conferences[i].ConferenceName, Conferences[i].ParticipantsCount, Conferences[i].ConferenceDuration, Conferences[i].ConferenceId));
+        //            Conferences[i].ChangedValue = false;
+        //        }
+        //        if (Conferences[i].NewValue)
+        //        {
+        //            conferenceItemNewValueLlist.Add(String.Format("INSERT INTO ConferenceTable (ConferenceId, ConferenceName, ParticipantsCount, ConferenceDuration, IsAcive) VALUES ( {0},'{1}',{2},{3},'{4}' );", Conferences[i].ConferenceId, Conferences[i].ConferenceName, Conferences[i].ParticipantsCount, Conferences[i].ConferenceDuration, Conferences[i].IsAcive.ToString()));
+        //            Conferences[i].NewValue = false;
+        //        }
+        //    }
 
 
 
-        }
+        //}
         #endregion
 
         #region DeleteConferenceFromDataBase
@@ -289,7 +300,7 @@ namespace conf_visualization.ViewModels
         {
             #region Команды
             CloseApplicationCommand = new LambdaCommand(OnCloseApplicationCommandExecuted, CanCloseApplicationCommandExecute);
-            AddNewConferenceToDataBase = new LambdaCommand(OnAddNewConferenceToDataBaseExecuted, CanAddNewConferenceToDataBaseExecute);
+          //  AddNewConferenceToDataBase = new LambdaCommand(OnAddNewConferenceToDataBaseExecuted, CanAddNewConferenceToDataBaseExecute);
             reloadFromDataBaseCommand = new LambdaCommand(OnReloadFromDataBaseCommandExecuted, CanReloadFromDataBaseCommandExecute);
             SendEditConferenceToDataBaseCommand = new LambdaCommand(OnSendEditConferenceToDataBaseCommandExecuted, CanSendEditConferenceToDataBaseCommandExecute);
             DeleteConferenceFromDataBase = new LambdaCommand(OnDeleteConferenceFromDataBaseExecuted, CanDeleteConferenceFromDataBaseExecute);

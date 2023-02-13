@@ -1,4 +1,7 @@
-﻿using System.Windows;
+﻿using System.Globalization;
+using System.Text.RegularExpressions;
+using System.Threading;
+using System.Windows;
 
 namespace conf_visualization
 {
@@ -10,6 +13,9 @@ namespace conf_visualization
         public MainWindow()
         {
             InitializeComponent();
+            CultureInfo culture = new CultureInfo("ru-RU");
+            CultureInfo.DefaultThreadCurrentCulture = culture;
+            CultureInfo.DefaultThreadCurrentUICulture = culture;
         }
     }
 }

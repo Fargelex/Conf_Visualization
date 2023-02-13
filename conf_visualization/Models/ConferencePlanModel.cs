@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -11,7 +13,7 @@ using System.Windows.Controls;
 namespace conf_visualization.Models
 {
 
-    internal class ConferencePlanModel
+    internal class ConferencePlanModel : INotifyPropertyChanged
     {
         private int _conferenceId;
         private int _conferencePlanId;
@@ -21,7 +23,14 @@ namespace conf_visualization.Models
         private string _periodicValue;
         private DateTime _conferenceStartTime = new DateTime(2022, 12, 30, 00, 00, 00);
         private DateTime _conferenceStopTime = new DateTime(2022, 12, 31, 00, 00, 00);
+        private bool _changedValue = false;
+        private bool _newValue = false;
 
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
 
         // private PeriodicWeeklyValuesClass[] _arrCheckedDayOfWeek =
         //{
@@ -53,31 +62,42 @@ namespace conf_visualization.Models
             get { return _arrCheckedDayOfWeek; }
             set { }
         }
-        //public IList<CheckBox> PeriodicWeeklyValues
-        //{
-        //    get
-        //    {
-        //        _periodicValue = "";
-        //        for (int i = 0; i < _arrCheckedDayOfWeek.Length; i++)
-        //        {
-        //            if (_arrCheckedDayOfWeek[i].IsChecked == true)
-        //            {
-        //                _periodicValue += _arrCheckedDayOfWeek[i].Content + ", ";
-        //            }
-        //        }
-        //        return _arrCheckedDayOfWeek;
-        //    }
-        //    set { _arrCheckedDayOfWeek = value; }
-        //}
+
+        public bool ChangedValue
+        {
+            get { return _changedValue; }
+            set
+            {
+                _changedValue = value;
+                OnPropertyChanged();
+            }
+        }
+        public bool NewValue
+        {
+            get { return _newValue; }
+            set
+            {
+                _newValue = value;
+                OnPropertyChanged();
+            }
+        }
         public int ConferenceId 
         {
             get { return _conferenceId; }
-            set { _conferenceId = value; }
+            set 
+            { 
+                _conferenceId = value;
+                OnPropertyChanged();
+            }
         }
         public int ConferencePlanId
         {
             get { return _conferencePlanId; }
-            set { _conferencePlanId = value; }
+            set 
+            { 
+                _conferencePlanId = value;
+                OnPropertyChanged();
+            }
         }
         public string ConferenceBeginPeriod 
         {
@@ -92,6 +112,7 @@ namespace conf_visualization.Models
                 }
                 else
                     _conferenceBeginPeriod = Convert.ToDateTime(value);
+                OnPropertyChanged();
             }
         }
         public string ConferenceEndPeriod 
@@ -99,13 +120,24 @@ namespace conf_visualization.Models
             get { return _conferenceEndPeriod.ToShortDateString(); }
             set
             {
-                _conferenceEndPeriod = Convert.ToDateTime(value);
+                if (value.Contains("/"))
+                {
+                    CultureInfo culture = new CultureInfo("en-US");
+                    _conferenceEndPeriod = Convert.ToDateTime(value, culture);
+                }
+                else
+                    _conferenceEndPeriod = Convert.ToDateTime(value);
+                OnPropertyChanged();
             }
         }
         public string PeriodicType
         {
             get { return _periodicType; }
-            set { _periodicType = value; }
+            set 
+            { 
+                _periodicType = value;
+                OnPropertyChanged();
+            }
         }
         
         public string PeriodicValue 
@@ -164,7 +196,9 @@ namespace conf_visualization.Models
                 if (out_value.Length > 2)
                     out_value = out_value.Remove(out_value.Length - 2, 2);
                 _periodicValue = out_value;
+                OnPropertyChanged();
             }
+
         }
         public string ConferenceStartTime 
         { 
@@ -181,6 +215,7 @@ namespace conf_visualization.Models
                 if (match.Success)
                 {
                     _conferenceStartTime = Convert.ToDateTime(value);
+                    OnPropertyChanged();
                 }
                 else
                 {
@@ -203,6 +238,7 @@ namespace conf_visualization.Models
                 if (match.Success)
                 {
                     _conferenceStopTime = Convert.ToDateTime(value);
+                    OnPropertyChanged();
                 }
                 else
                 {
