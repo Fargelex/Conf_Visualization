@@ -300,17 +300,14 @@ namespace conf_visualization.ViewModels
         {
             #region Команды
             CloseApplicationCommand = new LambdaCommand(OnCloseApplicationCommandExecuted, CanCloseApplicationCommandExecute);
-          //  AddNewConferenceToDataBase = new LambdaCommand(OnAddNewConferenceToDataBaseExecuted, CanAddNewConferenceToDataBaseExecute);
+            //  AddNewConferenceToDataBase = new LambdaCommand(OnAddNewConferenceToDataBaseExecuted, CanAddNewConferenceToDataBaseExecute);
             reloadFromDataBaseCommand = new LambdaCommand(OnReloadFromDataBaseCommandExecuted, CanReloadFromDataBaseCommandExecute);
             SendEditConferenceToDataBaseCommand = new LambdaCommand(OnSendEditConferenceToDataBaseCommandExecuted, CanSendEditConferenceToDataBaseCommandExecute);
             DeleteConferenceFromDataBase = new LambdaCommand(OnDeleteConferenceFromDataBaseExecuted, CanDeleteConferenceFromDataBaseExecute);
+            SendEditConferencePlanToDataBaseCommand = new LambdaCommand(OnSendEditConferencePlanToDataBaseCommandExecuted, CanSendEditConferencePlanToDataBaseCommandExecute);
             #endregion
             GetConferencesToDataGrid();
             CurretConference = Conferences.FirstOrDefault();
-
-
-
-
 
         }
 
