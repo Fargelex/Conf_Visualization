@@ -244,7 +244,7 @@ namespace conf_visualization.ViewModels
                 if (value != null)
                 {
                     Set(ref _ConferenceModel, value);
-                    dosmth(value.ConferenceId);
+                    LoadConferencesPlan(value.ConferenceId);
                 }
             }
         }
@@ -264,19 +264,19 @@ namespace conf_visualization.ViewModels
 
 
 
-        private void dosmth(int confID)
+        private void LoadConferencesPlan(int confID) // загружает план конференций относящийся к конкретному селектору
         {
             var svc = new DataAccess();
-            if (svc.GetConferencePlanSeries(confID).Count == 0)
+            ConferencesPlanSeries.CollectionChanged -= ConferencesPlanSeries_CollectionChanged;
+            ConferencesPlanSeries.Clear();
+            if (svc.GetConferencePlanSeries(confID).Count > 0)
             {
-                this.ConferencesPlanSeries.Clear();
-            }
-            foreach (var conf in svc.GetConferencePlanSeries(confID))
-            {
-                //   conf.ChangedValue = false;
-                this.ConferencesPlanSeries.Clear();
-                this.ConferencesPlanSeries.Add(conf);
-                // this.Conferences_before_edit_dictionary.Add(conf.ConferenceId, conf);
+                foreach (var conf in svc.GetConferencePlanSeries(confID))
+                {
+                    this.ConferencesPlanSeries.Add(conf);
+                    // this.Conferences_before_edit_dictionary.Add(conf.ConferenceId, conf);
+                }
+                ConferencesPlanSeries.CollectionChanged += ConferencesPlanSeries_CollectionChanged;
             }
         }
 
@@ -311,26 +311,47 @@ namespace conf_visualization.ViewModels
 
         }
 
-        private void Conferences_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        private void Conferences_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
+            if (e.Action == NotifyCollectionChangedAction.Add)
+            {
+                if (e.NewItems[0] is ConferenceModel newConf)
+                {
+                    newConf.NewValue = true;
+                    newConf.ConferenceId = 1000;
+                }
+            }
             // throw new NotImplementedException();
 
-            switch (e.Action)
+            //switch (e.Action)
+            //{
+            //    case NotifyCollectionChangedAction.Remove: // если удаление
+            //        if (e.OldItems?[0] is ConferenceModel oldPerson)
+            //            MessageBox.Show($"Удален объект: {oldPerson.ConferenceName}");
+            //        break;
+            //    case NotifyCollectionChangedAction.Add:
+            //        if (e.NewItems[0] is ConferenceModel newConf)
+            //        {
+            //            newConf.NewValue = true;
+            //            newConf.ConferenceId = 1000;
+            //        }
+            //        break;
+            //    case NotifyCollectionChangedAction.Replace:
+            //        MessageBox.Show($"Replace");
+            //        break;
+            //}
+
+        }
+
+        private void ConferencesPlanSeries_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            if (e.Action == NotifyCollectionChangedAction.Add)
             {
-                case NotifyCollectionChangedAction.Remove: // если удаление
-                    if (e.OldItems?[0] is ConferenceModel oldPerson)
-                        MessageBox.Show($"Удален объект: {oldPerson.ConferenceName}");
-                    break;
-                case NotifyCollectionChangedAction.Add:
-                    if (e.NewItems[0] is ConferenceModel newConf)
-                    {
-                        newConf.NewValue = true;
-                        newConf.ConferenceId = 1000;
-                    }
-                    break;
-                case NotifyCollectionChangedAction.Replace:
-                    MessageBox.Show($"Replace");
-                    break;
+                if (e.NewItems[0] is ConferencePlanModel newConf)
+                {
+                    newConf.NewValue = true;
+                    newConf.ConferencePlanId = 1000;
+                }
             }
         }
     }
