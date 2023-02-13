@@ -85,18 +85,25 @@ namespace conf_visualization.Models
         {
             get { return _conferenceId; }
             set 
-            { 
-                _conferenceId = value;
-                OnPropertyChanged();
+            {
+                if (_conferenceId != value)
+                {
+                    _changedValue = true;
+                    _conferenceId = value;
+                    OnPropertyChanged();
+                }                
             }
         }
         public int ConferencePlanId
         {
             get { return _conferencePlanId; }
             set 
-            { 
-                _conferencePlanId = value;
-                OnPropertyChanged();
+            {
+                if (_conferencePlanId != value)
+                {
+                    _conferencePlanId = value;
+                    OnPropertyChanged();
+                }
             }
         }
         public string ConferenceBeginPeriod 
@@ -134,9 +141,12 @@ namespace conf_visualization.Models
         {
             get { return _periodicType; }
             set 
-            { 
-                _periodicType = value;
-                OnPropertyChanged();
+            {
+                if (_periodicType != value)
+                {
+                    _periodicType = value;
+                    OnPropertyChanged();
+                }
             }
         }
         
