@@ -102,6 +102,7 @@ namespace conf_visualization.Models
                 if (_conferencePlanId != value)
                 {
                     _conferencePlanId = value;
+                    _changedValue = true;
                     OnPropertyChanged();
                 }
             }
@@ -119,6 +120,7 @@ namespace conf_visualization.Models
                 }
                 else
                     _conferenceBeginPeriod = Convert.ToDateTime(value);
+                _changedValue = true;
                 OnPropertyChanged();
             }
         }
@@ -134,6 +136,7 @@ namespace conf_visualization.Models
                 }
                 else
                     _conferenceEndPeriod = Convert.ToDateTime(value);
+                _changedValue = true;
                 OnPropertyChanged();
             }
         }
@@ -145,6 +148,7 @@ namespace conf_visualization.Models
                 if (_periodicType != value)
                 {
                     _periodicType = value;
+                    _changedValue = true;
                     OnPropertyChanged();
                 }
             }
@@ -206,6 +210,7 @@ namespace conf_visualization.Models
                 if (out_value.Length > 2)
                     out_value = out_value.Remove(out_value.Length - 2, 2);
                 _periodicValue = out_value;
+                _changedValue = true;
                 OnPropertyChanged();
             }
 
@@ -225,6 +230,7 @@ namespace conf_visualization.Models
                 if (match.Success)
                 {
                     _conferenceStartTime = Convert.ToDateTime(value);
+                    _changedValue = true;
                     OnPropertyChanged();
                 }
                 else
@@ -248,6 +254,7 @@ namespace conf_visualization.Models
                 if (match.Success)
                 {
                     _conferenceStopTime = Convert.ToDateTime(value);
+                    _changedValue = true;
                     OnPropertyChanged();
                 }
                 else
