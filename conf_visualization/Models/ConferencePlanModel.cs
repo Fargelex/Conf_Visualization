@@ -25,6 +25,7 @@ namespace conf_visualization.Models
         private DateTime _conferenceStopTime = new DateTime(2022, 12, 31, 00, 00, 00);
         private bool _changedValue = false;
         private bool _newValue = false;
+        private bool _hasError = false;
 
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
@@ -78,6 +79,16 @@ namespace conf_visualization.Models
             set
             {
                 _newValue = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public bool hasError
+        {
+            get { return _hasError; }
+            set
+            {
+                _hasError = value;
                 OnPropertyChanged();
             }
         }

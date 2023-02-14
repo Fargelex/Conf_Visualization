@@ -30,7 +30,7 @@ namespace conf_visualization.Data
 
         public DataAccess()
         {
-        //    daysFromLowDate = (DateTime.Today - lowEndDate).Days;
+            //    daysFromLowDate = (DateTime.Today - lowEndDate).Days;
         }
 
         //Подключение к Базе Данных
@@ -98,6 +98,8 @@ namespace conf_visualization.Data
             SQLiteCommand Insert_Command = new SQLiteCommand(sqlComand, connectToDataBase);
             try
             {
+                SQLiteCommand pragma_Command = new SQLiteCommand("PRAGMA foreign_keys = ON;", connectToDataBase);
+                pragma_Command.ExecuteNonQuery();
                 Insert_Command.ExecuteNonQuery();
             }
             catch (Exception e)

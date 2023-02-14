@@ -199,13 +199,13 @@
                             <TextBlock  Text="{Binding CurretConference.ConferenceDuration, StringFormat='{}{0} мин.'}" Margin="0,0,2,0"/>                    
                         </WrapPanel>
                     </StackPanel>
-                    <StackPanel DockPanel.Dock="Bottom" Visibility="Collapsed"
+                    <StackPanel DockPanel.Dock="Bottom" Visibility="Visible"
                         Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <Button x:Name="saveConfPlanButton" Content="Сохранить"/>
+                        <Button x:Name="addEditConfPlanButton" Content="Сохранить" Command="{Binding SendEditConferencePlanToDataBaseCommand}"/>
                 </StackPanel>
                 <DataGrid x:Name="PlanConferencesDataGrid" AlternatingRowBackground="LightGray"   AutoGenerateColumns="False" 
                       ItemsSource="{Binding Path=ConferencesPlanSeries, Mode=TwoWay,  UpdateSourceTrigger=PropertyChanged}"
-                          SelectedIndex="2">
+                          SelectedIndex="2" RowEditEnding="PlanConferencesDataGrid_RowEditEnding">
                     <DataGrid.Columns>
                         <DataGridTemplateColumn Width="110" Header="Повторять с">
                             <DataGridTemplateColumn.CellTemplate>

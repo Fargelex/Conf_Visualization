@@ -155,7 +155,53 @@ namespace conf_visualization.ViewModels
 
         private void OnSendEditConferencePlanToDataBaseCommandExecuted(object parameter)
         {
-            Application.Current.Shutdown();
+            var svc = new DataAccess();
+            ConferencePlanModel ConfPlan = ((ConferencePlanModel)parameter);
+            if (ConfPlan.ChangedValue)
+            {
+                string sqlCommand = "";
+                if (ConfPlan.NewValue)
+                {
+                    sqlCommand = String.Format("INSERT INTO ConferencePlanTable " +
+                        "(ConferenceId, ConferenceBeginPeriod, ConferenceEndPeriod, PeriodicType, PeriodicValue,ConferenceStartTime,ConferenceStopTime) " +
+                        "VALUES ( {0},'{1}','{2}','{3}','{4}','{5}','{6}' );",
+                        CurretConference.ConferenceId, ConfPlan.ConferenceBeginPeriod, ConfPlan.ConferenceEndPeriod, ConfPlan.PeriodicType,
+                        ConfPlan.PeriodicValue, ConfPlan.ConferenceStartTime, ConfPlan.ConferenceStopTime);
+                    string answer = svc.sendUpdateToDataBase(sqlCommand);
+                    if (answer != "ok") // если не удалось выполнить запрос к БД
+                    {
+                        string rus_answer = "";
+                        ConfPlan.hasError = true;
+                        MessageBox.Show(rus_answer, "Ошибка");
+                    }
+                    else
+                    {
+                        ConfPlan.NewValue = false;
+                        ConfPlan.hasError = false;
+                        //при добавлении новой записи в DataGrid по умолчанию уникальный ID = 0, 
+                        //он присваивается в базе данных при добавлении новой записи, делаем запрос в БД для получения этого нового значения из БД
+                   //     ((ConferencePlanModel)parameter).ID = svc.getConferencetableID(((ConferenceModel)parameter).ConferenceId);
+                    }
+                }
+                else
+                {
+                  //  sqlCommand = String.Format("UPDATE ConferenceTable SET ConferenceId = {0}, ConferenceName = '{1}', ParticipantsCount = {2}, ConferenceDuration = {3}, IsAcive = '{4}' WHERE id = {5};", ((ConferenceModel)parameter).ConferenceId, ((ConferenceModel)parameter).ConferenceName, ((ConferenceModel)parameter).ParticipantsCount, ((ConferenceModel)parameter).ConferenceDuration, ((ConferenceModel)parameter).IsAcive.ToString(), ((ConferenceModel)parameter).ID);
+                  //  string answer = svc.sendUpdateToDataBase(sqlCommand);
+                  //  if (answer != "ok")
+                  //  {
+                  //      MessageBox.Show(answer, "Ошибка");
+                  ////      GetConferencesToDataGrid();
+                  //  }
+                  //  else
+                  //  {
+                  //      ((ConferenceModel)parameter).hasError = false;
+                  //      ((ConferenceModel)parameter).ChangedValue = false;
+                  //  }
+                }
+                //если отправка в БД завершилась с ошибкой то обновлеям DataGrid данными из БД
+                // т.к. изменения в DataGrid останутся
+
+            }
         }
         #endregion
 
@@ -202,7 +248,7 @@ namespace conf_visualization.ViewModels
             if (result == MessageBoxResult.Yes)
             {
                 var svc = new DataAccess();
-               string answer = svc.deleteFromDataBase("DELETE FROM ConferenceTable WHERE id = "+ ((ConferenceModel)parameter).ID);
+                string answer = svc.deleteFromDataBase("DELETE FROM ConferenceTable WHERE ConferenceId = " + ((ConferenceModel)parameter).ConferenceId);
                 if (answer != "ok")
                 {
                     ((ConferenceModel)parameter).ConferenceNameColorBrush = Brushes.Red;
@@ -276,8 +322,9 @@ namespace conf_visualization.ViewModels
                     this.ConferencesPlanSeries.Add(conf);
                     // this.Conferences_before_edit_dictionary.Add(conf.ConferenceId, conf);
                 }
-                ConferencesPlanSeries.CollectionChanged += ConferencesPlanSeries_CollectionChanged;
+                
             }
+            ConferencesPlanSeries.CollectionChanged += ConferencesPlanSeries_CollectionChanged;
         }
 
 
@@ -350,7 +397,7 @@ namespace conf_visualization.ViewModels
                 if (e.NewItems[0] is ConferencePlanModel newConf)
                 {
                     newConf.NewValue = true;
-                    newConf.ConferencePlanId = 1000;
+                 //   newConf.ConferencePlanId = 1000;
                 }
             }
         }

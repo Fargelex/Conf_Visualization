@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -47,12 +48,19 @@ namespace conf_visualization.Views.UserControls
 
         private void ConferencesDataGrid_PreviewKeyDown(object sender, KeyEventArgs e)
         {
-            
-            //CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContextMenu}}, Path=PlacementTarget.SelectedItem}"
-            if (e.Key == Key.Delete)
+            string Source = e.OriginalSource.ToString();
+            if (Source.Contains("DataGridCell"))
             {
-                deleteEditConferencesSettingsButton.Command.Execute((ConferenceModel)ConferencesDataGrid.SelectedItem);
+                if (e.Key == Key.Delete)
+                {
+                    if (!ConferencesDataGrid.SelectedItem.ToString().Contains("NewItemPlaceholder"))
+                    {
+                        deleteEditConferencesSettingsButton.Command.Execute((ConferenceModel)ConferencesDataGrid.SelectedItem);
+                    }
+                }
             }
+            //CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContextMenu}}, Path=PlacementTarget.SelectedItem}"
+            
         }
 
         private void deleteConferenceContextMenuItem_Click(object sender, RoutedEventArgs e)
@@ -68,6 +76,11 @@ namespace conf_visualization.Views.UserControls
         {
             MessageBox.Show("");
             
+        }
+
+        private void PlanConferencesDataGrid_RowEditEnding(object sender, DataGridRowEditEndingEventArgs e)
+        {
+            addEditConfPlanButton.Command.Execute(e.Row.Item);
         }
     }
 }
