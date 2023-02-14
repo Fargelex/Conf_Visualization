@@ -48,11 +48,14 @@ namespace conf_visualization.Views.UserControls
 
         private void ConferencesDataGrid_PreviewKeyDown(object sender, KeyEventArgs e)
         {
+            // событие возникает при активном DataGrid даже когда редактируется ячейка
+            // поэтому проверяем тип объекта отправляющего событие
             string Source = e.OriginalSource.ToString();
-            if (Source.Contains("DataGridCell"))
+            if (Source.Contains("DataGridCell"))// если это ячейка, а нет textbox который внутри ячейки то отрабатываем событие
             {
                 if (e.Key == Key.Delete)
                 {
+                    // проверям что содержит Item, а не "создание новой строки"
                     if (!ConferencesDataGrid.SelectedItem.ToString().Contains("NewItemPlaceholder"))
                     {
                         deleteEditConferencesSettingsButton.Command.Execute((ConferenceModel)ConferencesDataGrid.SelectedItem);
