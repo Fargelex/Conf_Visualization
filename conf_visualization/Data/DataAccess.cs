@@ -75,6 +75,7 @@ namespace conf_visualization.Data
                     while (read.Read())
                     {
                         ConferencePlanModel outputConferencePlan = new ConferencePlanModel();
+                        outputConferencePlan.ConferencePlanId = Convert.ToInt32(read.GetValue(read.GetOrdinal("ConferencePlanId")));
                         outputConferencePlan.ConferenceId = Convert.ToInt32(read.GetValue(read.GetOrdinal("ConferenceId")));
                         outputConferencePlan.PeriodicType = read.GetValue(read.GetOrdinal("PeriodicType")).ToString();
                         outputConferencePlan.PeriodicValue= read.GetValue(read.GetOrdinal("PeriodicValue")).ToString();

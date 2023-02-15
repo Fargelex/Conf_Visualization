@@ -85,5 +85,21 @@ namespace conf_visualization.Views.UserControls
         {
             addEditConfPlanButton.Command.Execute(e.Row.Item);
         }
+
+        private void PlanConferencesDataGrid_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            string Source = e.OriginalSource.ToString();
+            if (Source.Contains("DataGridCell"))// если это ячейка, а нет textbox который внутри ячейки то отрабатываем событие
+            {
+                if (e.Key == Key.Delete)
+                {
+                    // проверям что содержит Item, а не "создание новой строки"
+                    if (!PlanConferencesDataGrid.SelectedItem.ToString().Contains("NewItemPlaceholder"))
+                    {
+                        deleteConfPlanButton.Command.Execute((ConferencePlanModel)PlanConferencesDataGrid.SelectedItem);
+                    }
+                }
+            }
+        }
     }
 }

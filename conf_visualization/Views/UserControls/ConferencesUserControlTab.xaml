@@ -201,11 +201,12 @@
                     </StackPanel>
                     <StackPanel DockPanel.Dock="Bottom" Visibility="Visible"
                         Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Button x:Name="deleteConfPlanButton" Content="Удалить" Command="{Binding DeleteConferencePlanFromDataBase}"/>
                         <Button x:Name="addEditConfPlanButton" Content="Сохранить" Command="{Binding SendEditConferencePlanToDataBaseCommand}"/>
                 </StackPanel>
-                <DataGrid x:Name="PlanConferencesDataGrid" AlternatingRowBackground="LightGray"   AutoGenerateColumns="False" 
+                <DataGrid x:Name="PlanConferencesDataGrid" AlternatingRowBackground="LightGray"   AutoGenerateColumns="False" CanUserDeleteRows="False"
                       ItemsSource="{Binding Path=ConferencesPlanSeries, Mode=TwoWay,  UpdateSourceTrigger=PropertyChanged}"
-                          SelectedIndex="2" RowEditEnding="PlanConferencesDataGrid_RowEditEnding">
+                          SelectedIndex="2" RowEditEnding="PlanConferencesDataGrid_RowEditEnding" PreviewKeyDown="PlanConferencesDataGrid_PreviewKeyDown">
                     <DataGrid.Columns>
                         <DataGridTemplateColumn Width="110" Header="Повторять с">
                             <DataGridTemplateColumn.CellTemplate>

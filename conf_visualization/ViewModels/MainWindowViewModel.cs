@@ -262,10 +262,35 @@ namespace conf_visualization.ViewModels
             }
         }
         #endregion
+        #region DeleteConferencePlanFromDataBase
+        public ICommand DeleteConferencePlanFromDataBase { get; }
+
+        private bool CanDeleteConferencePlanFromDataBaseExecute(object parameter) => true;
+
+        private void OnDeleteConferencePlanFromDataBaseExecuted(object parameter)
+        {
+            ConferencePlanModel confPlan = ((ConferencePlanModel)parameter);
+            string msgBody = String.Format("{0},{1}\nНачало: {2}\nКонец: {3}", confPlan.PeriodicType, confPlan.PeriodicValue, confPlan.ConferenceStartTime, confPlan.ConferenceStopTime);
+            MessageBoxResult result = MessageBox.Show(msgBody, "Удалить план селектора?", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (result == MessageBoxResult.Yes)
+            {
+                var svc = new DataAccess();
+                string answer = svc.deleteFromDataBase("DELETE FROM ConferencePlanTable WHERE ConferencePlanId = " + confPlan.ConferencePlanId);
+                if (answer != "ok")
+                {
+                  //  ((ConferenceModel)parameter).ConferenceNameToolTip = answer;
+                }
+                else
+                {
+                    ConferencesPlanSeries.Remove(confPlan);
+                }
+                //  DELETE FROM table_name WHERE condition;
+            }
+        }
 
         #endregion
 
-
+        #endregion
 
 
 
@@ -352,6 +377,7 @@ namespace conf_visualization.ViewModels
             SendEditConferenceToDataBaseCommand = new LambdaCommand(OnSendEditConferenceToDataBaseCommandExecuted, CanSendEditConferenceToDataBaseCommandExecute);
             DeleteConferenceFromDataBase = new LambdaCommand(OnDeleteConferenceFromDataBaseExecuted, CanDeleteConferenceFromDataBaseExecute);
             SendEditConferencePlanToDataBaseCommand = new LambdaCommand(OnSendEditConferencePlanToDataBaseCommandExecuted, CanSendEditConferencePlanToDataBaseCommandExecute);
+            DeleteConferencePlanFromDataBase = new LambdaCommand(OnDeleteConferencePlanFromDataBaseExecuted, CanDeleteConferencePlanFromDataBaseExecute);
             #endregion
             GetConferencesToDataGrid();
             CurretConference = Conferences.FirstOrDefault();
