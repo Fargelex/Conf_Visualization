@@ -172,11 +172,13 @@ namespace conf_visualization.ViewModels
                     {
                         string rus_answer = "";
                         ConfPlan.hasError = true;
+                        ConfPlan.ErrorToolTip = answer;
                         MessageBox.Show(rus_answer, "Ошибка");
                     }
                     else
                     {
                         ConfPlan.NewValue = false;
+                        ConfPlan.ChangedValue = false;
                         ConfPlan.hasError = false;
                   //      LoadConferencesPlan(CurretConference.ConferenceId);
                         //при добавлении новой записи в DataGrid по умолчанию уникальный ID = 0, 

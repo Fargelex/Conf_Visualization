@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:conf_visualization.Models"
              xmlns:vm ="clr-namespace:conf_visualization.ViewModels"
+             Language="ru-RU"
              mc:Ignorable="d">
 
 
@@ -203,7 +204,7 @@
                         Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                         <Button x:Name="deleteConfPlanButton" Content="Удалить" Command="{Binding DeleteConferencePlanFromDataBase}"/>
                         <Button x:Name="addEditConfPlanButton" Content="Сохранить" Command="{Binding SendEditConferencePlanToDataBaseCommand}"/>
-                </StackPanel>
+                    </StackPanel>
                 <DataGrid x:Name="PlanConferencesDataGrid" AlternatingRowBackground="LightGray"   AutoGenerateColumns="False" CanUserDeleteRows="False"
                       ItemsSource="{Binding Path=ConferencesPlanSeries, Mode=TwoWay,  UpdateSourceTrigger=PropertyChanged}"
                           SelectedIndex="2" RowEditEnding="PlanConferencesDataGrid_RowEditEnding" PreviewKeyDown="PlanConferencesDataGrid_PreviewKeyDown">
@@ -225,17 +226,19 @@
                         <DataGridTemplateColumn Width="110" Header="до">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding ConferenceEndPeriod, StringFormat='dd.MM.yyyy' , Mode=TwoWay,  UpdateSourceTrigger=PropertyChanged}" />
+                                    <TextBlock Text="{Binding ConferenceEndPeriod, Mode=TwoWay,  UpdateSourceTrigger=PropertyChanged}" />
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                             <DataGridTemplateColumn.CellEditingTemplate>
                                 <DataTemplate>
-                                    <DatePicker  SelectedDate="{Binding ConferenceEndPeriod, StringFormat='dd.MM.yyyy', Mode=TwoWay,  UpdateSourceTrigger=PropertyChanged}" />
+                                    <DatePicker  SelectedDate="{Binding ConferenceEndPeriod, Mode=TwoWay,  UpdateSourceTrigger=PropertyChanged}" FirstDayOfWeek="Monday"
+                                           DisplayDateStart="{Binding ConferenceBeginPeriod, UpdateSourceTrigger=PropertyChanged}"  />
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellEditingTemplate>
                         </DataGridTemplateColumn>
+                            <DataGridTextColumn Header="asd" Binding="{Binding ConferenceBeginPeriod, UpdateSourceTrigger=PropertyChanged}"  />
 
-                        <DataGridTemplateColumn Header="Тип" Width="120">
+                            <DataGridTemplateColumn Header="Тип" Width="120">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding Path=PeriodicType, Mode=TwoWay,  UpdateSourceTrigger=PropertyChanged}" />

@@ -17,8 +17,8 @@ namespace conf_visualization.Models
     {
         private int _conferenceId;
         private int _conferencePlanId;
-        private DateTime _conferenceBeginPeriod = DateTime.Now;
-        private DateTime _conferenceEndPeriod = DateTime.Now;
+        private DateTime _conferenceBeginPeriod = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 00, 00, 00);
+        private DateTime _conferenceEndPeriod = new DateTime(DateTime.Now.Year + 1, 1, 10, 00, 01, 00);
         private string _periodicType = "Еженедельно";
         private string _periodicValue;
         private DateTime _conferenceStartTime = new DateTime(2022, 12, 30, 00, 00, 00);
@@ -26,6 +26,7 @@ namespace conf_visualization.Models
         private bool _changedValue = false;
         private bool _newValue = false;
         private bool _hasError = false;
+        private string _errorToolTip;
 
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
@@ -79,6 +80,20 @@ namespace conf_visualization.Models
             set
             {
                 _newValue = value;
+                if (_newValue)
+                {
+                    ChangedValue = true;
+                }
+                OnPropertyChanged();
+            }
+        }
+
+        public string ErrorToolTip
+        {
+            get { return _errorToolTip; }
+            set
+            {
+                _errorToolTip = value;
                 OnPropertyChanged();
             }
         }
@@ -124,12 +139,12 @@ namespace conf_visualization.Models
             set
             {
 
-                if (value.Contains("/"))
-                {
-                    CultureInfo culture = new CultureInfo("en-US");
-                    _conferenceBeginPeriod = Convert.ToDateTime(value, culture);
-                }
-                else
+                //if (value.Contains("/"))
+                //{
+                //    CultureInfo culture = new CultureInfo("en-US");
+                //    _conferenceBeginPeriod = Convert.ToDateTime(value, culture);
+                //}
+                //else
                     _conferenceBeginPeriod = Convert.ToDateTime(value);
                 _changedValue = true;
                 OnPropertyChanged();
@@ -140,15 +155,30 @@ namespace conf_visualization.Models
             get { return _conferenceEndPeriod.ToShortDateString(); }
             set
             {
-                if (value.Contains("/"))
+                DateTime vlbegin = _conferenceBeginPeriod;
+                DateTime vlend = _conferenceEndPeriod;
+                //if (value.Contains("/"))
+                //{
+                //    CultureInfo culture = new CultureInfo("en-US");
+                //    vlend = Convert.ToDateTime(value, culture);
+                //}
+                //else
+
+                    vlend = Convert.ToDateTime(value);
+                _changedValue = true;
+
+                if (vlend > vlbegin)
                 {
-                    CultureInfo culture = new CultureInfo("en-US");
-                    _conferenceEndPeriod = Convert.ToDateTime(value, culture);
+                    _conferenceEndPeriod = vlend;
+                    OnPropertyChanged();
                 }
                 else
-                    _conferenceEndPeriod = Convert.ToDateTime(value);
-                _changedValue = true;
-                OnPropertyChanged();
+                {
+                    ErrorToolTip = "Конец периода должен быть больше начала периода";
+                    hasError = true;
+                }
+
+
             }
         }
         public string PeriodicType
