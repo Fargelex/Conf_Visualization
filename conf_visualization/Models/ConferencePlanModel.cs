@@ -49,7 +49,6 @@ namespace conf_visualization.Models
 
         private List<PeriodicWeeklyValuesClass> _arrCheckedDayOfWeek = new List<PeriodicWeeklyValuesClass>()
         {
-            new PeriodicWeeklyValuesClass("Ежедневно", "Ежедневно"),
             new PeriodicWeeklyValuesClass("Понедельник", "Пн"),
             new PeriodicWeeklyValuesClass("Вторник", "Вт"),
             new PeriodicWeeklyValuesClass("Среда", "Ср"),
@@ -190,6 +189,10 @@ namespace conf_visualization.Models
                 {
                     _periodicType = value;
                     _changedValue = true;
+                    if (value == "Ежедневно")
+                    {
+                        PeriodicValue = "Пн, Вт, Ср, Чт, Пт, Сб, Вс";
+                    }
                     OnPropertyChanged();
                 }
             }
@@ -215,37 +218,37 @@ namespace conf_visualization.Models
                 string out_value = "";
                 if (value.Contains("Пн"))
                 {
-                    _arrCheckedDayOfWeek[1].IsChecked = true;
+                    _arrCheckedDayOfWeek[0].IsChecked = true;
                     out_value += "Пн, ";
                 }
                 if (value.Contains("Вт"))
                 {
-                    _arrCheckedDayOfWeek[2].IsChecked = true;
+                    _arrCheckedDayOfWeek[1].IsChecked = true;
                     out_value += "Вт, ";
                 }
                 if (value.Contains("Ср"))
                 {
-                    _arrCheckedDayOfWeek[3].IsChecked = true;
+                    _arrCheckedDayOfWeek[2].IsChecked = true;
                     out_value += "Ср, ";
                 }
                 if (value.Contains("Чт"))
                 {
-                    _arrCheckedDayOfWeek[4].IsChecked = true;
+                    _arrCheckedDayOfWeek[3].IsChecked = true;
                     out_value += "Чт, ";
                 }
                 if (value.Contains("Пт"))
                 {
-                    _arrCheckedDayOfWeek[5].IsChecked = true;
+                    _arrCheckedDayOfWeek[4].IsChecked = true;
                     out_value += "Пт, ";
                 }
                 if (value.Contains("Сб"))
                 {
-                    _arrCheckedDayOfWeek[6].IsChecked = true;
+                    _arrCheckedDayOfWeek[5].IsChecked = true;
                     out_value += "Сб, ";
                 }
                 if (value.Contains("Вс"))
                 {
-                    _arrCheckedDayOfWeek[7].IsChecked = true;
+                    _arrCheckedDayOfWeek[6].IsChecked = true;
                     out_value += "Вс, ";
                 }
                 if (out_value.Length > 2)

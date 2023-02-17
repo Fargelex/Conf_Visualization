@@ -304,7 +304,7 @@ namespace conf_visualization.ViewModels
         }
         private readonly string[] arrElementsCombo =
         {
-            "Еженедельно", "Ежемесячно", "Ежедневно"
+            "Еженедельно", "Ежедневно"
         };
 
 
