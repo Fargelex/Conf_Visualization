@@ -189,17 +189,23 @@ namespace conf_visualization.ViewModels
                 else
                 {
                   //  sqlCommand = String.Format("UPDATE ConferenceTable SET ConferenceId = {0}, ConferenceName = '{1}', ParticipantsCount = {2}, ConferenceDuration = {3}, IsAcive = '{4}' WHERE id = {5};", ((ConferenceModel)parameter).ConferenceId, ((ConferenceModel)parameter).ConferenceName, ((ConferenceModel)parameter).ParticipantsCount, ((ConferenceModel)parameter).ConferenceDuration, ((ConferenceModel)parameter).IsAcive.ToString(), ((ConferenceModel)parameter).ID);
-                  //  string answer = svc.sendUpdateToDataBase(sqlCommand);
-                  //  if (answer != "ok")
-                  //  {
-                  //      MessageBox.Show(answer, "Ошибка");
-                  ////      GetConferencesToDataGrid();
-                  //  }
-                  //  else
-                  //  {
-                  //      ((ConferenceModel)parameter).hasError = false;
-                  //      ((ConferenceModel)parameter).ChangedValue = false;
-                  //  }
+
+                    sqlCommand = String.Format("UPDATE ConferencePlanTable SET " +
+                       "ConferenceId = {0}, ConferenceBeginPeriod = '{1}', ConferenceEndPeriod = '{2}', PeriodicType = '{3}', " +
+                       "PeriodicValue = '{4}', ConferenceStartTime = '{5}', ConferenceStopTime = '{6}' WHERE ConferencePlanId = {7};",
+                       CurretConference.ConferenceId, ConfPlan.ConferenceBeginPeriod, ConfPlan.ConferenceEndPeriod, ConfPlan.PeriodicType,
+                       ConfPlan.PeriodicValue, ConfPlan.ConferenceStartTime, ConfPlan.ConferenceStopTime, ConfPlan.ConferencePlanId);
+                    string answer = svc.sendUpdateToDataBase(sqlCommand);
+                    if (answer != "ok")
+                    {
+                        MessageBox.Show(answer, "Ошибка");
+                        //      GetConferencesToDataGrid();
+                    }
+                    else
+                    {
+                        ((ConferencePlanModel)parameter).hasError = false;
+                        ((ConferencePlanModel)parameter).ChangedValue = false;
+                    }
                 }
                 //если отправка в БД завершилась с ошибкой то обновлеям DataGrid данными из БД
                 // т.к. изменения в DataGrid останутся
