@@ -140,6 +140,7 @@ namespace conf_visualization.Data
             }
         }
 
+        
         public int getConferencetableID(int ConferenceId)
         {
             int confRowID = 0;

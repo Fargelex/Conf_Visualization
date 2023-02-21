@@ -205,10 +205,23 @@
                         <Button x:Name="deleteConfPlanButton" Content="Удалить" Command="{Binding DeleteConferencePlanFromDataBase}"/>
                         <Button x:Name="addEditConfPlanButton" Content="Сохранить" Command="{Binding SendEditConferencePlanToDataBaseCommand}"/>
                     </StackPanel>
-                <DataGrid x:Name="PlanConferencesDataGrid" AlternatingRowBackground="LightGray"   AutoGenerateColumns="False" CanUserDeleteRows="False"
+                <DataGrid x:Name="PlanConferencesDataGrid" AutoGenerateColumns="False" CanUserDeleteRows="False"
                       ItemsSource="{Binding Path=ConferencesPlanSeries, Mode=TwoWay,  UpdateSourceTrigger=PropertyChanged}"
                           SelectedIndex="2" RowEditEnding="PlanConferencesDataGrid_RowEditEnding" PreviewKeyDown="PlanConferencesDataGrid_PreviewKeyDown">
-                    <DataGrid.Columns>
+                        <DataGrid.RowStyle>
+                            <Style TargetType="DataGridRow">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Path=hasError,  UpdateSourceTrigger=PropertyChanged}" Value="True">
+                                        <Setter Property="Background" Value="LightPink"></Setter>
+                                    </DataTrigger>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="PowderBlue"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </DataGrid.RowStyle>
+
+                        <DataGrid.Columns>
                         <DataGridTemplateColumn Width="110" Header="Повторять с">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>

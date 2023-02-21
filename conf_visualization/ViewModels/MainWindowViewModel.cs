@@ -180,7 +180,8 @@ namespace conf_visualization.ViewModels
                         ConfPlan.NewValue = false;
                         ConfPlan.ChangedValue = false;
                         ConfPlan.hasError = false;
-                  //      LoadConferencesPlan(CurretConference.ConferenceId);
+                        LoadConferencesPlan(CurretConference.ConferenceId);
+                        //      LoadConferencesPlan(CurretConference.ConferenceId);
                         //при добавлении новой записи в DataGrid по умолчанию уникальный ID = 0, 
                         //он присваивается в базе данных при добавлении новой записи, делаем запрос в БД для получения этого нового значения из БД
                         //     ((ConferencePlanModel)parameter).ID = svc.getConferencetableID(((ConferenceModel)parameter).ConferenceId);

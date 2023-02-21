@@ -273,12 +273,24 @@ namespace conf_visualization.Models
                 Match match= regex.Match(value);
                 if (match.Success)
                 {
-                    _conferenceStartTime = Convert.ToDateTime(value);
-                    _changedValue = true;
-                    OnPropertyChanged();
+                    try
+                    {
+                        _conferenceStartTime = Convert.ToDateTime(value);
+                        _changedValue = true;
+                        hasError = false;
+                        OnPropertyChanged();
+                    }
+                    catch (Exception e)
+                    {
+                        hasError = true;
+                        MessageBox.Show(e.Message, "Ошибка");
+                      //  throw;
+                    }
+                    
                 }
                 else
                 {
+                    hasError = true;
                     MessageBox.Show("Время введено неверно. Формат для ввода ХХ:ХХ", "Ошибка");
                 }
 
@@ -297,12 +309,25 @@ namespace conf_visualization.Models
                 Match match = regex.Match(value);
                 if (match.Success)
                 {
-                    _conferenceStopTime = Convert.ToDateTime(value);
-                    _changedValue = true;
-                    OnPropertyChanged();
+                    try
+                    {
+                        _conferenceStopTime = Convert.ToDateTime(value);
+                        _changedValue = true;
+                        hasError = false;
+                        OnPropertyChanged();
+
+                    }
+                    catch (Exception e)
+                    {
+                        hasError = true;
+                        MessageBox.Show(e.Message, "Ошибка");
+                        throw;
+                    }
+                 
                 }
                 else
                 {
+                    hasError = true;
                     MessageBox.Show("Время введено неверно. Формат для ввода ХХ:ХХ", "Ошибка");
                 }
             }
