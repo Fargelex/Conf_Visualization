@@ -274,12 +274,9 @@
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                             <DataGridTemplateColumn.CellEditingTemplate>
-                                <DataTemplate>
-                                        <StackPanel Orientation="Vertical">
-                                            <TextBlock Text="{Binding Path=PeriodicValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                                    <ComboBox ItemsSource="{Binding Path=PeriodicTypesWeeklyListInModel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                                FocusManager.FocusedElement="{Binding RelativeSource={RelativeSource Self}}"/>
-                                        </StackPanel>
+                                    <DataTemplate>
+                                        <ComboBox ItemsSource="{Binding Path=PeriodicTypesWeeklyListInModel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                FocusManager.FocusedElement="{Binding RelativeSource={RelativeSource Self}}"/>                                        
                                     </DataTemplate>
                             </DataGridTemplateColumn.CellEditingTemplate>
                         </DataGridTemplateColumn>

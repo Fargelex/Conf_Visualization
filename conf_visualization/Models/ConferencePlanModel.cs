@@ -22,7 +22,7 @@ namespace conf_visualization.Models
         private string _periodicType = "Еженедельно";
         private string _periodicValue;
         private DateTime _conferenceStartTime = new DateTime(2022, 12, 30, 00, 00, 00);
-        private DateTime _conferenceStopTime = new DateTime(2022, 12, 31, 00, 00, 00);
+        private DateTime _conferenceStopTime = new DateTime(2022, 12, 30, 00, 00, 00);
         private bool _changedValue = false;
         private bool _newValue = false;
         private bool _hasError = false;
@@ -164,6 +164,7 @@ namespace conf_visualization.Models
                 //else
 
                     vlend = Convert.ToDateTime(value);
+                vlend = vlend.AddSeconds(1);
                 _changedValue = true;
 
                 if (vlend > vlbegin)
@@ -198,18 +199,19 @@ namespace conf_visualization.Models
             }
         }
         
-        public string PeriodicValue 
-        { 
-            get {
-                _periodicValue = "";
+        public string PeriodicValue
+        {
+            get
+            {
+                _periodicValue = null;
                 for (int i = 0; i < _arrCheckedDayOfWeek.Count; i++)
                 {
                     if (_arrCheckedDayOfWeek[i].IsChecked == true)
-                    { 
+                    {
                         _periodicValue += _arrCheckedDayOfWeek[i].ShortdayOfWeek + ", ";
                     }
                 }
-                if (_periodicValue.Length > 2)
+                if (_periodicValue != null && _periodicValue.Length > 2)
                     _periodicValue = _periodicValue.Remove(_periodicValue.Length - 2, 2);
                 return _periodicValue;
             }
@@ -253,9 +255,11 @@ namespace conf_visualization.Models
                 }
                 if (out_value.Length > 2)
                     out_value = out_value.Remove(out_value.Length - 2, 2);
+
                 _periodicValue = out_value;
                 _changedValue = true;
                 OnPropertyChanged();
+
             }
 
         }
@@ -322,8 +326,7 @@ namespace conf_visualization.Models
                         hasError = true;
                         MessageBox.Show(e.Message, "Ошибка");
                         throw;
-                    }
-                 
+                    }                 
                 }
                 else
                 {

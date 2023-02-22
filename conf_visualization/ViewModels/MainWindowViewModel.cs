@@ -159,58 +159,68 @@ namespace conf_visualization.ViewModels
             ConferencePlanModel ConfPlan = ((ConferencePlanModel)parameter);
             if (ConfPlan.ChangedValue)
             {
-                string sqlCommand = "";
-                if (ConfPlan.NewValue)
+                if (ConfPlan.PeriodicValue != null)
                 {
-                    sqlCommand = String.Format("INSERT INTO ConferencePlanTable " +
-                        "(ConferenceId, ConferenceBeginPeriod, ConferenceEndPeriod, PeriodicType, PeriodicValue,ConferenceStartTime,ConferenceStopTime) " +
-                        "VALUES ( {0},'{1}','{2}','{3}','{4}','{5}','{6}' );",
-                        CurretConference.ConferenceId, ConfPlan.ConferenceBeginPeriod, ConfPlan.ConferenceEndPeriod, ConfPlan.PeriodicType,
-                        ConfPlan.PeriodicValue, ConfPlan.ConferenceStartTime, ConfPlan.ConferenceStopTime);
-                    string answer = svc.sendUpdateToDataBase(sqlCommand);
-                    if (answer != "ok") // если не удалось выполнить запрос к БД
+                    string sqlCommand = "";
+                    if (ConfPlan.NewValue)
                     {
-                        string rus_answer = "";
-                        ConfPlan.hasError = true;
-                        ConfPlan.ErrorToolTip = answer;
-                        MessageBox.Show(rus_answer, "Ошибка");
+                        sqlCommand = String.Format("INSERT INTO ConferencePlanTable " +
+                            "(ConferenceId, ConferenceBeginPeriod, ConferenceEndPeriod, PeriodicType, PeriodicValue,ConferenceStartTime,ConferenceStopTime) " +
+                            "VALUES ( {0},'{1}','{2}','{3}','{4}','{5}','{6}' );",
+                            CurretConference.ConferenceId, ConfPlan.ConferenceBeginPeriod, ConfPlan.ConferenceEndPeriod, ConfPlan.PeriodicType,
+                            ConfPlan.PeriodicValue, ConfPlan.ConferenceStartTime, ConfPlan.ConferenceStopTime);
+                        string answer = svc.sendUpdateToDataBase(sqlCommand);
+
+                        if (answer != "ok") // если не удалось выполнить запрос к БД
+                        {
+                            string rus_answer = answer;
+                            ConfPlan.hasError = true;
+                            ConfPlan.ErrorToolTip = answer;
+                            MessageBox.Show(rus_answer, "Ошибка");
+                        }
+                        else
+                        {
+                            ConfPlan.NewValue = false;
+                            ConfPlan.ChangedValue = false;
+                            ConfPlan.hasError = false;
+                            LoadConferencesPlan(CurretConference.ConferenceId);
+                            //      LoadConferencesPlan(CurretConference.ConferenceId);
+                            //при добавлении новой записи в DataGrid по умолчанию уникальный ID = 0, 
+                            //он присваивается в базе данных при добавлении новой записи, делаем запрос в БД для получения этого нового значения из БД
+                            //     ((ConferencePlanModel)parameter).ID = svc.getConferencetableID(((ConferenceModel)parameter).ConferenceId);
+                        }
                     }
                     else
                     {
-                        ConfPlan.NewValue = false;
-                        ConfPlan.ChangedValue = false;
-                        ConfPlan.hasError = false;
-                        LoadConferencesPlan(CurretConference.ConferenceId);
-                        //      LoadConferencesPlan(CurretConference.ConferenceId);
-                        //при добавлении новой записи в DataGrid по умолчанию уникальный ID = 0, 
-                        //он присваивается в базе данных при добавлении новой записи, делаем запрос в БД для получения этого нового значения из БД
-                        //     ((ConferencePlanModel)parameter).ID = svc.getConferencetableID(((ConferenceModel)parameter).ConferenceId);
+                        //  sqlCommand = String.Format("UPDATE ConferenceTable SET ConferenceId = {0}, ConferenceName = '{1}', ParticipantsCount = {2}, ConferenceDuration = {3}, IsAcive = '{4}' WHERE id = {5};", ((ConferenceModel)parameter).ConferenceId, ((ConferenceModel)parameter).ConferenceName, ((ConferenceModel)parameter).ParticipantsCount, ((ConferenceModel)parameter).ConferenceDuration, ((ConferenceModel)parameter).IsAcive.ToString(), ((ConferenceModel)parameter).ID);
+
+                        sqlCommand = String.Format("UPDATE ConferencePlanTable SET " +
+                           "ConferenceId = {0}, ConferenceBeginPeriod = '{1}', ConferenceEndPeriod = '{2}', PeriodicType = '{3}', " +
+                           "PeriodicValue = '{4}', ConferenceStartTime = '{5}', ConferenceStopTime = '{6}' WHERE ConferencePlanId = {7};",
+                           CurretConference.ConferenceId, ConfPlan.ConferenceBeginPeriod, ConfPlan.ConferenceEndPeriod, ConfPlan.PeriodicType,
+                           ConfPlan.PeriodicValue, ConfPlan.ConferenceStartTime, ConfPlan.ConferenceStopTime, ConfPlan.ConferencePlanId);
+                        string answer = svc.sendUpdateToDataBase(sqlCommand);
+                        if (answer != "ok")
+                        {
+                            MessageBox.Show(answer, "Ошибка");
+                            //      GetConferencesToDataGrid();
+                        }
+                        else
+                        {
+                            ((ConferencePlanModel)parameter).hasError = false;
+                            ((ConferencePlanModel)parameter).ChangedValue = false;
+                        }
                     }
+                    //если отправка в БД завершилась с ошибкой то обновлеям DataGrid данными из БД
+                    // т.к. изменения в DataGrid останутся
                 }
                 else
                 {
-                  //  sqlCommand = String.Format("UPDATE ConferenceTable SET ConferenceId = {0}, ConferenceName = '{1}', ParticipantsCount = {2}, ConferenceDuration = {3}, IsAcive = '{4}' WHERE id = {5};", ((ConferenceModel)parameter).ConferenceId, ((ConferenceModel)parameter).ConferenceName, ((ConferenceModel)parameter).ParticipantsCount, ((ConferenceModel)parameter).ConferenceDuration, ((ConferenceModel)parameter).IsAcive.ToString(), ((ConferenceModel)parameter).ID);
-
-                    sqlCommand = String.Format("UPDATE ConferencePlanTable SET " +
-                       "ConferenceId = {0}, ConferenceBeginPeriod = '{1}', ConferenceEndPeriod = '{2}', PeriodicType = '{3}', " +
-                       "PeriodicValue = '{4}', ConferenceStartTime = '{5}', ConferenceStopTime = '{6}' WHERE ConferencePlanId = {7};",
-                       CurretConference.ConferenceId, ConfPlan.ConferenceBeginPeriod, ConfPlan.ConferenceEndPeriod, ConfPlan.PeriodicType,
-                       ConfPlan.PeriodicValue, ConfPlan.ConferenceStartTime, ConfPlan.ConferenceStopTime, ConfPlan.ConferencePlanId);
-                    string answer = svc.sendUpdateToDataBase(sqlCommand);
-                    if (answer != "ok")
-                    {
-                        MessageBox.Show(answer, "Ошибка");
-                        //      GetConferencesToDataGrid();
-                    }
-                    else
-                    {
-                        ((ConferencePlanModel)parameter).hasError = false;
-                        ((ConferencePlanModel)parameter).ChangedValue = false;
-                    }
+                    string rus_answer = "Не задан день недели";
+                    ConfPlan.hasError = true;
+                    ConfPlan.ErrorToolTip = rus_answer;
+                    MessageBox.Show(rus_answer, "Ошибка");
                 }
-                //если отправка в БД завершилась с ошибкой то обновлеям DataGrid данными из БД
-                // т.к. изменения в DataGrid останутся
-
             }
         }
         #endregion
