@@ -273,31 +273,35 @@ namespace conf_visualization.Models
             set
             {
                 // проверка формата времени при вводе, время вида ХХ:ХХ
-                Regex regex = new Regex("(\\d:[0-5]\\d)|([1]\\d:[0-5]\\d)|([2][0-3]:[0-5]\\d)");
-                Match match= regex.Match(value);
-                if (match.Success)
-                {
-                    try
-                    {
-                        _conferenceStartTime = Convert.ToDateTime(value);
-                        _changedValue = true;
-                        hasError = false;
-                        OnPropertyChanged();
-                    }
-                    catch (Exception e)
-                    {
-                        hasError = true;
-                        MessageBox.Show(e.Message, "Ошибка");
-                      //  throw;
-                    }
-                    
-                }
-                else
-                {
-                    hasError = true;
-                    MessageBox.Show("Время введено неверно. Формат для ввода ХХ:ХХ", "Ошибка");
-                }
+                //Regex regex = new Regex("(\\d:[0-5]\\d)|([1]\\d:[0-5]\\d)|([2][0-3]:[0-5]\\d)");
+                //Match match= regex.Match(value);
+                //if (match.Success)
+                //{
+                //    try
+                //    {
+                //        _conferenceStartTime = Convert.ToDateTime(value);
+                //        _changedValue = true;
+                //        hasError = false;
+                //        OnPropertyChanged();
+                //    }
+                //    catch (Exception e)
+                //    {
+                //        hasError = true;
+                //        MessageBox.Show(e.Message, "Ошибка");
+                //      //  throw;
+                //    }
 
+                //}
+                //else
+                //{
+                //    hasError = true;
+                //    MessageBox.Show("Время введено неверно. Формат для ввода ХХ:ХХ", "Ошибка");
+                //}
+
+                _conferenceStartTime = Convert.ToDateTime(value);
+                _changedValue = true;
+                hasError = false;
+                OnPropertyChanged();
             }
         }
         public string ConferenceStopTime

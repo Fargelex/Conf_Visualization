@@ -156,9 +156,14 @@ namespace conf_visualization.ViewModels
         private void OnSendEditConferencePlanToDataBaseCommandExecuted(object parameter)
         {
             var svc = new DataAccess();
-            ConferencePlanModel ConfPlan = ((ConferencePlanModel)parameter);
+            ConferencePlanModel ConfPlan = (ConferencePlanModel)parameter;
             if (ConfPlan.ChangedValue)
             {
+                //применяем продолжительность селектора, которая указана  в списке селекторов
+                DateTime _conferenceStartTime = Convert.ToDateTime(((ConferencePlanModel)parameter).ConferenceStartTime);
+                _conferenceStartTime = _conferenceStartTime.AddMinutes(CurretConference.ConferenceDuration);
+                ((ConferencePlanModel)parameter).ConferenceStopTime = _conferenceStartTime.ToShortTimeString();
+
                 if (ConfPlan.PeriodicValue != null)
                 {
                     string sqlCommand = "";
